@@ -27,7 +27,7 @@ module.exports = {
 
     }
   , production: {
-	  db: 'mongodb://heroku:159632@alex.mongohq.com:10072/app7977078',	
+	  db: 'mongodb://heroku:8b712063a7d71a87a242d21fc8d0925c@alex.mongohq.com:10072/app7977078',	
 	  facebook: {
     	  clientID: "257956334321936"
         , clientSecret: "133392ec85c6e094217cef25542a4260"
