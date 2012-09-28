@@ -29,11 +29,11 @@ exports.user = {
  *  Article authorizations routing middleware
  */
 
-exports.article = {
-    hasAuthorization : function (req, res, next) {
-      if (req.article.user.id != req.user.id) {
-        return res.redirect('/articles/'+req.article.id)
-      }
-      next()
-    }
+exports.survey = {
+	    hasAuthorization : function (req, res, next) {
+	      if (req.survey.user.id != req.user.id) {
+	        return res.redirect('/surveys/'+req.survey.id)
+	      }
+	      next()
+	    }
 }

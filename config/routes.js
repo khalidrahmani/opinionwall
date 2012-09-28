@@ -1,6 +1,6 @@
 
 var mongoose = require('mongoose')
-  , Article = mongoose.model('Article')
+  , Survey = mongoose.model('Survey')
   , User = mongoose.model('User')
   , async = require('async')
 
@@ -34,56 +34,30 @@ module.exports = function (app, passport, auth) {
       })
   })
 
-  // article routes
-  var articles = require('../app/controllers/articles')
-  app.get('/articles', articles.index)
-  app.get('/articles/new', auth.requiresLogin, articles.new)
-  app.post('/articles', auth.requiresLogin, articles.create)
-  app.get('/articles/:id', articles.show)
-  app.get('/articles/:id/edit', auth.requiresLogin, auth.article.hasAuthorization, articles.edit)
-  app.put('/articles/:id', auth.requiresLogin, auth.article.hasAuthorization, articles.update)
-  app.del('/articles/:id', auth.requiresLogin, auth.article.hasAuthorization, articles.destroy)
+  // survey routes
+  var surveys = require('../app/controllers/surveys')
+  app.get('/surveys', surveys.index)
+  app.get('/surveys/new', auth.requiresLogin, surveys.new)
+  app.post('/surveys', auth.requiresLogin, surveys.create)
+  app.get('/surveys/:id', surveys.show)
+  app.get('/surveys/:id/edit', auth.requiresLogin, auth.survey.hasAuthorization, surveys.edit)
+  app.put('/surveys/:id', auth.requiresLogin, auth.survey.hasAuthorization, surveys.update)
+  app.del('/surveys/:id', auth.requiresLogin, auth.survey.hasAuthorization, surveys.destroy)
 
   app.param('id', function(req, res, next, id){
-    Article
+	  Survey
       .findOne({ _id : id })
       .populate('user', 'name')
-      .populate('comments')
-      .exec(function (err, article) {
+      .exec(function (err, survey) {
         if (err) return next(err)
-        if (!article) return next(new Error('Failed to load article ' + id))
-        req.article = article
-
-        var populateComments = function (comment, cb) {
-          User
-            .findOne({ _id: comment._user })
-            .select('name')
-            .exec(function (err, user) {
-              if (err) return next(err)
-              comment.user = user
-              cb(null, comment)
-            })
-        }
-
-        if (article.comments.length) {
-          async.map(req.article.comments, populateComments, function (err, results) {
-            next(err)
-          })
-        }
-        else
-          next()
+        if (!survey) return next(new Error('Failed to load article ' + id))
+        req.survey = survey
+        next()
       })
   })
-
+  
   // home route
-  app.get('/', articles.index)
-
-  // comment routes
-  var comments = require('../app/controllers/comments')
-  app.post('/articles/:id/comments', auth.requiresLogin, comments.create)
-
-  // tag routes
-  var tags = require('../app/controllers/tags')
-  app.get('/tags/:tag', tags.index)
+  app.get('/', surveys.index)
+ 
 
 }

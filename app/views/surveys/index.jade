@@ -1,0 +1,19 @@
+extends ../layouts/default
+
+block main
+  h1 Surveys
+
+block content
+  each survey in surveys
+    .survey
+      a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+      .author
+        span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+        span &nbsp;| Author :&nbsp;
+        a(href="/users/"+survey.user._id)=survey.user.name
+        | &nbsp;|&nbsp;
+        
+  if (pages > 1)
+    .pagination
+      ul
+        != createPagination(pages, page)

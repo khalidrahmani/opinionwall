@@ -1,0 +1,27 @@
+extends ../layouts/default
+
+block content
+  - var action = '/surveys'
+  if (!survey.isNew)
+    - action += '/'+survey.id
+
+  if (typeof errors !== 'undefined')
+    .fade.in.alert.alert-block.alert-error
+      a.close(data-dismiss="alert", href="javascript:void(0)") x
+      ul
+        each error in errors
+          li= error.type
+
+  form.form-horizontal(method="post", action=action)
+    if (!survey.isNew)
+      input(type="hidden", name="_method", value="PUT")
+    
+    .control-group
+      label.control-label(for='question') Question
+      .controls
+        input#title.input-xlarge(type='text', name="question", value=survey.question, placeholder='Enter the question')
+    
+    .form-actions
+      button.btn.btn-primary(type='submit') Save changes
+      &nbsp;
+      a.btn(href='/surveys', title="cancel") Cancel

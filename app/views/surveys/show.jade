@@ -1,0 +1,20 @@
+extends ../layouts/default
+
+block main
+  h1= survey.question
+
+block content
+  p.author
+    span Author :&nbsp;
+    a(href="/users/"+survey.user._id)=survey.user.name
+  .date= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+
+  p
+    br
+    form.center.form-inline.confirm(action="/surveys/"+survey.id, method="post")
+      a.btn(href='/surveys/'+survey._id+'/edit', title="edit") Edit
+      &nbsp;&nbsp;
+      input(type="hidden", name="_method", value="DELETE")
+      button.btn.btn-danger(type="submit") delete
+
+
