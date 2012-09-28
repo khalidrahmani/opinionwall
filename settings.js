@@ -27,8 +27,8 @@ function bootApplication(app, config, passport) {
   app.configure(function () {
     // dynamic helpers
     app.use(function (req, res, next) {
-      res.locals.appName = 'Nodejs Express Mongoose Demo'
-      res.locals.title = 'Nodejs Express Mongoose Demo'
+      res.locals.appName = 'OpinionsWall'
+      res.locals.title = 'OpinionsWall'
       res.locals.showStack = app.showStackError
       res.locals.req = req
       res.locals.formatDate = function (date) {
