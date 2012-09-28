@@ -98,29 +98,6 @@ exports.boot = function (passport, config) {
     }
   ))
 
-  // use github strategy
-  passport.use(new GitHubStrategy({
-      clientID: config.github.clientID,
-      clientSecret: config.github.clientSecret,
-      callbackURL: config.github.callbackURL
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOne({ 'github.id': profile.id }, function (err, user) {
-        if (!user) {
-          user = new User({
-              name: profile.displayName
-            , email: profile.emails[0].value
-            , username: profile.username
-            , provider: 'github'
-            , github: profile._json
-          })
-          user.save()
-        }
-        return done(err, user)
-      })
-    }
-  ))
-
   // use google strategy
   passport.use(new GoogleStrategy({
       consumerKey: config.google.clientID,
