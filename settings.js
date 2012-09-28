@@ -72,7 +72,7 @@ function bootApplication(app, config, passport) {
     app.use(express.session({
       secret: 'noobjs',
       store: new mongoStore({
-        url: config.db,
+        url: process.env.MONGOHQ_URL,
         collection : 'sessions'
       })
     }))
