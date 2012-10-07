@@ -1,9 +1,17 @@
 extends ../layouts/default
 
 block main
-  h1= survey.question
+  
 
 block content
+  h1= survey.question
+  form(method="post", action="/surveys/#{survey._id}/choice")
+    each choice in survey.choices
+      p       
+        input(type="radio", value="#{choice._id}", name="survey[choice]", checked="#{userChoice}"==choice._id)
+        span= choice.choice +"  ---- "+ choice.counter       
+    input(type="submit", value="Submit")
+      
   p.author
     span Author :&nbsp;
     a(href="/users/"+survey.user._id)=survey.user.name
@@ -16,5 +24,8 @@ block content
       &nbsp;&nbsp;
       input(type="hidden", name="_method", value="DELETE")
       button.btn.btn-danger(type="submit") delete
+  div#disqus_thread
 
+  script(type='text/javascript', src='/js/survey_show.js')
 
+          

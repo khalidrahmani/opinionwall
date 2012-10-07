@@ -19,8 +19,16 @@ block content
     .control-group
       label.control-label(for='question') Question
       .controls
-        input#title.input-xlarge(type='text', name="question", value=survey.question, placeholder='Enter the question')
-    
+        input#title.input-xlarge(type='text', name="survey[question]", value=survey.question)
+    div#choices    
+      - var i = 0
+        each choice in survey.choices
+          p
+            input(type='text', name="survey[choices][#{i}][choice]", value=choice.choice)  
+            a.btn.remove_choice(href='#') -       
+          - i++
+      input#hidden_input(type='hidden', value=i, name="nothing")     
+    a.btn(href='#', title="add choice", id="add_choice") +      
     .form-actions
       button.btn.btn-primary(type='submit') Save changes
       &nbsp;

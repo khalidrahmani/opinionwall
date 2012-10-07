@@ -11,29 +11,27 @@ exports.new = function(req, res){
   })
 }
 
-
 // Create an survey
 exports.create = function (req, res) {
-  var survey = new Survey(req.body)
-  survey.user = req.user
-
-  survey.save(function(err){
-    if (err) {
-      res.render('surveys/new', {
-          title: 'New Survey'
-        , survey: survey
-        , errors: err.errors
-      })
-    }
-    else {
-      res.redirect('/surveys/'+survey._id)
-    }
+    var survey     = new Survey(req.body.survey)    
+    survey.user    = req.user
+   
+    survey.save(function(err){
+      if (err) {
+        res.render('surveys/new', {
+            title: 'ERROR New Survey'
+          , survey: survey
+          , errors: err.errors
+        })
+      }
+      else {
+        res.redirect('/surveys/'+survey._id)
+      }
   })
 }
 
-
-// Edit an survey
-exports.edit = function (req, res) {
+//Edit an survey
+exports.edit = function (req, res) {  
   res.render('surveys/edit', {
     title: 'Edit '+req.survey.question,
     survey: req.survey
@@ -44,9 +42,8 @@ exports.edit = function (req, res) {
 // Update survey
 exports.update = function(req, res){
   var survey = req.survey
-
-  survey = _.extend(survey, req.body)
-
+  survey     = _.extend(survey, req.body.survey)
+  
   survey.save(function(err, doc) {
     if (err) {
       res.render('surveys/edit', {
@@ -62,11 +59,57 @@ exports.update = function(req, res){
 }
 
 
-// View an survey
-exports.show = function(req, res){
+//View an survey
+exports.show = function(req, res){  
+  var survey = req.survey
+  var userChoice = null
+  
+  if (req.user){
+	  var userSurvey = req.user.surveys.id(survey._id)
+	  if (userSurvey){
+		   userChoice = userSurvey.choice 		
+	  }
+  } 
+  
   res.render('surveys/show', {
 	  title: req.survey.question,
-	  survey: req.survey
+	  survey: survey,
+	  userChoice: userChoice,
+	  disqus: true
+  })
+}
+
+
+//User Post Choice
+exports.postChoice = function (req, res) {
+	var survey = req.survey
+	var choice = survey.choices.id(req.body.survey.choice)
+	var user   = req.user
+	
+	var userSurvey = user.surveys.id(survey._id)
+	if (userSurvey){
+		var formerChoice = survey.choices.id(userSurvey.choice)
+		formerChoice.counter -= 1
+		userSurvey.choice = req.body.survey.choice		
+	}
+	else {
+		user.surveys.push({_id: survey, choice: req.body.survey.choice})			
+	}	
+	choice.counter += 1		
+	
+	user.save(function(err){
+	   	console.log(err)
+	})
+	survey.save(function(err){
+    if (err) {
+      res.render('/', {
+          title: 'ERROR New Survey'        
+        , errors: err.errors
+      })
+    }
+    else {
+      res.redirect('/')
+    }
   })
 }
 

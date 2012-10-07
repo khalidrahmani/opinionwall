@@ -18,7 +18,8 @@ exports.login = function (req, res) {
 // sign up
 exports.signup = function (req, res) {
   res.render('users/signup', {
-    title: 'Sign up'
+    title: 'Sign up',
+    user: new User({})
   })
 }
 
@@ -38,7 +39,7 @@ exports.create = function (req, res) {
   var user = new User(req.body)
   user.provider = 'local'
   user.save(function (err) {
-    if (err) return res.render('users/signup', { errors: err.errors })
+    if (err) return res.render('users/signup', { user: user, errors: err.errors })
     req.logIn(user, function(err) {
       if (err) return next(err)
       return res.redirect('/')

@@ -4,18 +4,22 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , crypto = require('crypto')
   , _ = require('underscore')
-  , authTypes = ['github', 'twitter', 'facebook', 'google']
+  , authTypes = ['twitter', 'facebook', 'google']
+
 
 var UserSchema = new Schema({
-    name: String
+	surveys: [{   
+				_id:      	{ type : Schema.ObjectId, ref : 'Survey' }
+				,choice:   	{ type : Schema.ObjectId }
+			}]   
+  , name: {type : String, unique : true}
   , email: String
   , username: String
   , provider: String
   , hashed_password: String
   , salt: String
   , facebook: {}
-  , twitter: {}
-  , github: {}
+  , twitter:  {}  
 })
 
 // virtual attributes
@@ -78,3 +82,4 @@ UserSchema.method('encryptPassword', function(password) {
 })
 
 mongoose.model('User', UserSchema)
+

@@ -37,6 +37,7 @@ module.exports = function (app, passport, auth) {
   app.get('/surveys', surveys.index)
   app.get('/surveys/new', auth.requiresLogin, surveys.new)
   app.post('/surveys', auth.requiresLogin, surveys.create)
+  app.post('/surveys/:id/choice', auth.requiresLogin, surveys.postChoice)  
   app.get('/surveys/:id', surveys.show)
   app.get('/surveys/:id/edit', auth.requiresLogin, auth.survey.hasAuthorization, surveys.edit)
   app.put('/surveys/:id', auth.requiresLogin, auth.survey.hasAuthorization, surveys.update)

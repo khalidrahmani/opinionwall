@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-  // confirmations
   $('.confirm').submit(function (e) {
     e.preventDefault();
     var self = this;
@@ -12,10 +11,20 @@ $(document).ready(function () {
       }
     });
   });
+  var i = $("#hidden_input").val() 
+  $("#add_choice").click(function() {
+	  $('#choices').append('<p> <input type="text" name="survey[choices]['+i+'][choice]"><a class="btn remove_choice" href="#"> - </a> </p>');
+	  i++
+	});    
+  
+  $(".remove_choice").live("click", function() {
+	  $(this).closest('p').remove();	 
+	  $("#choices input:text").each(function(index) {
+		    $(this).attr("name", "survey[choices]["+index+"][choice]")
+		    i = index+1
+	  });
 
-  $('#tags').tagsInput({
-    'height':'60px',
-    'width':'280px'
-  });
-
+	});    
+  
+  
 });
