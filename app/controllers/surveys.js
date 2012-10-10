@@ -96,7 +96,21 @@ exports.postChoice = function (req, res) {
 		user.surveys.push({_id: survey, choice: req.body.survey.choice})			
 	}	
 	choice.counter += 1		
-	
+
+	choices = []
+	survey.choices.forEach(function (choice) {			
+			choices.push({_id: choice._id, counter: choice.counter})		    
+	})
+	 d = new Date()
+	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()
+	 var surveyTodayHistory = survey.history.id(date)
+	 if(surveyTodayHistory){
+		 surveyTodayHistory.choices = choices
+	 }
+	 else{
+		 survey.history.push({_id: date, choices: choices})
+	 }	 
+
 	user.save(function(err){
 	   	console.log(err)
 	})

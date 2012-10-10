@@ -24,8 +24,13 @@ block content
       &nbsp;&nbsp;
       input(type="hidden", name="_method", value="DELETE")
       button.btn.btn-danger(type="submit") delete
+  div#annual      
   div#disqus_thread
 
+  
+block custom_page_script
+  script(type='text/javascript', src='/js/raphael-min.js')
+  script(type='text/javascript', src='/js/morris.min.js')    
   script(type='text/javascript', src='/js/survey_show.js')
 
           
