@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
 module.exports = function (app, passport, auth) {
 
   // user routes
-  var users = require('../app/controllers/users')
+  var users = require('../app/controllers/users-controller')
   app.get('/login', users.login)
   app.get('/signup', users.signup)
   app.get('/logout', users.logout)
@@ -33,7 +33,7 @@ module.exports = function (app, passport, auth) {
   })
 
   // survey routes
-  var surveys = require('../app/controllers/surveys')
+  var surveys = require('../app/controllers/surveys-controller')
   app.get('/surveys', surveys.index)
   app.get('/surveys/new', auth.requiresLogin, surveys.new)
   app.post('/surveys', auth.requiresLogin, surveys.create)
