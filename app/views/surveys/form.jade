@@ -24,7 +24,7 @@ block content
       - var i = 0
         each choice in survey.choices
           p
-            input(type='text', name="survey[choices][#{i}][choice]", value=choice.choice)  
+            input(type='text', name="survey[choices][#{i}][_id]", value=choice._id)  
             a.btn.remove_choice(href='#') -       
           - i++
       input#hidden_input(type='hidden', value=i, name="nothing")     

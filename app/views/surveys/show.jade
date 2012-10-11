@@ -9,7 +9,7 @@ block content
     each choice in survey.choices
       p       
         input(type="radio", value="#{choice._id}", name="survey[choice]", checked="#{userChoice}"==choice._id)
-        span= choice.choice +"  ---- "+ choice.counter       
+        span= choice._id +"  ---- "+ choice.counter       
     input(type="submit", value="Submit")
       
   p.author
@@ -24,13 +24,27 @@ block content
       &nbsp;&nbsp;
       input(type="hidden", name="_method", value="DELETE")
       button.btn.btn-danger(type="submit") delete
-  div#annual      
+  div#graph
+  div#donut   
   div#disqus_thread
 
   
 block custom_page_script
   script(type='text/javascript', src='/js/raphael-min.js')
-  script(type='text/javascript', src='/js/morris.min.js')    
+  script(type='text/javascript', src='/js/morris.min.js')  
+  script    
+    Morris.Line({
+      element: 'graph',
+      data: !{graph_data},
+      xkey: 'period',
+      ykeys:  !{xkeys},
+      labels: !{xkeys}
+    })
+    Morris.Donut({
+      element: 'donut',
+      data: !{donut_data},
+    })
+    
   script(type='text/javascript', src='/js/survey_show.js')
 
           

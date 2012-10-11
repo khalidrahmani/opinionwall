@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
 var UserSchema = new Schema({
 	surveys: [{   
 				_id:      	{ type : Schema.ObjectId, ref : 'Survey' }
-				,choice:   	{ type : Schema.ObjectId }
+				,choice:   	{ type : String }
 			}]   
   , name: {type : String, unique : true}
   , email: String

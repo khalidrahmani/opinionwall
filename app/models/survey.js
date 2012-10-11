@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema
 
 var ChoiceSchema = new Schema({    
-	  choice      : {type : String, trim : true}
+	  _id         : {type : String, trim : true}
  	, counter     : {type : Number, default : 0} 	
 })
 
@@ -11,10 +11,10 @@ var SurveySchema = new Schema({
 	, choices:   [ChoiceSchema]
 	, history    : [{
 					_id     : {  type : String }
-				  , choices : [{   
-					          _id       :  	{ type : String }
-							  ,counter  :  	{ type : Number, default : 0}
-					         }]			 
+				  , choices : [{
+						          _id       :  	{ type : String }
+								  ,counter  :  	{ type : Number, default : 0}
+						      }]			 
 			             }]
     , user:      {type : Schema.ObjectId, ref : 'User'}    
     , createdAt: {type : Date, default : Date.now}

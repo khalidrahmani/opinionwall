@@ -67,15 +67,39 @@ exports.show = function(req, res){
   if (req.user){
 	  var userSurvey = req.user.surveys.id(survey._id)
 	  if (userSurvey){
-		   userChoice = userSurvey.choice 		
+		   userChoice = userSurvey.choice		
 	  }
   } 
+  
+  var graph_data = []
+  
+  survey.history.forEach(function (data) {	
+	    t = {}
+	    t.period = data._id	   
+	    data.choices.forEach(function (ch) {
+	    	t[ch._id] = ch.counter	    
+	    })	     
+		graph_data.push(t)		    
+	})
+
+  var xkeys = []
+  var donut_data = []
+  
+  survey.choices.forEach(function (ch) {
+	  xkeys[xkeys.length] = ch._id	   
+	  t = {}
+	  t.label = ch._id
+	  t.value = ch.counter
+	  donut_data.push(t)	
+  })
   
   res.render('surveys/show', {
 	  title: req.survey.question,
 	  survey: survey,
 	  userChoice: userChoice,
-	  disqus: true
+	  graph_data: JSON.stringify(graph_data),
+	  xkeys: JSON.stringify(xkeys),
+	  donut_data: JSON.stringify(donut_data),
   })
 }
 
@@ -86,6 +110,7 @@ exports.postChoice = function (req, res) {
 	var choice = survey.choices.id(req.body.survey.choice)
 	var user   = req.user
 	
+	
 	var userSurvey = user.surveys.id(survey._id)
 	if (userSurvey){
 		var formerChoice = survey.choices.id(userSurvey.choice)
@@ -95,20 +120,16 @@ exports.postChoice = function (req, res) {
 	else {
 		user.surveys.push({_id: survey, choice: req.body.survey.choice})			
 	}	
-	choice.counter += 1		
-
-	choices = []
-	survey.choices.forEach(function (choice) {			
-			choices.push({_id: choice._id, counter: choice.counter})		    
-	})
+	choice.counter += 1	
+	// history is a snapshot of surveys durin a month, we could have a daily snapshot by adding day to the date	
 	 d = new Date()
-	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()
+	 date = d.getFullYear()+'-'+(d.getMonth()+5)
 	 var surveyTodayHistory = survey.history.id(date)
 	 if(surveyTodayHistory){
-		 surveyTodayHistory.choices = choices
+		 surveyTodayHistory.choices = survey.choices
 	 }
 	 else{
-		 survey.history.push({_id: date, choices: choices})
+		 survey.history.push({_id: date, choices: survey.choices})
 	 }	 
 
 	user.save(function(err){

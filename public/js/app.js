@@ -13,14 +13,14 @@ $(document).ready(function () {
   });
   var i = $("#hidden_input").val() 
   $("#add_choice").click(function() {
-	  $('#choices').append('<p> <input type="text" name="survey[choices]['+i+'][choice]"><a class="btn remove_choice" href="#"> - </a> </p>');
+	  $('#choices').append('<p> <input type="text" name="survey[choices]['+i+'][_id]"><a class="btn remove_choice" href="#"> - </a> </p>');
 	  i++
 	});    
   
   $(".remove_choice").live("click", function() {
 	  $(this).closest('p').remove();	 
 	  $("#choices input:text").each(function(index) {
-		    $(this).attr("name", "survey[choices]["+index+"][choice]")
+		    $(this).attr("name", "survey[choices]["+index+"][_id]")
 		    i = index+1
 	  });
 
