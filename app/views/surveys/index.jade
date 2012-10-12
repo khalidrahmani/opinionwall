@@ -4,6 +4,10 @@ block main
   h1 Surveys
 
 block content
+  form.form-horizontal(method="get", action='/search')
+    input(type="text", name="q")
+    .form-actions
+      button.btn.btn-primary(type='submit') Search
   each survey in surveys
     .survey
       a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}

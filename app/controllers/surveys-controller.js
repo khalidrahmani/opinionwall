@@ -64,7 +64,10 @@ exports.update = function(req, res){
 //View an survey
 exports.show = function(req, res){  
   var survey = req.survey
-  var userChoice = null
+      userChoice = null,
+      graph_data = [],
+      xkeys = [],
+      donut_data = []
   
   if (req.user){
 	  var userSurvey = req.user.surveys.id(survey._id)
@@ -73,9 +76,7 @@ exports.show = function(req, res){
 	  }
   } 
   
-  var graph_data = []
-  var xkeys = []
-  var donut_data = []
+  
   
   survey.history.forEach(function (data) {	
 	    t = {}
@@ -106,12 +107,11 @@ exports.show = function(req, res){
 
 //User Post Choice
 exports.postChoice = function (req, res) {
-	var survey = req.survey
-	var choice = survey.choices.id(req.body.survey.choice)
-	var user   = req.user
-	
-	
-	var userSurvey = user.surveys.id(survey._id)
+	var survey = req.survey,
+	    choice = survey.choices.id(req.body.survey.choice),
+	    user   = req.user,	
+	    userSurvey = user.surveys.id(survey._id)
+	    
 	if (userSurvey){
 		var formerChoice = survey.choices.id(userSurvey.choice)
 		formerChoice.counter -= 1
@@ -173,12 +173,45 @@ exports.index = function(req, res){
       if (err) return res.render('500')
       Survey.count().exec(function (err, count) {
         res.render('surveys/index', {
-            title: 'List of Surveys'
-          , surveys: surveys
-          , page: page
-          , pages: count / perPage
+            title: 'List of Surveys',
+            surveys: surveys,
+            page: page,
+            pages: count / perPage
         })
       })
     })
 }
 
+//Listing of Surveys
+exports.search = function(req, res){
+  
+	var  initResults = req.param('ajax') == 1 ? 0 : 2,
+		 skipIndex   = req.param('ajax') == 1 ? 2 : 0,
+	     q           = req.param('q'),    
+         reg         = new RegExp(q, 'i')
+  
+  Survey
+    .find({question: { $regex: reg }})
+    .populate('user', 'name')
+    .sort({'createdAt': -1}) // sort by date
+    .limit(initResults)    
+    .skip(skipIndex)
+    .exec(function(err, surveys) {
+      if (err) return res.render('500')
+      Survey.find({question: { $regex: reg }}).count().exec(function (err, count) { // TODO remove double query 
+    	if(req.param('ajax') == 1){
+    		res.contentType('json')
+    		res.send(JSON.stringify(surveys))
+    	}  
+    	else{
+    		 res.render('surveys/search', {
+    	            title: 'List of Surveys',
+    	            surveys: surveys, 
+    	            moreResults: count > initResults,
+    	            q : q
+    	        })
+    	}  
+       
+      })
+    })
+}

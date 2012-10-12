@@ -1,0 +1,37 @@
+extends ../layouts/default
+
+block main
+  h1 Surveys
+
+block content
+  form.form-horizontal(method="get", action='/search')
+    input(type="text", id="q", name="q", value=q)
+    .form-actions
+      button.btn.btn-primary(type='submit') Search
+  #surveys    
+    each survey in surveys
+      .survey
+        a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+        .author
+          span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+          span &nbsp;| Author :&nbsp;
+          a(href="/users/"+survey.user._id)=survey.user.name
+          | &nbsp;|&nbsp;
+          
+  if (moreResults)
+    .pagination
+      button.btn.btn-primary(type='submit', id="loadresults") Load more results
+        
+block custom_page_script
+  script
+    $("#loadresults").click(function(event){
+       $.getJSON("/search", 
+       { q: $("#q").val(), ajax: 1 },       
+         function(data) {
+           var html = ""           
+           $.each(data, function(key, val) {
+             html+='<div class="survey"><a class="title" href="/surveys/'+val._id+'">'+val.question+'</a><div class="author"><span>Oct 12, 2012</span><span>&nbsp;| Author :&nbsp;</span><a href="/users/507741290413885340000002">vv</a>&nbsp;|&nbsp;</div></div>'              
+          })   
+          $('#surveys').append(html)      
+       })   
+    })
