@@ -23,7 +23,11 @@ var SurveySchema = new Schema({
 
 
 SurveySchema.path('question').validate(function (question) {
-  return question.length > 0 &&  question.length < 200
+  return question.length > 0 &&  question.length < 200 &&  question.choices[0]._id.length > 0 &&  question.choices[1]._id.length > 0
 }, 'question is required and must not exeed 200 caracters')
+
+SurveySchema.path('choices').validate(function (choices) {
+  return choices[0]._id.length > 0 &&  choices[1]._id.length > 0
+}, 'you must provide at least 2 choices')
 
 mongoose.model('Survey', SurveySchema)

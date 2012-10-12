@@ -5,9 +5,11 @@ var mongoose = require('mongoose')
 
 // New survey
 exports.new = function(req, res){
+  var survey = 	new Survey({})
+  survey.choices.push({_id: ""}, {_id: ""}) // minimum 2 choices are required
   res.render('surveys/new', {
       title: 'New Survey'
-    , survey: new Survey({})
+    , survey: survey
   })
 }
 
@@ -121,9 +123,9 @@ exports.postChoice = function (req, res) {
 		user.surveys.push({_id: survey, choice: req.body.survey.choice})			
 	}	
 	choice.counter += 1	
-	// history is a snapshot of surveys durin a month, we could have a daily snapshot by adding day to the date	
+	// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
 	 d = new Date()
-	 date = d.getFullYear()+'-'+(d.getMonth()+5)
+	 date = d.getFullYear()+'-'+(d.getMonth()+1)
 	 var surveyTodayHistory = survey.history.id(date)
 	 if(surveyTodayHistory){
 		 surveyTodayHistory.choices = survey.choices
