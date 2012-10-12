@@ -17,7 +17,7 @@ exports.new = function(req, res){
 exports.create = function (req, res) {
     var survey     = new Survey(req.body.survey)    
     survey.user    = req.user
-   
+    
     survey.save(function(err){
       if (err) {
         res.render('surveys/new', {
@@ -74,6 +74,8 @@ exports.show = function(req, res){
   } 
   
   var graph_data = []
+  var xkeys = []
+  var donut_data = []
   
   survey.history.forEach(function (data) {	
 	    t = {}
@@ -83,9 +85,6 @@ exports.show = function(req, res){
 	    })	     
 		graph_data.push(t)		    
 	})
-
-  var xkeys = []
-  var donut_data = []
   
   survey.choices.forEach(function (ch) {
 	  xkeys[xkeys.length] = ch._id	   
@@ -104,7 +103,6 @@ exports.show = function(req, res){
 	  donut_data: JSON.stringify(donut_data),
   })
 }
-
 
 //User Post Choice
 exports.postChoice = function (req, res) {
