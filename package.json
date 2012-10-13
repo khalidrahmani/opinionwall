@@ -5,7 +5,7 @@
   , "private": false
   , "author": "Khalid Rahmani"
   , "engines": {
-        "node": "0.6.9"
+        "node": "0.8.12"
       , "npm": "1.1.62"
     }
   , "scripts": {
