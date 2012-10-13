@@ -1,12 +1,12 @@
 {
-    "name": "noobjs"
-  , "description": "A demo app in nodejs illustrating use of express, jade and mogoose"
-  , "version": "3.0.0"
+    "name": "opi"
+  , "description": "opinions"
+  , "version": "1.0.0"
   , "private": false
-  , "author": "Madhusudhan Srinivasa <madhums8@gmail.com> (http://madhums.github.com)"
+  , "author": "Khalid Rahmani"
   , "engines": {
-        "node": "0.6.18"
-      , "npm": "1.1.9"
+        "node": "0.6.9"
+      , "npm": "1.1.62"
     }
   , "scripts": {
       "start": "./node_modules/.bin/nodemon server.js"
