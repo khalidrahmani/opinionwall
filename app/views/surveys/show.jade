@@ -8,7 +8,18 @@ block content
   form(method="post", action="/surveys/#{survey._id}/choice")
     each choice in survey.choices
       p       
-        input(type="radio", value="#{choice._id}", name="survey[choice]", checked="#{userChoice}"==choice._id)
+        if (survey.type == "unique")
+          input(type="radio", value="#{choice._id}", name="survey[choice]", checked="#{userChoice}"==choice._id)
+        else 
+          - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
+            select(name="survey[choice][#{choice._id}]")
+              option(value="0", selected="#{survey.type}"=="multi") 0
+              option(value="1", selected="#{val}"==1) 1
+              option(value="2", selected="#{val}"==2) 2
+              option(value="3", selected="#{val}"==3) 3
+              option(value="4", selected="#{val}"==4) 4
+              option(value="5", selected="#{val}"==5) 5
+               
         span= choice._id +"  ---- "+ choice.counter       
     input(type="submit", value="Submit")
       

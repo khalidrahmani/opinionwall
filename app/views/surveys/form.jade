@@ -20,10 +20,20 @@ block content
       label.control-label(for='question') Question
       .controls
         input#title.input-xlarge(type='text', name="survey[question]", value=survey.question)
+      label.control-label(for='type') Type
+      .controls
+        select(name="survey[type]")
+          option(value="") Select
+          option(value="multi", selected="#{survey.type}"=="multi") Multichoice
+          option(value="unique", selected="#{survey.type}"=="unique") Unique choice
+        
     div#choices    
-      - var i = 0      
-        input(type='text', name="survey[choices][0][_id]", value=survey.choices[0]._id||"") 
-        input(type='text', name="survey[choices][1][_id]", value=survey.choices[1]._id||"") 
+      - var i = 0    
+        label.control-label(for='Choices') Choices  
+        p
+          input(type='text', name="survey[choices][0][_id]", value=survey.choices[0]._id) 
+        p
+          input(type='text', name="survey[choices][1][_id]", value=survey.choices[1]._id) 
         each choice in survey.choices
           if (i>1)
             p

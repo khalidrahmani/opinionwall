@@ -8,6 +8,7 @@ var ChoiceSchema = new Schema({
 
 var SurveySchema = new Schema({
       question:  {type : String, default : '', trim : true}
+	, type:      {type : String}
 	, choices:   [ChoiceSchema]
 	, history    : [{
 					_id     : {  type : String }
@@ -24,6 +25,10 @@ SurveySchema.path('question').validate(function (question) {
   return question.length > 0 &&  question.length < 200 
 }, 'question is required and must not exeed 200 caracters')
 
+SurveySchema.path('type').validate(function (type) {
+  return type.length > 0 
+}, 'type is required')
+
 SurveySchema.path('choices').validate(function (choices) {
 	var error = true
 	choices.forEach(function (ch) {	
@@ -31,7 +36,7 @@ SurveySchema.path('choices').validate(function (choices) {
 	    	error = false	    	
 	    }	    
 	})	
-  return error
+    return error
 }, 'you must provide at least 2 choices, no empty choices allowed.')
 
 mongoose.model('Survey', SurveySchema)

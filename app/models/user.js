@@ -11,6 +11,7 @@ var UserSchema = new Schema({
 	surveys: [{   
 				_id:      	{ type : Schema.ObjectId, ref : 'Survey' }
 				,choice:   	{ type : String }
+				,choices: 	[{ _id : String, val : String}] // case multichoices
 			}]   
   , name: {type : String, unique : true}
   , email: String

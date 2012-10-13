@@ -1,7 +1,7 @@
 
 module.exports = {
     development: {
-      db: 'mongodb://localhost/op0014',
+      db: 'mongodb://localhost/op0015',
       facebook: {
     	  clientID: "257956334321936"
         , clientSecret: "133392ec85c6e094217cef25542a4260"
