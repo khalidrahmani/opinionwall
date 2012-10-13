@@ -185,11 +185,11 @@ exports.index = function(req, res){
 //Listing of Surveys
 exports.search = function(req, res){
   
-	var  initResults = req.param('ajax') == 1 ? 0 : 2,
-		 skipIndex   = req.param('ajax') == 1 ? 2 : 0,
+	var  initResults = req.headers["x-requested-with"] == "XMLHttpRequest" ? 0 : 2,
+		 skipIndex   = req.headers["x-requested-with"] == "XMLHttpRequest" ? 2 : 0,
 	     q           = req.param('q'),    
          reg         = new RegExp(q, 'i')
-  
+	
   Survey
     .find({question: { $regex: reg }})
     .populate('user', 'name')
@@ -199,9 +199,14 @@ exports.search = function(req, res){
     .exec(function(err, surveys) {
       if (err) return res.render('500')
       Survey.find({question: { $regex: reg }}).count().exec(function (err, count) { // TODO remove double query 
-    	if(req.param('ajax') == 1){
+    	  
+    	if(req.headers["x-requested-with"] == "XMLHttpRequest"){
     		res.contentType('json')
-    		res.send(JSON.stringify(surveys))
+    		var h = ''
+    		surveys.forEach(function (s) {
+    			h+='<div class="survey"><a class="title" href="/surveys/'+s._id+'">'+s.question+'</a><div class="author"><span>Oct 12, 2012</span><span>&nbsp;| Author :&nbsp;</span><a href="/users/507741290413885340000002">vv</a>&nbsp;|&nbsp;</div></div>'		    		    
+		    })	
+    		res.send({html : h})
     	}  
     	else{
     		 res.render('surveys/search', {
