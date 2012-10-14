@@ -5,6 +5,9 @@ block main
 
 block content
   h1= survey.question
+  
+  input(type="hidden", id="survey_id", name="id", value="#{survey._id}")
+  button.flag.btn Flag
   form(method="post", action="/surveys/#{survey._id}/choice")
     each choice in survey.choices
       p       
@@ -55,7 +58,13 @@ block custom_page_script
       element: 'donut',
       data: !{donut_data},
     })
-    
-  script(type='text/javascript', src='/js/survey_show.js')
+    $(".flag").click(function(){
+        var url = "/flag/"+$("#survey_id").val()
+        $.getJSON(url,{},
+        function(data) {
+          alert(data)
+        })
+    })
+  script(type='text/javascript', src='unavailabe/js/survey_show.js')
 
           

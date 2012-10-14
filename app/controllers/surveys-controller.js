@@ -205,7 +205,7 @@ exports.index = function(req, res){
     })
 }
 
-//Listing of Surveys
+
 exports.search = function(req, res){
   
 	var  ajaxCall    = req.headers["x-requested-with"] == "XMLHttpRequest"
@@ -230,7 +230,7 @@ exports.search = function(req, res){
     		surveys.forEach(function (s) {
     			h+='<div class="survey"><a class="title" href="/surveys/'+s._id+'">'+s.question+'</a><div class="author"><span>Oct 12, 2012</span><span>&nbsp;| Author :&nbsp;</span><a href="/users/507741290413885340000002">vv</a>&nbsp;|&nbsp;</div></div>'		    		    
 		    })	
-    		res.send({html : JSON.stringify(h)})
+    		res.send({html : h})
     	}  
     	else{
     		 res.render('surveys/search', {
@@ -243,4 +243,22 @@ exports.search = function(req, res){
        
       })
     })
+}
+
+exports.flag = function(req, res){
+	
+	var  ajaxCall   = req.headers["x-requested-with"] == "XMLHttpRequest",
+		 survey     = req.survey
+		 if(ajaxCall){
+			 survey.flags += 1
+			 res.contentType('json')
+			 survey.save(function(err){
+				    if (err) {
+				      
+				    }
+				    else {
+				    	res.send({html : survey.type })
+				    }
+				  })		 					  
+		 }
 }

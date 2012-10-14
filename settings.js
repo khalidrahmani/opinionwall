@@ -70,7 +70,7 @@ function bootApplication(app, config, passport) {
     app.use(express.methodOverride())
 
     app.use(express.session({
-      secret: 'noobjs',
+      secret: 'k7',
       store: new mongoStore({
         url: config.db,
         collection : 'sessions'
