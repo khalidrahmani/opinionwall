@@ -26,8 +26,10 @@ block content
         span= choice._id +"  ---- "+ choice.counter       
     
   button.vote.btn Vote    
-  p.author
-    a(href="/share/twitter") Share  
+  a.twitter-share-button(href="https://twitter.com/share?text=#{req.headers.host}#{req.url}", data-lang="en") Tweet
+  div.g-plus(data-action="share", data-annotation="none")
+  div.fb-like(data-width="450", data-show-faces="true", data-action="recommend")
+  
   p.author
     span Author :&nbsp;
     a(href="/users/"+survey.user._id)=survey.user.name
@@ -78,6 +80,13 @@ block custom_page_script
            //  graph.setData(d)         
         }, 'json')
     })
+    // share tweeter
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    // share google 
+    (function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
+    // share fk 
+    (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=257956334321936";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
+  
   script(type='text/javascript', src='unavailabe/js/survey_show.js')
 
           

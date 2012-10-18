@@ -65,6 +65,7 @@ exports.update = function(req, res){
 
 //View an survey
 exports.show = function(req, res){  
+	console.log(req)
   var survey = req.survey
   	  userSurvey = null,
   	  multiUserSurvey = null,

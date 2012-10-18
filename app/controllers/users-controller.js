@@ -2,7 +2,6 @@ var mongoose = require('mongoose')
   , User = mongoose.model('User')
 
 exports.signin = function (req, res) {}
-exports.twitterShare = function (req, res) {}
 // auth callback
 exports.authCallback = function (req, res, next) {
   res.redirect('/')
