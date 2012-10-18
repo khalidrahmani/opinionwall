@@ -7,16 +7,18 @@ var ChoiceSchema = new Schema({
 })
 
 var SurveySchema = new Schema({
-      question:  {type : String, default : '', trim : true}
-	, type:      {type : String}
-	, choices:   [ChoiceSchema]
-	, history    : [{
-					_id     : {  type : String }
-				  , choices : [{
+	  _id         :  {type : String, index: { unique: true } }
+	, about       :  {type : String, default : '', trim : true}
+    , question    :  {type : String, default : '', trim : true}
+	, type        :  {type : String}
+	, choices     :  [ChoiceSchema]
+	, history     :  [{
+					    _id       : {  type : String }
+	                    , choices : [{
 						          _id       :  	{ type : String }
 								  ,counter  :  	{ type : Number, default : 0}
 						      }]			 
-			             }]
+			          }]
     , user:      {type : Schema.ObjectId, ref : 'User'}    
     , createdAt: {type : Date, default : Date.now}
     , flags:     {type : Number, default : 0} 

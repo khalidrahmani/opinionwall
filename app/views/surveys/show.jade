@@ -8,15 +8,15 @@ block content
   
   input(type="hidden", id="survey_id", name="id", value="#{survey._id}")
   button.flag.btn Flag
-  form(method="post", action="/surveys/#{survey._id}/choice")
+  form(method="post", action="/surveys/#{survey._id}/choice", id="vote_form")
     each choice in survey.choices
       p       
         if (survey.type == "unique")
-          input(type="radio", value="#{choice._id}", name="survey[choice]", checked="#{userChoice}"==choice._id)
+          input(type="radio", value="#{choice._id}", name="choice", checked="#{userChoice}"==choice._id)
         else 
           - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
-            select(name="survey[choice][#{choice._id}]")
-              option(value="0", selected="#{survey.type}"=="multi") 0
+            select(name="#{choice._id}")
+              option(value="0", selected="#{val}"==0) 0
               option(value="1", selected="#{val}"==1) 1
               option(value="2", selected="#{val}"==2) 2
               option(value="3", selected="#{val}"==3) 3
@@ -24,8 +24,10 @@ block content
               option(value="5", selected="#{val}"==5) 5
                
         span= choice._id +"  ---- "+ choice.counter       
-    input(type="submit", value="Submit")
-      
+    
+  button.vote.btn Vote    
+  p.author
+    a(href="/share/twitter") Share  
   p.author
     span Author :&nbsp;
     a(href="/users/"+survey.user._id)=survey.user.name
@@ -47,7 +49,7 @@ block custom_page_script
   script(type='text/javascript', src='/js/raphael-min.js')
   script(type='text/javascript', src='/js/morris.min.js')  
   script    
-    Morris.Line({
+    var graph = Morris.Line({
       element: 'graph',
       data: !{graph_data},
       xkey: 'period',
@@ -62,8 +64,19 @@ block custom_page_script
         var url = "/flag/"+$("#survey_id").val()
         $.getJSON(url,{},
         function(data) {
-          alert(data)
+          //alert(data)
         })
+    })
+    
+    $(".vote").click(function(){
+        var url = "/surveys/"+$("#survey_id").val()+"/choice"
+        var fields = $("#vote_form").serializeArray()
+        var d = [{"period":"2012-10","Audi":12,"Mercedes":33}]
+        $.post(url,{data: fields},
+        function(res){
+           //  alert(res.html)
+           //  graph.setData(d)         
+        }, 'json')
     })
   script(type='text/javascript', src='unavailabe/js/survey_show.js')
 

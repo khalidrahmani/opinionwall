@@ -9,7 +9,7 @@ var mongoose = require('mongoose')
 
 var UserSchema = new Schema({
 	surveys: [{   
-				_id:      	{ type : Schema.ObjectId, ref : 'Survey' }
+				_id:      	{ type : String }
 				,choice:   	{ type : String }
 				,choices: 	[{ _id : String, val : String}] // case multichoices
 			}]   

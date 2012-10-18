@@ -11,11 +11,21 @@ block content
       ul
         each error in errors
           li= error.type
-
+  if ((typeof err !== 'undefined') && (typeof err.err !== 'undefined'))
+    .fade.in.alert.alert-block.alert-error
+      a.close(data-dismiss="alert", href="javascript:void(0)") x
+      ul        
+        li= "Question Already exists"
+          
   form.form-horizontal(method="post", action=action)
     if (!survey.isNew)
       input(type="hidden", name="_method", value="PUT")
-    
+
+    .control-group
+      label.control-label(for='about') About
+      .controls
+        input#title.input-xlarge(type='text', name="survey[about]", value=survey.about)
+            
     .control-group
       label.control-label(for='question') Question
       .controls

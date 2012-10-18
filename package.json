@@ -24,6 +24,7 @@
     , "passport-github": "latest"
     , "passport-google-oauth": "latest"
     , "underscore": "latest"
+    , "underscore.string": "git://github.com/epeli/underscore.string.git"    
     , "gzippo": "latest"
     , "async": "latest"
     , "nodemon": "latest"
