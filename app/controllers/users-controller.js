@@ -16,7 +16,7 @@ exports.login = function (req, res) {
 
 // sign up
 exports.signup = function (req, res) {
-  
+  /*
   for( i=1; i<10000; i++){
   var user = new User()  
   user.name= "54556cd"+i 
@@ -25,7 +25,7 @@ exports.signup = function (req, res) {
 	  user.save(function (err) {
 		    
 		  })
-  }
+  }*/
   res.render('users/signup', {
     title: 'Sign up',
     user: new User({})

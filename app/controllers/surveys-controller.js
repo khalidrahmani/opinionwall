@@ -6,6 +6,47 @@ var mongoose = require('mongoose')
   
 // New survey
 exports.new = function(req, res){
+	
+	for( i=1; i<10000; i++){
+		data = {
+				  _id         :  "auto-generated-survey"+i
+		, about       :  " about the survey politics ans society"
+	    , question    :  "whats your favourite place in the world as a touristique destination ??"
+		, type        :  "multi"
+		, choices     :  [{_id: "auto-generated-choice1"+i, counter: i}, {_id: "auto-generated-choice2"+i, counter: i},{_id: "auto-generated-choice4"+i, counter: i},
+		                  {_id: "auto-generated-choice3"+i, counter: i}]
+		, history     :  [{
+						    _id       : "2011-11-"+i
+		                    , choices : [{_id: "auto-generated-choice1"+i, counter: i}, {_id: "auto-generated-choice2"+i, counter: i},{_id: "auto-generated-choice4"+i, counter: i},
+		       		                  {_id: "auto-generated-choice3"+i, counter: i}]			 
+				          },
+				          {
+							    _id       : "2011-12-"+i
+			                    , choices : [{_id: "auto-generated-choice1"+i, counter: i}, {_id: "auto-generated-choice2"+i, counter: i},{_id: "auto-generated-choice4"+i, counter: i},
+			       		                  {_id: "auto-generated-choice3"+i, counter: i}]			 
+					          },
+					          {
+								    _id       : "2011-10-"+i
+				                    , choices : [{_id: "auto-generated-choice1"+i, counter: i}, {_id: "auto-generated-choice2"+i, counter: i},{_id: "auto-generated-choice4"+i, counter: i},
+				       		                  {_id: "auto-generated-choice3"+i, counter: i}]			 
+						          },
+						          {
+									    _id       : "2011-09-"+i
+					                    , choices : [{_id: "auto-generated-choice1"+i, counter: i}, {_id: "auto-generated-choice2"+i, counter: i},{_id: "auto-generated-choice4"+i, counter: i},
+					       		                  {_id: "auto-generated-choice3"+i, counter: i}]			 
+							          }]
+	    , user:      req.user 
+	    
+	    , flags:     i 
+	}	
+		var survey     = new Survey(data)
+			survey.save(function (err) {
+				    
+			})
+		}	
+	
+	
+	
   var survey = 	new Survey({})
   survey.choices.push({_id: ""}, {_id: ""}) // minimum 2 choices are required
   res.render('surveys/new', {
