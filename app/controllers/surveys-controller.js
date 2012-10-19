@@ -7,8 +7,8 @@ var mongoose = require('mongoose')
 // New survey
 exports.new = function(req, res){
 	
-	for( i=1; i<100; i++){
-		data = {
+	for( i=101; i<1000; i++){
+	var	data = {
 				  _id         :  "auto-generated-survey"+i
 		, about       :  " about the survey politics ans society"
 	    , question    :  "whats your favourite place in the world as a touristique destination ??"
