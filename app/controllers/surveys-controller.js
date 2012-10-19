@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
 // New survey
 exports.new = function(req, res){
 	
-	for( i=1; i<10000; i++){
+	for( i=1; i<100; i++){
 		data = {
 				  _id         :  "auto-generated-survey"+i
 		, about       :  " about the survey politics ans society"
