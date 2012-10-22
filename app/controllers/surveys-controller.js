@@ -274,3 +274,7 @@ exports.flag = function(req, res){
 				  })		 					  
 		 }
 }
+
+exports.design = function(req, res){	
+	res.render('surveys/design', {})
+}

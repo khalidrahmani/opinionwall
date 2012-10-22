@@ -36,6 +36,7 @@ module.exports = function (app, passport, auth) {
   var surveys = require('../app/controllers/surveys-controller')
   app.get('/flag/:id', surveys.flag)
   app.get('/search', surveys.search)
+  app.get('/design', surveys.design)  
   app.get('/surveys', surveys.index)
   app.get('/surveys/new', auth.requiresLogin, surveys.new)
   app.post('/surveys', auth.requiresLogin, surveys.create)

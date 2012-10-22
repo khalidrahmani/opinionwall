@@ -1,3 +1,12 @@
+Design Inspiration:
+	http://drinkabletap.com/
+	http://8020select.com
+	https://www.discoursehq.com/accounts/login
+	http://www.clickdesk.com/
+	http://duskwebdesign.co.uk
+	https://www.surveymonkey.com
+	http://living.is
+
 data seed :
 User
   for( i=1; i<10000; i++){
