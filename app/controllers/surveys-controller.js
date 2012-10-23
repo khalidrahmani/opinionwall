@@ -194,26 +194,9 @@ exports.destroy = function(req, res){
 }
 
 // Listing of Surveys
-exports.index = function(req, res){
-  var perPage = 5
-    , page = req.param('page') > 0 ? req.param('page') : 0
-
-  Survey
-    .find({})
-    .populate('user', 'name')
-    .sort({'createdAt': -1}) // sort by date
-    .limit(perPage)
-    .skip(perPage * page)
-    .exec(function(err, surveys) {
-      if (err) return res.render('500')
-      Survey.count().exec(function (err, count) {
+exports.index = function(req, res){ 
         res.render('surveys/index', {
-            title: 'List of Surveys',
-            surveys: surveys,
-            page: page,
-            pages: count / perPage
-        })
-      })
+            title: 'Home Page'     
     })
 }
 
@@ -245,6 +228,7 @@ exports.search = function(req, res){
     		res.send({html : h})
     	}  
     	else{
+    		console.log(surveys)
     		 res.render('surveys/search', {
     	            title: 'List of Surveys',
     	            surveys: surveys, 

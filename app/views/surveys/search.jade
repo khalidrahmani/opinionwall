@@ -9,22 +9,22 @@ block content
     .form-actions
       button.btn.btn-primary(type='submit') Search
     .surveys    
-      each survey in surveys
-        .survey
-          a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
-          .author
-            span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-            span &nbsp;| Author :&nbsp;
-            a(href="/users/"+survey.user._id)=survey.user.name
-            | &nbsp;|&nbsp;
+      if surveys.length > 0 
+        each survey in surveys
+          .survey
+            a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+            .author
+              span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+              span &nbsp;| Author :&nbsp;
+              a(href="/users/"+survey.user._id)=survey.user.name
+              | &nbsp;|&nbsp;
+      else
+        div we could not find result for your query 
+          a(href="/surveys/new", title="new survey") Create One        
     .spinner        
-    if (moreResults)
-      .pagination      
-        a.ajax.btn(href="#", data-append=".surveys") Load more results ...
+
           
-block custom_page_script
-  script(type='text/javascript', src='/js/spin.min.js')  
-  script(type='text/javascript', src='/js/bootstrap-ajax.js')
+
 
   
   
