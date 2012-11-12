@@ -9,22 +9,30 @@ block content
     .form-actions
       button.btn.btn-primary(type='submit') Search
     .surveys    
-      if surveys.length > 0 
-        each survey in surveys
-          .survey
-            a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
-            .author
-              span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-              span &nbsp;| Author :&nbsp;
-              a(href="/users/"+survey.user._id)=survey.user.name
-              | &nbsp;|&nbsp;
-      else
-        div we could not find result for your query 
-          a(href="/surveys/new", title="new survey") Create One        
+      each survey in surveys
+        .survey
+          a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+          .author
+            span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+            span &nbsp;| Author :&nbsp;
+            a(href="/users/"+survey.user._id)=survey.user.name
+            | &nbsp;|&nbsp;
     .spinner        
-
+  if (moreResults)
+    button.ajax  Load more results ...
           
-
+block custom_page_script
+    script  
+      var page = 1  
+      $(".ajax").click(function(){
+          $(this).html("loading")
+          $.getJSON("/search",{q: $("#q").val(), page : page},
+            function(data) {
+                $(".surveys").append(data.html)
+                $(".ajax").html("Load more results ...")
+                page++
+            })
+      })
 
   
   

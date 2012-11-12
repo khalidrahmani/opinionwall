@@ -30,10 +30,10 @@ exports.user = {
  */
 
 exports.survey = {
-	    hasAuthorization : function (req, res, next) {
-	      if (req.survey.user.id != req.user.id) {
-	        return res.redirect('/surveys/'+req.survey.id)
-	      }
-	      next()
-	    }
+    hasAuthorization : function (req, res, next) {
+      if (req.survey.user.id != req.user.id) {
+        return res.redirect('/surveys/'+req.survey.id)
+      }
+      next()
+    }
 }

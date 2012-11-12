@@ -12,7 +12,8 @@ module.exports = function (app, passport, auth) {
   app.get('/signup', users.signup)
   app.get('/logout', users.logout)
   app.post('/users', users.create)
-  app.post('/users/session', passport.authenticate('local', {failureRedirect: '/login'}), users.session)
+//app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login?er=1', failureFlash: true}))
+  app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login?er=1'}))
   app.get('/users/:userId', users.show)
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
@@ -60,6 +61,6 @@ module.exports = function (app, passport, auth) {
   
   // home route
   app.get('/', surveys.index)
- 
+  
 
 }

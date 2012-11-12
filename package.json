@@ -5,7 +5,7 @@
   , "private": false
   , "author": "Khalid Rahmani"
   , "engines": {
-        "node": "0.8.12"
+        "node": "0.8.14"
       , "npm": "1.1.49"
     }
   , "scripts": {
@@ -15,7 +15,7 @@
       "express": "latest"
     , "express-namespace": "latest"
     , "jade": "latest"
-    , "mongoose": "latest"
+    , "mongoose": "3.3.1"
     , "connect-mongodb": "latest"
     , "passport": "latest"
     , "passport-local": "latest"

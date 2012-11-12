@@ -23,6 +23,7 @@ exports.boot = function (passport, config) {
   })
 
   // use local strategy
+  
   passport.use(new LocalStrategy({
       usernameField: 'email',
       passwordField: 'password'
@@ -41,6 +42,7 @@ exports.boot = function (passport, config) {
     }
   ))
 
+  
   // use twitter strategy
   passport.use(new TwitterStrategy({
         consumerKey: config.twitter.clientID

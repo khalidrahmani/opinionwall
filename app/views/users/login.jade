@@ -1,19 +1,41 @@
-extends auth
-
-block auth
-  form.login.form-horizontal(action="/users/session", method="post")
-    .control-group
-      label.control-label(for='email') Email
-      .controls
-        input#email(type='text', name="email", placeholder='Email')
-
-    .control-group
-      label.control-label(for='password') Password
-      .controls
-        input#password(type='password', name="password", placeholder='Password')
-
-    .form-actions
-      button.btn.btn-primary(type='submit') Login
-      &nbsp;
-      | or&nbsp;
-      a.show-signup(href="/signup") sign up
+extends ../layouts/default
+block page
+  #content.container
+    .span6
+      if (typeof errors !== 'undefined')
+        .fade.in.alert.alert-block.alert-error
+          a.close(data-dismiss="alert", href="javascript:void(0)") x
+          ul
+            each error in errors
+              li= error.type
+    .row
+        .span8.offset2
+          .box.clearfix
+            .page-header
+              h1
+                a.btn.btn-success.pull-right.trigger-lightbox.validate-register(href='/signup') Not registered yet?
+                | Login
+            .facebook-login
+              p.mbxs Or login via :
+              a(href='/auth/facebook')
+                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/facebook.png", alt="facebook")                 
+              a(href='/auth/twitter')
+                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/twitter.png", alt="twitter")                
+              a(href='/auth/google')
+                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/gplus.png", alt="google")                 
+            form#login.form-vertical.login(action='/login', method='post')
+              .control-group
+                label.control-label.required(for='email') Email address
+                .controls
+                  input#email(type='text', tabindex='1', value=email, name='email')
+              .control-group
+                label.control-label.required(for='password')
+                  | Password (
+                  a.trigger-lightbox.validate-resetpassword(href='/en/password') forgot password
+                  | )
+                .controls
+                  input#password(type='password', tabindex='2', name='password')
+              
+              button.btn.btn-primary(type='submit') Login 
+              &nbsp;       
+              button#cancel.btn(name='cancel') Cancel

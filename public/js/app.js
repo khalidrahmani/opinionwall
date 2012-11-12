@@ -26,5 +26,16 @@ $(document).ready(function () {
 
 	});    
   
-  
-});
+/* 
+$('#login').submit(function (e) {
+		e.preventDefault()
+		$.getJSON("/search",{q: $("#q").val(), page : page},
+            function(data) {
+                $(".surveys").append(data.html)
+                $(".ajax").html("Load more results ...")
+                page++
+        })
+		
+		alert("login submitted")  
+})*/
+})

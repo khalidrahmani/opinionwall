@@ -204,8 +204,8 @@ exports.index = function(req, res){
 exports.search = function(req, res){
   
 	var  ajaxCall    = req.headers["x-requested-with"] == "XMLHttpRequest"
-	     initResults = ajaxCall ? 0 : 2,
-		 skipIndex   = ajaxCall ? 2 : 0,
+	     limit       = ajaxCall ? 10 : 10,
+		 skipIndex   = ajaxCall ? req.param('page')*limit : 0,
 	     q           = req.param('q'),    
          reg         = new RegExp(q, 'i')
 	
@@ -213,7 +213,7 @@ exports.search = function(req, res){
     .find({question: { $regex: reg }})
     .populate('user', 'name')
     .sort({'createdAt': -1}) // sort by date
-    .limit(initResults)    
+    .limit(limit)    
     .skip(skipIndex)
     .exec(function(err, surveys) {
       if (err) return res.render('500')
@@ -232,7 +232,7 @@ exports.search = function(req, res){
     		 res.render('surveys/search', {
     	            title: 'List of Surveys',
     	            surveys: surveys, 
-    	            moreResults: count > initResults,
+    	            moreResults: count > limit,
     	            q : q
     	        })
     	}  
