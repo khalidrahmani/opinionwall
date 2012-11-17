@@ -1,9 +1,6 @@
 extends ../layouts/default
 
-block main
-  h1 Surveys
-
-block content
+block page
   form.form-horizontal(method="get", action='/search')
     input(type="text", name="q")
     .form-actions

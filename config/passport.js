@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
   , LocalStrategy = require('passport-local').Strategy
   , TwitterStrategy = require('passport-twitter').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
-  , GitHubStrategy = require('passport-github').Strategy
   , GoogleStrategy = require('passport-google-oauth').Strategy
   , User = mongoose.model('User')
 

@@ -1,25 +1,23 @@
 extends ../layouts/default
 
-block main
-  h1 Surveys
-
-block content
-  form.form-horizontal(method="get", action='/search')
-    input(type="text", id="q", name="q", value=q)
-    .form-actions
-      button.btn.btn-primary(type='submit') Search
-    .surveys    
-      each survey in surveys
-        .survey
-          a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
-          .author
-            span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-            span &nbsp;| Author :&nbsp;
-            a(href="/users/"+survey.user._id)=survey.user.name
-            | &nbsp;|&nbsp;
-    .spinner        
-  if (moreResults)
-    button.ajax  Load more results ...
+block page
+  #content.container
+    form.form-horizontal(method="get", action='/search')
+      input(type="text", id="q", name="q", value=q)
+      .form-actions
+        button.btn.btn-primary(type='submit') Search
+      .surveys    
+        each survey in surveys
+          .survey
+            a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+            .author
+              span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+              span &nbsp;| Author :&nbsp;
+              a(href="/users/"+survey.user._id)=survey.user.name
+              | &nbsp;|&nbsp;
+      .spinner        
+    if (moreResults)
+      button.ajax  Load more results ...
           
 block custom_page_script
     script  
