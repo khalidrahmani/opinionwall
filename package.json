@@ -14,19 +14,20 @@
   , "dependencies": {
       "express": "latest"
     , "express-namespace": "latest"
+    , "express-validator": "latest"
     , "jade": "latest"
-    , "mongoose": "3.3.1"
+    , "mongoose": "latest"
     , "connect-mongodb": "latest"
     , "passport": "latest"
     , "passport-local": "latest"
     , "passport-facebook": "latest"
     , "passport-twitter": "latest"
-    , "passport-github": "latest"
     , "passport-google-oauth": "latest"
     , "underscore": "latest"
     , "underscore.string": "latest"    
     , "gzippo": "latest"
     , "async": "latest"
     , "nodemon": "latest"
+    , "async": "latest"
   }
 }

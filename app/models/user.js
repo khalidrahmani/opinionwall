@@ -5,18 +5,18 @@ var mongoose = require('mongoose')
   , crypto = require('crypto')
   , _ = require('underscore')
   , authTypes = ['twitter', 'facebook', 'google']
-
-
+  
+  
 var UserSchema = new Schema({
 	surveys: [{   
 				_id:      	{ type : String }
 				,choice:   	{ type : String }
 				,choices: 	[{ _id : String, val : String}] // case multichoices
 			}]   
-  , name: {type : String, unique : true}
-  , email: String  
+  , name: {type: String}
+  , email: {type: String}
   , provider: String
-  , hashed_password: String
+  , hashed_password: {type: String}  
   , salt: String
   , facebook: {}
   , twitter:  {}  
@@ -31,35 +31,6 @@ UserSchema
     this.hashed_password = this.encryptPassword(password)
   })
   .get(function() { return this._password })
-
-// validations
-var validatePresenceOf = function (value) {
-  return value && value.length
-}
-
-// the below 4 validations only apply if you are signing up traditionally
-
-UserSchema.path('name').validate(function (name) {
-  // if you are authenticating by any of the oauth strategies, don't validate
-  if (authTypes.indexOf(this.provider) !== -1) return true
-  return name.length
-}, 'Name cannot be blank')
-
-UserSchema.path('email').validate(function (email) {
-  // if you are authenticating by any of the oauth strategies, don't validate
-  if (authTypes.indexOf(this.provider) !== -1) return true
-  return email.length
-}, 'Email cannot be blank')
-
-// pre save hooks
-UserSchema.pre('save', function(next) {
-  if (!this.isNew) return next()
-
-  if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)
-    next(new Error('Invalid password'))
-  else
-    next()
-})
 
 // methods
 UserSchema.method('authenticate', function(plainText) {

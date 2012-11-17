@@ -1,38 +1,31 @@
 extends ../layouts/default
 block page
   #content.container
-    .span6
-      if (typeof errors !== 'undefined')
-        .fade.in.alert.alert-block.alert-error
-          a.close(data-dismiss="alert", href="javascript:void(0)") x
-          ul
-            each error in errors
-              li= error.type
     .row
         .span8.offset2
           .box.clearfix
             .page-header
               h1
                 a.btn.btn-success.pull-right.trigger-lightbox.validate-register(href='/login') Already registered ?
-                | Login
+                | Sign up
             .facebook-login
               p.mbxs Or Sign up via :
               a(href='/auth/facebook')
-                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/facebook.png", alt="facebook")                 
+                img(src="img/facebook.png", alt="facebook")                             
               a(href='/auth/twitter')
-                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/twitter.png", alt="twitter")                
+                img(src="img/twitter.png", alt="twitter")                              
               a(href='/auth/google')
-                img(src="http://jquery-fyneworks.googlecode.com/svn/trunk/documentation/gplus.png", alt="google")                 
-            form#login.form-vertical.login(action='/users', method='post')
-              .control-group
+                img(src="img/gplus.png", alt="google")                
+            form#signup.form-vertical.login(action='/users', method='post')
+              .control-group.name_cg
                 label.control-label.required(for='name') User Name
                 .controls
-                  input#email(type='text', tabindex='1', value=user.name, name='name')            
-              .control-group
+                  input#name(type='text', tabindex='1', value=user.name, name='name')            
+              .control-group.email_cg
                 label.control-label.required(for='email') Email address
                 .controls
                   input#email(type='text', tabindex='1', value=user.email, name='email')
-              .control-group
+              .control-group.password_cg
                 label.control-label.required(for='password')
                   | Password 
                 .controls
@@ -40,9 +33,37 @@ block page
               
               button.btn.btn-primary(type='submit') Sign up 
               &nbsp;       
-              button#cancel.btn(name='cancel') Cancel
+              a.btn(href='/') Cancel
 
+block custom_page_script
+    script  
+      $("input").focusout(function() {        
+        $(".control-group").removeClass("error")
+        $(".alert-error").remove()
+        $(".help-inline").remove()  
+      })
 
+      $('#signup').submit(function (e) {
+          e.preventDefault()
+          $(".alert-error").remove()                  
+          $("#login").append('<div class="ajax-loader"></div>')
+          $.post("/users",{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
+                  function(data) { // success
+                    if(data.html === "Ok") $(location).attr('href',"/")
+                    else{
+                      $.each(data.html,function(i,el)
+                      {
+                        if(el != null){
+                           $("."+el.param+"_cg").addClass("error")
+                           $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")
+                         }
+                      })
+                      
+                      $(".ajax-loader").remove()
+                      $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Please Correct Errors.</div>')
+                    } 
+              }, 'json')
+      })
 
 
 

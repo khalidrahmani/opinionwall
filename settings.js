@@ -5,7 +5,11 @@
 
 var express = require('express')
   , mongoStore = require('connect-mongodb')
+  , expressValidator = require('express-validator')  // added
+  
 
+
+  
 exports.boot = function(app, config, passport){
   bootApplication(app, config, passport)
 }
@@ -64,6 +68,8 @@ function bootApplication(app, config, passport) {
 
     // cookieParser should be above session
     app.use(express.cookieParser())
+    app.use(expressValidator) // added
+    
 
     // bodyParser should be above methodOverride
     app.use(express.bodyParser())

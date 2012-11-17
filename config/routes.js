@@ -13,8 +13,13 @@ module.exports = function (app, passport, auth) {
   app.get('/logout', users.logout)
   app.post('/users', users.create)
 //app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login?er=1', failureFlash: true}))
-  app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login?er=1'}))
+  app.post('/login', passport.authenticate('local'),
+		  function(req, res) {
+			  res.contentType('json')
+			  res.send({html : "true"})
+	  		})
   app.get('/users/:userId', users.show)
+  app.get('/profile', users.profile)
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
   app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin)

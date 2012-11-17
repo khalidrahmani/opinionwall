@@ -6,8 +6,13 @@
             span.icon-bar
             span.icon-bar
           a.brand.serif(href='/')
-            | OpinionsWall            
-          a.btn.btn-info.pull-right.trigger-lightbox.validate-login(href='/login') Login          
+            | OpinionsWall    
+          if (req.isAuthenticated())
+            a.btn.btn-primary.pull-right(href="/profile", title="Profile") Profile
+            a.btn.btn-primary.pull-right(href="/logout", title="logout") Logout
+          else
+            a.btn.btn-primary.pull-right(href="/login", title="Login") Login          
+                    
           .nav-collapse
             ul.nav.top
               li
