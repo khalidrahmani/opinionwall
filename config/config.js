@@ -26,7 +26,7 @@ module.exports = {
 	  facebook: {
     	  clientID: "257956334321936"
         , clientSecret: "133392ec85c6e094217cef25542a4260"
-        , callbackURL: "http://opinionswall.herokuapp.com/auth/facebook/callback" 
+        , callbackURL: "http://www.opinionswall.com/auth/facebook/callback" 
       },
       twitter: {
     	  clientID: "tMW24sgYF63Fulqr64ZTw"
