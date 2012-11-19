@@ -2,20 +2,17 @@ extends ../layouts/layout
 
 block content
   #content.container
-    form.form-horizontal(method="get", action='/search')
-      input(type="text", id="q", name="q", value=q)
-      .form-actions
-        button.btn.btn-primary(type='submit') Search
-      .surveys    
-        each survey in surveys
-          .survey
-            a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
-            .author
-              span= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-              span &nbsp;| Author :&nbsp;
-              a(href="/users/"+survey.user._id)=survey.user.name
-              | &nbsp;|&nbsp;
-      .spinner        
+    
+    form.form-search(method="get", action='/search') 
+      h4 Results for : 
+        input.span4(type="text", id="q", name="q", value=q)
+        button.btn(type='submit') Search
+    .surveys    
+      each survey in surveys          
+        h4
+          a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
+        p By :             
+          a(href="/users/"+survey.user._id)=survey.user.name         
     if (moreResults)
       button.ajax  Load more results ...
           
@@ -23,11 +20,11 @@ block custom_page_script
     script  
       var page = 1  
       $(".ajax").click(function(){
-          $(this).html("loading")
+          $("#content").append('<div class="ajax-loader"></div>')
           $.getJSON("/search",{q: $("#q").val(), page : page},
             function(data) {
                 $(".surveys").append(data.html)
-                $(".ajax").html("Load more results ...")
+                $(".ajax-loader").remove()
                 page++
             })
       })
