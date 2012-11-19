@@ -1,5 +1,5 @@
-extends ../layouts/default
-block page
+extends ../layouts/layout
+block content
   #content.container
     .span6
       if (typeof errors !== 'undefined')
@@ -46,7 +46,6 @@ block custom_page_script
         $(".control-group").removeClass("error")
         $(".alert-error").remove()
       })
-
       $('#login').submit(function (e) {
           e.preventDefault()
           $(".alert-error").remove()

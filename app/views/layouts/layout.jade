@@ -15,8 +15,10 @@ html(lang='en')
        Application styles
     link(rel='stylesheet', href='/css/app.css')
   body
-    include ../includes/header
-    block page    
-    include ../includes/footer
-    include ../includes/foot
+    include header
+    block content 
+    script(type='text/javascript', src='/js/jquery.min.js')
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    script(type='text/javascript', src='/js/bootbox.js')
+    script(type='text/javascript', src='/js/app.js')
     block custom_page_script

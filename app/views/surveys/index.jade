@@ -1,7 +1,8 @@
-extends ../layouts/default
+extends ../layouts/layout
 
-block page
-  form.form-horizontal(method="get", action='/search')
-    input(type="text", name="q")
-    .form-actions
-      button.btn.btn-primary(type='submit') Search
+block content
+  #content.container
+    form.form-horizontal(method="get", action='/search')
+      input(type="text", name="q")
+      .form-actions
+        button.btn.btn-primary(type='submit') Search

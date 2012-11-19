@@ -1,14 +1,5 @@
-extends ../layouts/default
+extends ../layouts/layout
 
 block page
-  #content.container
-    .row
-        .span8.offset2
-          .box.clearfix
-            .page-header
-              h1
-                a.btn.btn-success.pull-right.trigger-lightbox.validate-register(href='/signup') Not registered yet?
-                | Login  
-    
-      h1= user.name
+  h1= user.name
 

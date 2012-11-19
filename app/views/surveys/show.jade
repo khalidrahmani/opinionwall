@@ -1,51 +1,49 @@
-extends ../layouts/default
-
-block main
-  
+extends ../layouts/layout 
 
 block content
-  h1= survey.question
-  
-  input(type="hidden", id="survey_id", name="id", value="#{survey._id}")
-  button.flag.btn Flag
-  form(method="post", action="/surveys/#{survey._id}/choice", id="vote_form")
-    each choice in survey.choices
-      p       
-        if (survey.type == "unique")
-          input(type="radio", value="#{choice._id}", name="choice", checked="#{userChoice}"==choice._id)
-        else 
-          - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
-            select(name="#{choice._id}")
-              option(value="0", selected="#{val}"==0) 0
-              option(value="1", selected="#{val}"==1) 1
-              option(value="2", selected="#{val}"==2) 2
-              option(value="3", selected="#{val}"==3) 3
-              option(value="4", selected="#{val}"==4) 4
-              option(value="5", selected="#{val}"==5) 5
-               
-        span= choice._id +"  ---- "+ choice.counter       
+  #content.container
+    h1= survey.question
     
-  button.vote.btn Vote    
-  a.twitter-share-button(href="https://twitter.com/share?text=#{req.headers.host}#{req.url}", data-lang="en") Tweet
-  div.g-plus(data-action="share", data-annotation="none")
-  div#fb-root  
-  div.fb-like(data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
+    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")
+    button.flag.btn Flag
+    form(method="post", action="/surveys/#{survey._id}/choice", id="vote_form")
+      each choice in survey.choices
+        p       
+          if (survey.type == "unique")
+            input(type="radio", value="#{choice._id}", name="choice", checked="#{userChoice}"==choice._id)
+          else 
+            - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
+              select(name="#{choice._id}")
+                option(value="0", selected="#{val}"==0) 0
+                option(value="1", selected="#{val}"==1) 1
+                option(value="2", selected="#{val}"==2) 2
+                option(value="3", selected="#{val}"==3) 3
+                option(value="4", selected="#{val}"==4) 4
+                option(value="5", selected="#{val}"==5) 5
+                 
+          span= choice._id +"  ---- "+ choice.counter       
+      
+    button.vote.btn Vote    
+    a.twitter-share-button(href="https://twitter.com/share?text=#{req.headers.host}#{req.url}", data-lang="en") Tweet
+    div.g-plus(data-action="share", data-annotation="none")
+    div#fb-root  
+    div.fb-like(data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
+    
+    p.author
+      span Author :&nbsp;
+      a(href="/users/"+survey.user._id)=survey.user.name
+    .date= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
   
-  p.author
-    span Author :&nbsp;
-    a(href="/users/"+survey.user._id)=survey.user.name
-  .date= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-
-  p
-    br
-    form.center.form-inline.confirm(action="/surveys/"+survey.id, method="post")
-      a.btn(href='/surveys/'+survey._id+'/edit', title="edit") Edit
-      &nbsp;&nbsp;
-      input(type="hidden", name="_method", value="DELETE")
-      button.btn.btn-danger(type="submit") delete
-  div#graph
-  div#donut   
-  div#disqus_thread
+    p
+      br
+      form.center.form-inline.confirm(action="/surveys/"+survey.id, method="post")
+        a.btn(href='/surveys/'+survey._id+'/edit', title="edit") Edit
+        &nbsp;&nbsp;
+        input(type="hidden", name="_method", value="DELETE")
+        button.btn.btn-danger(type="submit") delete
+    div#graph
+    div#donut   
+    div#disqus_thread
 
   
 block custom_page_script

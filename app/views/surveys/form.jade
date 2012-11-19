@@ -1,41 +1,42 @@
-extends ../layouts/default
+extends ../layouts/layout
 
 block content
-  - var action = '/surveys'
-  if (!survey.isNew)
-    - action += '/'+survey.id
-
-  if (typeof errors !== 'undefined')
-    .fade.in.alert.alert-block.alert-error
-      a.close(data-dismiss="alert", href="javascript:void(0)") x
-      ul
-        each error in errors
-          li= error.type
-  if ((typeof err !== 'undefined') && (typeof err.err !== 'undefined'))
-    .fade.in.alert.alert-block.alert-error
-      a.close(data-dismiss="alert", href="javascript:void(0)") x
-      ul        
-        li= "Duplicate Question !"
-          
-  form.form-horizontal(method="post", action=action)
+  #content.container
+    - var action = '/surveys'
     if (!survey.isNew)
-      input(type="hidden", name="_method", value="PUT")
-
-    .control-group
-      label.control-label(for='about') About
-      .controls
-        input#title.input-xlarge(type='text', name="survey[about]", value=survey.about)
+      - action += '/'+survey.id
+  
+    if (typeof errors !== 'undefined')
+      .fade.in.alert.alert-block.alert-error
+        a.close(data-dismiss="alert", href="javascript:void(0)") x
+        ul
+          each error in errors
+            li= error.type
+    if ((typeof err !== 'undefined') && (typeof err.err !== 'undefined'))
+      .fade.in.alert.alert-block.alert-error
+        a.close(data-dismiss="alert", href="javascript:void(0)") x
+        ul        
+          li= "Duplicate Question !"
             
-    .control-group
-      label.control-label(for='question') Question
-      .controls
-        input#title.input-xlarge(type='text', name="survey[question]", value=survey.question)
-      label.control-label(for='type') Type
-      .controls
-        select(name="survey[type]")
-          option(value="") Select
-          option(value="multi", selected="#{survey.type}"=="multi") Multichoice
-          option(value="unique", selected="#{survey.type}"=="unique") Unique choice
+    form.form-horizontal(method="post", action=action)
+      if (!survey.isNew)
+        input(type="hidden", name="_method", value="PUT")
+  
+      .control-group
+        label.control-label(for='about') About
+        .controls
+          input#title.input-xlarge(type='text', name="survey[about]", value=survey.about)
+              
+      .control-group
+        label.control-label(for='question') Question
+        .controls
+          input#title.input-xlarge(type='text', name="survey[question]", value=survey.question)
+        label.control-label(for='type') Type
+        .controls
+          select(name="survey[type]")
+            option(value="") Select
+            option(value="multi", selected="#{survey.type}"=="multi") Multichoice
+            option(value="unique", selected="#{survey.type}"=="unique") Unique choice
         
     div#choices    
       - var i = 0    

@@ -1,5 +1,5 @@
-extends ../layouts/default
-block page
+extends ../layouts/layout
+block content
   #content.container
     .row
         .span8.offset2
@@ -45,8 +45,9 @@ block custom_page_script
 
       $('#signup').submit(function (e) {
           e.preventDefault()
-          $(".alert-error").remove()                  
-          $("#login").append('<div class="ajax-loader"></div>')
+          $(".alert-error").remove()  
+          $(".help-inline").remove()                
+          $("#signup").append('<div class="ajax-loader"></div>')
           $.post("/users",{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
                   function(data) { // success
                     if(data.html === "Ok") $(location).attr('href',"/")
