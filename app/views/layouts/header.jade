@@ -7,12 +7,30 @@
             span.icon-bar
           a.brand.serif(href='/')
             | OpinionsWall    
+
           if (req.isAuthenticated())
-            a.btn.btn-primary.pull-right(href="/profile", title="Profile") Profile
-            a.btn.btn-primary.pull-right(href="/logout", title="logout") Logout
+            ul.nav.pull-right              
+              li.dropdown
+                a.dropdown-toggle(data-toggle='dropdown', href='#')
+                  | Account 
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a(href="/profile") Profile   
+                  li
+                    a(href='/en/business') Upgrade                  
+                  li.divider
+                  li
+                    a(href='/logout')           
+                      i.icon-off 
+                      |  Logout
           else
-            a.btn.btn-primary.pull-right(href="/login", title="Login") Login          
-                    
+            a.btn.btn-success.pull-right(href="/login", title="Login") Login    
+          .pull-right.btn-group.mrs
+            form.form-search(method="get", action='/search')              
+                input.span3(type="text", name="q", placeholder="Search")
+                button.btn(type='submit') Go 
+                &nbsp;                     
           .nav-collapse
             ul.nav.top
               li

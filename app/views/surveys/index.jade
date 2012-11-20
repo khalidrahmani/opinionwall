@@ -2,8 +2,9 @@ extends ../layouts/layout
 
 block content
   #content.container.center
-    p
-      h3 Stronger Together
-    form.form-search(method="get", action='/search')
-      input.span4(type="text", name="q")
-      button.btn(type='submit') Search
+    .hero-unit.intro
+      p
+        h3 Stronger Together
+      form.form-search(method="get", action='/search')
+        input.span4(type="text", name="q")
+        button.btn(type='submit') Search

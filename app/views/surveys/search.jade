@@ -1,20 +1,19 @@
 extends ../layouts/layout
 
 block content
-  #content.container
-    
+  #content.container    
     form.form-search(method="get", action='/search') 
       h4 Results for : 
-        input.span4(type="text", id="q", name="q", value=q)
+        input.span4(type="text", name="q", value=q)
         button.btn(type='submit') Search
     .surveys    
-      each survey in surveys          
-        h4
-          a.title(href='/surveys/'+survey._id, title=survey.question) #{survey.question}
-        p By :             
-          a(href="/users/"+survey.user._id)=survey.user.name         
+      each survey in surveys        
+        a.survey-title(href='/surveys/'+survey._id) #{survey.question}
+        p  
+          a.grey-link(href="/users/"+survey.user._id)=survey.user.name                   
+              
     if (moreResults)
-      button.ajax  Load more results ...
+      button.ajax.btn  Load more results ...
           
 block custom_page_script
     script  
