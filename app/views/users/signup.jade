@@ -20,16 +20,16 @@ block content
               .control-group.name_cg
                 label.control-label.required(for='name') User Name
                 .controls
-                  input#name(type='text', tabindex='1', value=user.name, name='name')            
+                  input#name(type='text', value=user.name, name='name')            
               .control-group.email_cg
                 label.control-label.required(for='email') Email address
                 .controls
-                  input#email(type='text', tabindex='1', value=user.email, name='email')
+                  input#email(type='text', value=user.email, name='email')
               .control-group.password_cg
                 label.control-label.required(for='password')
                   | Password 
                 .controls
-                  input#password(type='password', tabindex='2', name='password')
+                  input#password(type='password', name='password')
               
               button.btn.btn-primary(type='submit') Sign up 
               &nbsp;       
