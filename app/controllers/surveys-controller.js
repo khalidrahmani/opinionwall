@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
   , Survey = mongoose.model('Survey')
   , _  = require('underscore')
   , _s = require('underscore.string')
+  , expressValidator = require('express-validator')
   
 // New survey
 exports.new = function(req, res){
@@ -16,20 +17,30 @@ exports.new = function(req, res){
 
 // Create an survey
 exports.create = function (req, res) {
-    var survey     = new Survey(req.body.survey)    
+	console.log(req.body)
+	res.contentType('json')    
+	
+    var survey = new Survey(req.body)
     survey.user    = req.user
-    survey._id     = _s.slugify(req.body.survey.question)
-    survey.save(function(err){
-      if (err) {    	  
-        res.render('surveys/new', {
-            title: 'ERROR New Survey'
-          , survey: survey
-          , errors: err.errors
-          , err : err
-        })
+    survey._id     = _s.slugify(survey.question)
+    
+	req.assert('about', '').notEmpty()  
+    req.assert('question', 'between 6 and 120 character').len(6, 120)
+    req.assert('type', 'type is required').notEmpty()
+
+    var errors = req.validationErrors()
+  
+	if (errors) {
+		res.send({html : errors})
+	} 
+	
+    console.log(survey)
+    survey.save(function(err){    	
+      if (err) {
+    	res.send({html : err}) 
       }
       else {
-        res.redirect('/surveys/'+survey._id)
+    	  res.send({html: "Ok", survey_id: survey._id})
       }
   })
 }

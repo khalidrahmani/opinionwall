@@ -24,21 +24,21 @@ block content
               h1
                 | New Survey
                   
-            form.form-horizontal(method="post", action=action)
+            form.form-horizontal#survey-form(method="post", action=action)
               if (!survey.isNew)
                 input(type="hidden", name="_method", value="PUT")            
-              .control-group
+              .control-group.about_cg
                 label.control-label.required About
                 .controls
-                  input.span4(type='text', name="survey[about]", value=survey.about) 
-              .control-group
+                  input.span4#about(type='text', name="about", value=survey.about) 
+              .control-group.question_cg
                 label.control-label.required Question
                 .controls
-                  input.span4(type='text', name="survey[question]", value=survey.question)                   
-              .control-group
+                  input.span4#question(type='text', name="question", value=survey.question)                   
+              .control-group.type_cg
                 label.control-label.required Type
                 .controls
-                  select(name="survey[type]")
+                  select#type(name="type")
                     option(value="") Select
                     option(value="multi", selected="#{survey.type}"=="multi") Multichoice
                     option(value="unique", selected="#{survey.type}"=="unique") Unique choice                        
@@ -49,11 +49,11 @@ block content
                 .control-group
                   label.control-label.required 1
                   .controls
-                    input(type='text', name="survey[choices][0][_id]", value=survey.choices[0]._id)
+                    input(type='text', name="choices[0][_id]", value=survey.choices[0]._id)
                 .control-group
                   label.control-label.required 2
                   .controls
-                    input(type='text', name="survey[choices][1][_id]", value=survey.choices[1]._id)  
+                    input(type='text', name="choices[1][_id]", value=survey.choices[1]._id)  
                 
                 - var i = 0                          
                 each choice in survey.choices
@@ -61,20 +61,74 @@ block content
                     .control-group
                       label.control-label.required #{i+1}
                       .controls
-                        input(type='text', name="survey[choices][#{i}][_id]", value=choice._id)  
+                        input(type='text', name="choices[#{i}][_id]", value=choice._id)  
                         a.btn.remove_choice(href='#') x       
                   - i++                  
               input#hidden_input(type='hidden', value=i, name="nothing")    
               .control-group
                 .controls
-                  button.btn(id="add_choice") add                   
-                                 
-                  
-                                                
+                  button.btn(id="add_choice") add                                               
               .control-group
-                .controls
+                .controls.controls-submit
                   button.btn.btn-primary(type='submit') Validate 
                   &nbsp;       
-                  a.btn(href='/') Cancel              
+                  a.btn.cancel(href='/') Cancel              
                     
-   
+block custom_page_script
+    script  
+      $(document).ready(function () {
+          var i =  parseInt($("#hidden_input").val()) 
+          $("#add_choice").click(function(e) {
+            e.preventDefault()    
+            $('#choices').append('<div class="control-group"><label class="control-label required">'+(i+1)+'</label><div class="controls"><input type="text" value="" name="choices['+i+'][_id]"> <a class="btn remove_choice" href="#"> x </a> </div></div> ');
+            i++
+          });    
+          
+          $(".remove_choice").live("click", function(e) {
+              e.preventDefault()
+              $(this).closest('div .control-group').remove()
+              $("#choices input:text").each(function(index) {
+                  $(this).attr("name", "choices["+index+"][_id]")
+                  i = index+1
+                  $(this).closest('div').prev().html(i)
+              })        
+          })
+          
+        $("input").focusout(function() {        
+          $(".control-group").removeClass("error")
+          $(".alert-error").remove()
+          $(".help-inline").remove()  
+        })
+        $("select").focusout(function() {        
+          $(".control-group").removeClass("error")
+          $(".alert-error").remove()
+          $(".help-inline").remove()  
+        })
+        $('#survey-form').submit(function (e) {
+            e.preventDefault()            
+            
+            $(".alert-error").remove()  
+            $(".help-inline").remove()                
+            $(".controls-submit").append('<div class="ajax-loader"></div>')    
+            var choices = {} 
+            $("#choices input:text").each(function(index) {
+                choices[index] = {_id: $(this).val()}
+            })
+            $.post($(this).attr("action"),{about: $("#about").val(), question: $("#question").val(), type: $("#type").val(), choices: choices},
+                    function(data) { // success
+                      if(data.html === "Ok") $(location).attr('href',"/surveys/"+data.survey_id)
+                      else{
+                        $.each(data.html,function(i,el)
+                        {
+                          if(el != null){
+                             $("."+el.param+"_cg").addClass("error")
+                             $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")
+                           }
+                        })
+                        
+                        $(".ajax-loader").remove()
+                        $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Please Correct Errors.</div>')
+                      } 
+                }, 'json')
+        })
+      })
