@@ -17,7 +17,6 @@ exports.new = function(req, res){
 
 // Create an survey
 exports.create = function (req, res) {
-	console.log(req.body)
 	res.contentType('json')    
 	
     var survey = new Survey(req.body)
@@ -27,14 +26,12 @@ exports.create = function (req, res) {
 	req.assert('about', '').notEmpty()  
     req.assert('question', 'between 6 and 120 character').len(6, 120)
     req.assert('type', 'type is required').notEmpty()
-
+    
     var errors = req.validationErrors()
   
 	if (errors) {
 		res.send({html : errors})
 	} 
-	
-    console.log(survey)
     survey.save(function(err){    	
       if (err) {
     	res.send({html : err}) 
