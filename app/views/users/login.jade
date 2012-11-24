@@ -17,12 +17,9 @@ block content
                 | Login
             .facebook-login
               p.mbxs Or login via :
-              a(href='/auth/facebook')
-                img(src="img/facebook.png", alt="facebook")                 
-              a(href='/auth/twitter')
-                img(src="img/twitter.png", alt="twitter")                
-              a(href='/auth/google')
-                img(src="img/gplus.png", alt="google")                 
+              a.facebook(href='/auth/facebook')                                 
+              a.twitter(href='/auth/twitter')                
+              a.google(href='/auth/google')                              
             form#login.form-vertical.login(action='/login', method='post')
               .control-group
                 label.control-label.required(for='email') Email address
@@ -37,7 +34,7 @@ block content
                   input#password(type='password', tabindex='2', name='password')
               
               button.btn.btn-info(type='submit') Login 
-              &nbsp;       
+              &nbsp;     
               a.btn(href='/') Cancel
 
 block custom_page_script

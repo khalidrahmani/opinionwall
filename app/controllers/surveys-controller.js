@@ -25,7 +25,7 @@ exports.create = function (req, res) {
     
 	req.assert('about', '').notEmpty()  
     req.assert('question', 'between 6 and 120 character').len(6, 120)
-    req.assert('type', 'type is required').notEmpty()
+    req.assert('type', '').notEmpty()
     
     var errors = req.validationErrors()
   
@@ -231,10 +231,11 @@ exports.search = function(req, res){
     		res.contentType('json')
     		var h = ''
     		surveys.forEach(function (s) {
-    			h+='<a class="survey-title" href="/surveys/'+s._id+'">'+s.question+'</a><p><a class="grey-link" href="/users/'+s.user._id+'">'+s.user.name+'</a></p>'		    		    
+    			
+    			h+='<a class="survey-title" href="/surveys/'+s._id+'">'+s.question+'</a><p><small>'+formatDate(s.createdAt, "%b %d, %Y at %I:%M %p")+'</small> <a class="grey-link" href="/users/'+s.user._id+'"> by '+s.user.name+'</a></p>'		    		    
 		    })	
     		res.send({html : h})
-    	}  
+    	}
     	else{
     		console.log(surveys)
     		 res.render('surveys/search', {
@@ -243,12 +244,15 @@ exports.search = function(req, res){
     	            moreResults: count > limit,
     	            q : q
     	        })
-    	}  
+    	} 
        
       })
     })
 }
-
+var formatDate = function (date) {
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
+    return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()
+  }
 exports.flag = function(req, res){
 	
 	var  ajaxCall   = req.headers["x-requested-with"] == "XMLHttpRequest",
@@ -265,8 +269,4 @@ exports.flag = function(req, res){
 				    }
 				  })		 					  
 		 }
-}
-
-exports.design = function(req, res){	
-	res.render('surveys/design', {})
 }

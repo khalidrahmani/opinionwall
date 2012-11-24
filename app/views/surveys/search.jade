@@ -9,8 +9,11 @@ block content
     .surveys    
       each survey in surveys        
         a.survey-title(href='/surveys/'+survey._id) #{survey.question}
-        p  
-          a.grey-link(href="/users/"+survey.user._id)=survey.user.name                   
+        p 
+          small=formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
+          &nbsp; 
+          a.grey-link(href="/users/"+survey.user._id) by #{survey.user.name}  
+                          
               
     if (moreResults)
       button.ajax.btn  Load more results ...

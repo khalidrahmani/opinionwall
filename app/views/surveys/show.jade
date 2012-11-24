@@ -2,48 +2,46 @@ extends ../layouts/layout
 
 block content
   #content.container
-    h1= survey.question
-    
-    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")
-    button.flag.btn Flag
-    form(method="post", action="/surveys/#{survey._id}/choice", id="vote_form")
-      each choice in survey.choices
-        p       
-          if (survey.type == "unique")
-            input(type="radio", value="#{choice._id}", name="choice", checked="#{userChoice}"==choice._id)
-          else 
-            - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
-              select(name="#{choice._id}")
-                option(value="0", selected="#{val}"==0) 0
-                option(value="1", selected="#{val}"==1) 1
-                option(value="2", selected="#{val}"==2) 2
-                option(value="3", selected="#{val}"==3) 3
-                option(value="4", selected="#{val}"==4) 4
-                option(value="5", selected="#{val}"==5) 5
-                 
-          span= choice._id +"  ---- "+ choice.counter       
-      
-    button.vote.btn Vote    
-    a.twitter-share-button(href="https://twitter.com/share?text=#{req.headers.host}#{req.url}", data-lang="en") Tweet
-    div.g-plus(data-action="share", data-annotation="none")
-    div#fb-root  
-    div.fb-like(data-send="false", data-layout="button_count", data-width="450", data-show-faces="false")
-    
-    p.author
-      span Author :&nbsp;
-      a(href="/users/"+survey.user._id)=survey.user.name
-    .date= formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")
-  
+    p.lead
+      h4= survey.question
     p
-      br
-      form.center.form-inline.confirm(action="/surveys/"+survey.id, method="post")
-        a.btn(href='/surveys/'+survey._id+'/edit', title="edit") Edit
-        &nbsp;&nbsp;
-        input(type="hidden", name="_method", value="DELETE")
-        button.btn.btn-danger(type="submit") delete
-    div#graph
-    div#donut   
-    div#disqus_thread
+      | #{formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")} By : 
+      a(href="/users/"+survey.user._id)=survey.user.name  
+    .row
+      .span4    
+        div#donut.graph
+      .span8    
+        div#graph.graph             
+    .btn-group  
+      button.btn.btn-small.vote
+        i.icon-thumbs-up
+      button.btn.btn-small Share            
+      button.btn.btn-small.flag 
+        i.icon-flag   
+ 
+           
+    .popover-inner.votepop(style="display:none")        
+      button.close(type="button") ×
+      h4.popover-title Vote   
+      div.popover-content        
+        Vote here 
+    .popover-inner.flagpop(style="display:none")        
+      button.close(type="button") ×
+      h4.popover-title Flag   
+      div.popover-content  
+        br
+        a.facebook(href='/auth/facebook', onclick="window.open('http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwrapbootstrap.com%2F&amp;t=WrapBootstrap:%20Themes%20for%20Twitter%20Bootstrap','','scrollbars=yes,width=660,height=328'); return false;", href="#" )                                 
+        a.twitter(href='/auth/twitter')                
+        a.google(href='/auth/google')
+        br
+        br 
+        
+    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")               
+    
+      
+       
+         
+      div#disqus_thread
 
   
 block custom_page_script
@@ -61,15 +59,31 @@ block custom_page_script
       element: 'donut',
       data: !{donut_data},
     })
-    $(".flag").click(function(){
-        var url = "/flag/"+$("#survey_id").val()
-        $.getJSON(url,{},
-        function(data) {
+    $(".flag").click(function(){         
+        $(".popover-inner").hide()
+        $(".flagpop").fadeIn()
+        //var url = "/flag/"+$("#survey_id").val()
+        //$.getJSON(url,{},
+        //function(data) {
           //alert(data)
-        })
+        //})
     })
+    $(".vote").click(function(){  
+        $(".popover-inner").hide()    
+        $(".votepop").fadeIn()        
+    })
+    $(".close").click(function(e){    
+        e.preventDefault()
+        $(this).closest('div').fadeOut()  
+        
+        //var url = "/flag/"+$("#survey_id").val()
+        //$.getJSON(url,{},
+        //function(data) {
+          //alert(data)
+        //})
+    })    
     
-    $(".vote").click(function(){
+    /*$(".vote").click(function(){
         var url = "/surveys/"+$("#survey_id").val()+"/choice"
         var fields = $("#vote_form").serializeArray()
         var d = [{"period":"2012-10","Audi":12,"Mercedes":33}]
@@ -79,12 +93,13 @@ block custom_page_script
            //  graph.setData(d)         
         }, 'json')
     })
+    */
     // share tweeter
-    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    //!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
     // share google 
-    (function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
+    //(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
     // share fk 
-    (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=257956334321936";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
+    //(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=257956334321936";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
   script(type='text/javascript', src='unavailabe/js/survey_show.js')
 
           

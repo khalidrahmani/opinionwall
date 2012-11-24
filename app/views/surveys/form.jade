@@ -21,22 +21,22 @@ block content
         .span8.offset2
           .box.clearfix
             .page-header
-              h1
+              h3
                 | New Survey
                   
             form.form-horizontal#survey-form(method="post", action=action)
               if (!survey.isNew)
                 input(type="hidden", name="_method", value="PUT")            
               .control-group.about_cg
-                label.control-label.required About
+                label.control-label About
                 .controls
                   input.span4#about(type='text', name="about", value=survey.about) 
               .control-group.question_cg
-                label.control-label.required Question
+                label.control-label Question
                 .controls
                   input.span4#question(type='text', name="question", value=survey.question)                   
               .control-group.type_cg
-                label.control-label.required Type
+                label.control-label Type
                 .controls
                   select#type(name="type")
                     option(value="") Select
@@ -47,11 +47,14 @@ block content
                   h4 Choices    
               #choices 
                 .control-group
-                  label.control-label.required 1
+                  label.control-label 
+                    span.label.label-info 1
+                      
                   .controls
                     input(type='text', name="choices[0][_id]", value=survey.choices[0]._id)
                 .control-group
-                  label.control-label.required 2
+                  label.control-label 
+                    span.label.label-info 2
                   .controls
                     input(type='text', name="choices[1][_id]", value=survey.choices[1]._id)  
                 
@@ -59,7 +62,7 @@ block content
                 each choice in survey.choices
                   if (i>1)
                     .control-group
-                      label.control-label.required #{i+1}
+                      label.control-label #{i+1}
                       .controls
                         input(type='text', name="choices[#{i}][_id]", value=choice._id)  
                         a.btn.remove_choice(href='#') x       
@@ -70,7 +73,7 @@ block content
                   button.btn(id="add_choice") add                                               
               .control-group
                 .controls.controls-submit
-                  button.btn.btn-primary(type='submit') Validate 
+                  button.btn.btn-info(type='submit') Validate 
                   &nbsp;       
                   a.btn.cancel(href='/') Cancel              
                     
@@ -80,7 +83,7 @@ block custom_page_script
           var i =  parseInt($("#hidden_input").val()) 
           $("#add_choice").click(function(e) {
             e.preventDefault()    
-            $('#choices').append('<div class="control-group"><label class="control-label required">'+(i+1)+'</label><div class="controls"><input type="text" value="" name="choices['+i+'][_id]"> <a class="btn remove_choice" href="#"> x </a> </div></div> ');
+            $('#choices').append('<div class="control-group"><label class="control-label"><span class="label label-info">'+(i+1)+'</span></label><div class="controls"><input type="text" value="" name="choices['+i+'][_id]"> <a class="btn remove_choice" href="#"> x </a> </div></div> ');
             i++
           })
           
@@ -90,7 +93,7 @@ block custom_page_script
               $("#choices input:text").each(function(index) {
                   $(this).attr("name", "choices["+index+"][_id]")
                   i = index+1
-                  $(this).closest('div').prev().html(i)
+                  $(this).closest('div').prev().html("<span class='label label-info'>"+i+"</span>")
               })        
           })
           
