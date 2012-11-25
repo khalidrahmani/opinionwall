@@ -212,7 +212,7 @@ exports.index = function(req, res){
 exports.search = function(req, res){
   
 	var  ajaxCall    = req.headers["x-requested-with"] == "XMLHttpRequest"
-	     limit       = ajaxCall ? 10 : 10,
+	     limit       = ajaxCall ? 15 : 15,
 		 skipIndex   = ajaxCall ? req.param('page')*limit : 0,
 	     q           = req.param('q'),    
          reg         = new RegExp(q, 'i')

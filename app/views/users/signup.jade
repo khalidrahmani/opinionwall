@@ -5,17 +5,14 @@ block content
         .span8.offset2
           .box.clearfix
             .page-header
-              h1
+              h3
                 a.btn.btn-success.pull-right.trigger-lightbox.validate-register(href='/login') Already registered ?
                 | Sign up
             .facebook-login
               p.mbxs Or Sign up via :
-              a(href='/auth/facebook')
-                img(src="img/facebook.png", alt="facebook")                             
-              a(href='/auth/twitter')
-                img(src="img/twitter.png", alt="twitter")                              
-              a(href='/auth/google')
-                img(src="img/gplus.png", alt="google")                
+              a.facebook(href='/auth/facebook')                                 
+              a.twitter(href='/auth/twitter')                
+              a.google(href='/auth/google')                  
             form#signup.form-vertical.login(action='/users', method='post')
               .control-group.name_cg
                 label.control-label.required(for='name') User Name

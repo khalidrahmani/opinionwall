@@ -24,41 +24,16 @@
                     a(href='/logout')           
                       i.icon-off 
                       |  Logout
+            .nav-collapse
+              ul.nav.top
+                li
+                  a(href='/surveys/new') New                         
           else
             a.btn.btn-success.pull-right(href="/login", title="Login") Login    
           .pull-right.btn-group.mrs
             form.form-search(method="get", action='/search')              
                 input.span3(type="text", name="q", placeholder="Search")
                 button.btn(type='submit') Go 
-                &nbsp;                     
-          .nav-collapse
-            ul.nav.top
-              li
-                a(href='/surveys/new') New              
-              li
-                a.trigger-lightbox.validate-register(href='/en/register') Sign up
-              li.dropdown
-                a.dropdown-toggle(data-toggle='dropdown', href='#')
-                  | About 
-                  b.caret
-                ul.dropdown-menu
-                  li
-                    a(href='/en/about_us') About living.is
-                  li
-                    a(href='/en/business') For your business
-                  li
-                    a(href='/blog/category/presse-erwaehnungen') living.is in the press
-                  li.divider
-                  li
-                    a(href='/blog') Blog (German)
-                  li
-                    a(href='http://twitter.com/livingdotis') Twitter
-                  li
-                    a(href='http://facebook.com/livingis') Facebook
-                  li
-                    a(href='http://pinterest.com/livingis') Pinterest
-                  li.divider
-                  li
-                    a(href='/en/termsofuse') Terms of use
-                  li
-                    a(href='/en/imprint') Imprint
+                                     
+           
+                            
