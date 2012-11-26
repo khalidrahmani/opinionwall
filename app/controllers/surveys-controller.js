@@ -96,7 +96,7 @@ exports.show = function(req, res){
 	    t = {}
 	    t.period = data._id	   
 	    data.choices.forEach(function (ch) {
-	    	t[ch._id] = ch.counter	    
+	    	t[ch._id] = ch.counter  
 	    })	     
 		graph_data.push(t)		    
 	})
@@ -105,7 +105,7 @@ exports.show = function(req, res){
 	  xkeys[xkeys.length] = ch._id	   
 	  t = {}
 	  t.label = ch._id
-	  t.value = ch.counter
+	  t.value = ch.counter*100/survey.total  
 	  donut_data.push(t)	
   })
   
@@ -126,8 +126,10 @@ exports.postChoice = function (req, res) {
 	     survey      = req.survey,
 	     user        = req.user,	
 	     userSurvey  = user.surveys.id(survey._id)
-	  
-	if(ajaxCall){
+	
+	res.contentType('json') 
+	
+	if(ajaxCall){		
 	if (survey.type == "unique") {
 		var  vote   = req.body.data[0].value  // req.body.choice  regular post without ajax
 		     choice = survey.choices.id(vote)
@@ -137,7 +139,8 @@ exports.postChoice = function (req, res) {
 			userSurvey.choice = vote 		
 		}
 		else {			
-			user.surveys.push({_id: survey._id, choice: vote})			
+			user.surveys.push({_id: survey._id, choice: vote})
+			survey.total += 1
 		}	
 		choice.counter += 1	
 	} 
@@ -178,14 +181,10 @@ exports.postChoice = function (req, res) {
 	})
 	survey.save(function(err){
 	    if (err) {
-	      res.render('/', {
-	          title: 'ERROR New Survey'        
-	        , errors: err.errors
-	      })
+	    	res.send({html : err})
 	    }
-	    else {           
-	      res.contentType('json')    		
-	      res.send({html : JSON.stringify("Thank you !!")})
+	    else {           	         		
+	      res.send({html : "Ok"})
 	    }
 	  })
 	}
@@ -237,7 +236,7 @@ exports.search = function(req, res){
     		res.send({html : h})
     	}
     	else{
-    		console.log(surveys)
+    		//console.log(surveys)
     		 res.render('surveys/search', {
     	            title: 'List of Surveys',
     	            surveys: surveys, 

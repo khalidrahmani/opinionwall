@@ -15,17 +15,42 @@ block content
     .btn-group  
       button.btn.btn-small.vote
         i.icon-thumbs-up
-      button.btn.btn-small Share            
+        |  Vote
+      button.btn.btn-small.share  Share            
       button.btn.btn-small.flag 
         i.icon-flag   
- 
+        |  Share
            
     .popover-inner.votepop(style="display:none")        
       button.close(type="button") ×
       h4.popover-title Vote   
       div.popover-content        
-        Vote here 
-    .popover-inner.flagpop(style="display:none")        
+        form#vote_form(method="post", action="/surveys/#{survey._id}/choice")          
+          each choice in survey.choices
+            if (survey.type == "unique")
+              div
+                label.radio #{choice._id}
+                  input(type="radio", value="#{choice._id}", name="choice", checked="#{userChoice}"==choice._id)   #{choice._id}
+            else
+              div
+                - var val = multiUserChoice != null ? multiUserChoice.id(choice._id).val : "" 
+                  select.input-mini(name="#{choice._id}")
+                    option(value="0", selected="#{val}"==0) 0
+                    option(value="1", selected="#{val}"==1) 1
+                    option(value="2", selected="#{val}"==2) 2
+                    option(value="3", selected="#{val}"==3) 3
+                    option(value="4", selected="#{val}"==4) 4
+                    option(value="5", selected="#{val}"==5) 5 
+                &nbsp;      
+                span #{choice._id}                      
+          button.btn.btn-info.btn-small(type='submit') Submit          
+          
+          
+          
+          
+          
+          
+    .popover-inner.sharepop(style="display:none")        
       button.close(type="button") ×
       h4.popover-title Flag   
       div.popover-content  
@@ -58,10 +83,11 @@ block custom_page_script
     Morris.Donut({
       element: 'donut',
       data: !{donut_data},
+      formatter: function (y) { return y + "%" }
     })
-    $(".flag").click(function(){         
+    $(".share").click(function(){         
         $(".popover-inner").hide()
-        $(".flagpop").fadeIn()
+        $(".sharepop").fadeIn()
         //var url = "/flag/"+$("#survey_id").val()
         //$.getJSON(url,{},
         //function(data) {
@@ -82,18 +108,19 @@ block custom_page_script
           //alert(data)
         //})
     })    
-    
-    /*$(".vote").click(function(){
+
+    $('#vote_form').submit(function (e) {
+        e.preventDefault()
         var url = "/surveys/"+$("#survey_id").val()+"/choice"
         var fields = $("#vote_form").serializeArray()
-        var d = [{"period":"2012-10","Audi":12,"Mercedes":33}]
         $.post(url,{data: fields},
-        function(res){
+        function(data){
+           if(data.html === "Ok") $("#vote_form").append(' Thank you for your Opinion !')
            //  alert(res.html)
            //  graph.setData(d)         
         }, 'json')
     })
-    */
+    
     // share tweeter
     //!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
     // share google 

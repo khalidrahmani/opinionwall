@@ -21,7 +21,8 @@ var SurveySchema = new Schema({
 			          }]
     , user:      {type : Schema.ObjectId, ref : 'User'}    
     , createdAt: {type : Date, default : Date.now}
-    , flags:     {type : Number, default : 0} 
+    , flags:     {type : Number, default : 0}
+    , total:     {type : Number, default : 0} 
 })
 
 SurveySchema.path('question').validate(function (question) {
