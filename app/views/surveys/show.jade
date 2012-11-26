@@ -19,7 +19,7 @@ block content
       button.btn.btn-small.share  Share            
       button.btn.btn-small.flag 
         i.icon-flag   
-        |  Share
+        |  Flag
            
     .popover-inner.votepop(style="display:none")        
       button.close(type="button") ×
@@ -40,19 +40,14 @@ block content
                     option(value="2", selected="#{val}"==2) 2
                     option(value="3", selected="#{val}"==3) 3
                     option(value="4", selected="#{val}"==4) 4
-                    option(value="5", selected="#{val}"==5) 5 
+                    option(value="5", selected="#{val}"==5) 5
                 &nbsp;      
                 span #{choice._id}                      
-          button.btn.btn-info.btn-small(type='submit') Submit          
-          
-          
-          
-          
-          
+          button.btn.btn-info.btn-small(type='submit') Submit      
           
     .popover-inner.sharepop(style="display:none")        
       button.close(type="button") ×
-      h4.popover-title Flag   
+      h4.popover-title Share   
       div.popover-content  
         br
         a.facebook(href='/auth/facebook', onclick="window.open('http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwrapbootstrap.com%2F&amp;t=WrapBootstrap:%20Themes%20for%20Twitter%20Bootstrap','','scrollbars=yes,width=660,height=328'); return false;", href="#" )                                 
@@ -61,10 +56,13 @@ block content
         br
         br 
         
-    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")               
-    
-      
-       
+    .popover-inner.flagpop(style="display:none")        
+      button.close(type="button") ×
+      h4.popover-title Flag   
+      div.popover-content  
+        button.btn.btn-info.btn-small Flag as inappropriate
+                
+    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")       
          
       div#disqus_thread
 
@@ -98,6 +96,10 @@ block custom_page_script
         $(".popover-inner").hide()    
         $(".votepop").fadeIn()        
     })
+    $(".flag").click(function(){  
+        $(".popover-inner").hide()    
+        $(".flagpop").fadeIn()        
+    })    
     $(".close").click(function(e){    
         e.preventDefault()
         $(this).closest('div').fadeOut()  

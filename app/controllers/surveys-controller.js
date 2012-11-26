@@ -104,8 +104,8 @@ exports.show = function(req, res){
   survey.choices.forEach(function (ch) {
 	  xkeys[xkeys.length] = ch._id	   
 	  t = {}
-	  t.label = ch._id
-	  t.value = ch.counter*100/survey.total  
+	  t.label = ch._id	  
+	  t.value = parseFloat(_s.numberFormat(ch.counter*100/survey.total, 2))  
 	  donut_data.push(t)	
   })
   
@@ -150,14 +150,16 @@ exports.postChoice = function (req, res) {
 		var i = 0 
 		survey.choices.forEach(function (ch) {
 			userChoices.push({_id: ch._id, val: req.body.data[i].value})
-			ch.counter += parseInt(req.body.data[i].value)	
+			ch.counter += parseInt(req.body.data[i].value)
+			survey.total += parseInt(req.body.data[i].value)
 			i++
 		})  // Regular Post version
 		
 		if (userSurvey){
 			survey.choices.forEach(function (ch) {
 				var formerChoice = userSurvey.choices.id(ch._id)
-				ch.counter -= parseInt(formerChoice.val)	
+				ch.counter -= parseInt(formerChoice.val)
+				survey.total -= parseInt(formerChoice.val)
 			})			
 			userSurvey.choices = userChoices	
 		}
