@@ -5,9 +5,16 @@
             span.icon-bar
             span.icon-bar
             span.icon-bar
+  
           a.brand.serif(href='/')
             | OpinionsWall    
-
+          .nav-collapse
+            ul.nav.top
+              li
+                a(href='#', style="color:red") Beta                 
+              li
+                a(href='/surveys/new') New Survey          
+            
           if (req.isAuthenticated())
             ul.nav.pull-right              
               li.dropdown
@@ -24,10 +31,7 @@
                     a(href='/logout')           
                       i.icon-off 
                       |  Logout
-            .nav-collapse
-              ul.nav.top
-                li
-                  a(href='/surveys/new') New                         
+                        
           else
             a.btn.btn-success.pull-right(href="/login", title="Login") Login    
           .pull-right.btn-group.mrs
