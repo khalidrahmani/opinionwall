@@ -105,7 +105,7 @@ exports.show = function(req, res){
 	  xkeys[xkeys.length] = ch._id	   
 	  t = {}
 	  t.label = ch._id	  
-	  t.value = parseFloat(_s.numberFormat(ch.counter*100/survey.total, 2))  
+	  t.value = parseFloat(_s.numberFormat(ch.counter*100/survey.total, 2))
 	  donut_data.push(t)	
   })
   
