@@ -62,9 +62,12 @@ block content
       div.popover-content  
         button.btn.btn-info.btn-small Flag as inappropriate
                 
-    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")       
-         
-      div#disqus_thread
+    input(type="hidden", id="survey_id", name="id", value="#{survey._id}")     
+    br
+    br  
+    .row
+      .span9     
+        div#disqus_thread.box.clearfix
 
   
 block custom_page_script
@@ -129,6 +132,6 @@ block custom_page_script
     //(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();
     // share fk 
     //(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=257956334321936";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
-  script(type='text/javascript', src='unavailabe/js/survey_show.js')
+  script(type='text/javascript', src='/js/survey_show.js')
 
           
