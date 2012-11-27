@@ -54,18 +54,25 @@ exports.edit = function (req, res) {
 // Update survey
 exports.update = function(req, res){
   var survey = req.survey
-  survey     = _.extend(survey, req.body.survey)
+  survey     = _.extend(survey, req.body)
+  res.contentType('json')      
+
+  req.assert('about', '').notEmpty()  
+  req.assert('question', 'between 6 and 120 character').len(6, 120)
+  req.assert('type', '').notEmpty()
+    	
+  var errors = req.validationErrors()
+  
+  if (errors) {
+	res.send({html : errors})
+  }
   
   survey.save(function(err, doc) {
     if (err) {
-      res.render('surveys/edit', {
-          title: 'Edit Survey'
-        , survey: survey
-        , errors: err.errors
-      })
+    	res.send({html : errors})
     }
     else {
-      res.redirect('/surveys/'+survey._id)
+    	res.send({html: "Ok", survey_id: survey._id})
     }
   })
 }

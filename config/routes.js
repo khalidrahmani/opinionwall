@@ -4,6 +4,15 @@ var mongoose = require('mongoose')
   , User = mongoose.model('User')
   , async = require('async')
 
+function requiresRole(role) {
+   return function(req, res, next) {
+        if(req.isAuthenticated()){        	
+        	if ((role == "user") || (req.user.name == "admin")) next()
+        	else {return res.redirect('/login')}             
+        }            
+        else {return res.redirect('/login')}           
+    }
+}
 module.exports = function (app, passport, auth) {
 
   // user routes
@@ -26,7 +35,7 @@ module.exports = function (app, passport, auth) {
   app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.signin)
   app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.authCallback)
 
-  app.param('userId', function (req, res, next, id) {
+  /*app.param('userId', function (req, res, next, id) {
     User
       .findOne({ _id : id })
       .exec(function (err, user) {
@@ -36,20 +45,20 @@ module.exports = function (app, passport, auth) {
         next()
       })
   })
-
+*/
   // survey routes
   var surveys = require('../app/controllers/surveys-controller')
   app.get('/flag/:id', surveys.flag)
   app.get('/search', surveys.search)
   app.get('/design', surveys.design)  
   app.get('/surveys', surveys.index)
-  app.get('/surveys/new', auth.requiresLogin, surveys.new)
-  app.post('/surveys', auth.requiresLogin, surveys.create)
-  app.post('/surveys/:id/choice', auth.requiresLogin, surveys.postChoice)  
+  app.get('/surveys/new', requiresRole("user"), surveys.new)
+  app.post('/surveys', requiresRole("user"), surveys.create)
+  app.post('/surveys/:id/choice', requiresRole("user"), surveys.postChoice)  
   app.get('/surveys/:id', surveys.show)
-  app.get('/surveys/:id/edit', auth.requiresLogin, auth.survey.hasAuthorization, surveys.edit)
-  app.put('/surveys/:id', auth.requiresLogin, auth.survey.hasAuthorization, surveys.update)
-  app.del('/surveys/:id', auth.requiresLogin, auth.survey.hasAuthorization, surveys.destroy)
+  app.get('/surveys/:id/edit', requiresRole("admin"), surveys.edit)
+  app.put('/surveys/:id', requiresRole("admin"), surveys.update)
+  app.del('/surveys/:id', requiresRole("admin"), surveys.destroy)
 
   app.param('id', function(req, res, next, id){
 	  Survey

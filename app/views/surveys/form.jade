@@ -5,18 +5,7 @@ block content
     - var action = '/surveys'
     if (!survey.isNew)
       - action += '/'+survey.id
-  
-    if (typeof errors !== 'undefined')
-      .fade.in.alert.alert-block.alert-error
-        a.close(data-dismiss="alert", href="javascript:void(0)") x
-        ul
-          each error in errors
-            li= error.type
-    if ((typeof err !== 'undefined') && (typeof err.err !== 'undefined'))
-      .fade.in.alert.alert-block.alert-error
-        a.close(data-dismiss="alert", href="javascript:void(0)") x
-        ul        
-          li= "Duplicate Question !"
+
     .row
         .span8.offset2
           .box.clearfix
@@ -26,7 +15,7 @@ block content
                   
             form.form-horizontal#survey-form(method="post", action=action)
               if (!survey.isNew)
-                input(type="hidden", name="_method", value="PUT")            
+                input(type="hidden", id="_method", name="_method", value="PUT")            
               .control-group.about_cg
                 label.control-label About
                 .controls
@@ -62,7 +51,9 @@ block content
                 each choice in survey.choices
                   if (i>1)
                     .control-group
-                      label.control-label #{i+1}
+                    
+                      label.control-label
+                        span.label.label-info #{i+1}
                       .controls
                         input(type='text', name="choices[#{i}][_id]", value=choice._id)  
                         a.btn.remove_choice(href='#') x       
@@ -115,7 +106,7 @@ block custom_page_script
                   $(this).closest('div .control-group').addClass("error")
                 }
             })
-            $.post($(this).attr("action"),{about: $("#about").val(), question: $("#question").val(), type: $("#type").val(), choices: choices},
+            $.post($(this).attr("action"),{about: $("#about").val(), question: $("#question").val(), type: $("#type").val(), choices: choices, _method: $("#_method").val()},
                     function(data) { // success
                       if(data.html === "Ok") $(location).attr('href',"/surveys/"+data.survey_id)
                       else{
