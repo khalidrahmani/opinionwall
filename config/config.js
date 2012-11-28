@@ -34,9 +34,9 @@ module.exports = {
         , callbackURL: "http://www.opinionswall.com/auth/twitter/callback"
       },
       google: {
-          clientID: "APP_ID"
-        , clientSecret: "APP_SECRET"
-        , callbackURL: "http://localhost:3000/auth/google/callback"
+          clientID: "LtU4K87cb1dcTnISQXlRu0Qr"
+        , clientSecret: "224727739474.apps.googleusercontent.com"
+        , callbackURL: "http://www.opinionswall.com/auth/google/callback"
       }
     }
 }
