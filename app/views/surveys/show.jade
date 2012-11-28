@@ -9,8 +9,12 @@ block content
       a(href="/users/"+survey.user._id)=survey.user.name  
     .row
       .span4    
+        small
+        | #{survey.total} votes
         div#donut.graph
       .span8    
+        small
+        | votes evolution 
         div#graph.graph             
     .btn-group  
       button.btn.btn-small.vote

@@ -29,9 +29,9 @@ module.exports = {
         , callbackURL: "http://www.opinionswall.com/auth/facebook/callback" 
       },
       twitter: {
-    	  clientID: "tMW24sgYF63Fulqr64ZTw"
-        , clientSecret: "OdQP3SFN8fXsMKPRApgX1hm5FI0d5bVOrRwNzf6BI"
-        , callbackURL: "http://opinionswall.herokuapp.com/auth/twitter/callback"
+    	  clientID: "zyz1NOKBgJ73RHc3uICgg"
+        , clientSecret: "ZSAjFnnQNAX9kW5kCEZezjjUkXfpSsWcXsVvJD0U"
+        , callbackURL: "http://www.opinionswall.com/auth/twitter/callback"
       },
       google: {
           clientID: "APP_ID"

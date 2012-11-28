@@ -22,7 +22,7 @@ exports.create = function (req, res) {
     var survey = new Survey(req.body)
     survey.user    = req.user
     survey._id     = _s.slugify(survey.question)
-    
+    //if(survey._id == '')// arab character create a random id
 	req.assert('about', '').notEmpty()  
     req.assert('question', 'between 6 and 120 character').len(6, 120)
     req.assert('type', '').notEmpty()

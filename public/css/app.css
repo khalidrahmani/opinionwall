@@ -8,4 +8,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display
 .twitter:hover{background-position: 0 -81px;}
 .google {background: url("/img/tray_share_buttons.png") no-repeat scroll 0 -108px transparent;display: block;float: left;height: 27px;margin-left: 10px;width: 79px;}
 .google:hover{background-position: 0 -135px;}
-
+.facebook-login2{background: url("/img/icon_login.png") no-repeat scroll 0 0 transparent;display: block;float: left;height: 27px;margin-left: 10px;width: 79px;}
+.facebook-login2:hover{background-position: 0 -27px;}
+.twitter-login2 {background: url("/img/icon_login.png") no-repeat scroll 0 -54px transparent;display: block;float: left;height: 27px;margin-left: 10px;width: 79px;}
+.twitter-login2:hover{background-position: 0 -81px;}
+.google-login2 {background: url("/img/icon_login.png") no-repeat scroll 0 -108px transparent;display: block;float: left;height: 27px;margin-left: 10px;width: 79px;}
+.google-login2:hover{background-position: 0 -135px;}
