@@ -10,8 +10,7 @@ exports.authCallback = function (req, res, next) {
 }
 
 // login
-exports.login = function (req, res) {
-	console.log(req.body)
+exports.login = function (req, res) {	
   res.render('users/login', {
     title: 'Login',
     email: req.param('er')

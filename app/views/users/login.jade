@@ -46,11 +46,12 @@ block custom_page_script
       })
       $('#login').submit(function (e) {
           e.preventDefault()
+          var redirect = "#{req.param('back')}" || "/" 
           $(".alert-error").remove()
           $("#login").append('<div class="ajax-loader"></div>')
-          $.post("/login",{email: $("#email").val(), password: $("#password").val()},
-                  function(data) {
-                     $(location).attr('href',"/");
+          $.post("/login",{email: $("#email").val(), password: $("#password").val(), back: encodeURIComponent("#{req.url}")},
+                  function(data) {                     
+                     $(location).attr('href', redirect);
               }, 'json').fail(function() { 
                 $(".control-group").addClass("error")
                 $(".ajax-loader").remove()
