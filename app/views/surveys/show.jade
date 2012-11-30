@@ -129,15 +129,16 @@ block custom_page_script
 
     $('#vote_form').submit(function (e) {
         e.preventDefault()
+        $(this).append('<div class="ajax-loader"></div>')
         var url = "/surveys/"+$("#survey_id").val()+"/choice"
         var fields = $("#vote_form").serializeArray()
         $.post(url,{data: fields},
         function(data){
-           if(data.html === "Ok") {
-             $("#vote_form").append(' Thank you for your Opinion ! refreshing the page ...')
+           $(".ajax-loader").remove()
+           if(data.html === "Ok") {             
+             $("#vote_form").append(' Thank you for your Opinion !<br /> refreshing the page ...')
              location.reload()
-           }
-           //         
+           }      
         }, 'json')
     })
     $('.twitter').click(function(event) {
