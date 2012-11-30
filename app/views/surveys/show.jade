@@ -6,7 +6,7 @@ block content
       h4= survey.question
     p
       | #{formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")} By : 
-      a(href="/users/"+survey.user._id)=survey.user.name  
+      a(href="/user/"+survey.user.uid)=survey.user.uid  
     .row
       .span4    
         small

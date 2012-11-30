@@ -87,6 +87,14 @@ exports.create = function (req, res) {
 // show profile
 exports.profile = function (req, res) {
 	  var user = req.user
+	  if(!user){
+		  User.findOne({ _id : req.param('_id') }).exec(function (err, usr) {
+		        if (err) return next(err)
+		        else {
+		           user = usr	
+		        }		        
+		      })		  
+	  }     
 	  res.render('users/profile', {
 	      title: user.name
 	    , user: req.user

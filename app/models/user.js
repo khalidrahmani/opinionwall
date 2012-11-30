@@ -3,12 +3,13 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , crypto = require('crypto')
-  , _ = require('underscore')
-  , authTypes = ['twitter', 'facebook', 'google']
+  , _ = require('underscore.string')
+  , authTypes = ['twitter', 'facebook']
   
   
 var UserSchema = new Schema({
-	flags:[{_id: { type: String }}]
+	uid:   { type: String }
+  ,	flags:[{_id: { type: String }}]
   , surveys: [{   
 				_id:      	{ type : String }
 				,choice:   	{ type : String }
@@ -22,7 +23,10 @@ var UserSchema = new Schema({
   , facebook: {}
   , twitter:  {}  
 })
-
+UserSchema.pre('save', function(next, done){
+    this.uid = _.slugify(this.name)
+    next()
+})
 // virtual attributes
 UserSchema
   .virtual('password')

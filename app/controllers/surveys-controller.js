@@ -233,7 +233,6 @@ exports.search = function(req, res){
 	
   Survey
     .find({question: { $regex: reg }})
-    .populate('user', 'name')
     .sort({'createdAt': -1}) // sort by date
     .limit(limit)    
     .skip(skipIndex)
@@ -244,8 +243,7 @@ exports.search = function(req, res){
     	if(ajaxCall){
     		res.contentType('json')
     		var h = ''
-    		surveys.forEach(function (s) {
-    			
+    		surveys.forEach(function (s) {    			
     			h+='<a class="survey-title" href="/surveys/'+s._id+'">'+s.question+'</a><p><small>'+formatDate(s.createdAt, "%b %d, %Y at %I:%M %p")+'</small> <a class="grey-link" href="/users/'+s.user._id+'"> by '+s.user.name+'</a></p>'		    		    
 		    })	
     		res.send({html : h})

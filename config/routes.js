@@ -27,7 +27,7 @@ module.exports = function (app, passport, auth) {
 			  res.contentType('json')
 			  res.send({html : "true"})
 	  		})
-  app.get('/profile', users.profile)
+  app.get('/user/:_id', users.profile)
   app.get('/auth/facebook', passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
   app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin)
@@ -50,7 +50,7 @@ module.exports = function (app, passport, auth) {
   app.param('id', function(req, res, next, id){
 	  Survey
       .findOne({ _id : id })
-      .populate('user', 'name')
+      .populate('user', 'uid')
       .exec(function (err, survey) {
         if (err) return next(err)
         if (!survey) return next(new Error('Failed to load article ' + id))
