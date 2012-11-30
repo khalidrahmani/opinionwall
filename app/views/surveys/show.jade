@@ -10,7 +10,7 @@ block content
     .row
       .span4    
         small
-        | #{survey.total} votes
+        | #{survey.tp} votes
         div#donut.graph
       .span8    
         small
@@ -111,7 +111,10 @@ block custom_page_script
         var url = "/flag/"+$("#survey_id").val()
         $.getJSON(url,{},
         function(data) {
-          
+          $(".flagpop").fadeOut()
+          $(".flag").addClass('btn-info disabled ')
+          $(".flag").attr("disabled", "disabled")
+          $(".flag").append("ed !")
         }) 
     })    
     $(".vote").click(function(){  

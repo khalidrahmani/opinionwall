@@ -152,6 +152,7 @@ exports.postChoice = function (req, res) {
 		else {			
 			user.surveys.push({_id: survey._id, choice: vote})
 			survey.total += 1
+			survey.tp    += 1
 		}	
 		choice.counter += 1	
 	} 
@@ -175,12 +176,13 @@ exports.postChoice = function (req, res) {
 			userSurvey.choices = userChoices	
 		}
 		else {
-			user.surveys.push({_id: survey._id, choices: userChoices})			
+			user.surveys.push({_id: survey._id, choices: userChoices})	
+			survey.tp    += 1
 		}
 	}	
 	// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
 	 d = new Date()
-	 date = d.getFullYear()+'-'+(d.getMonth()+1)
+	 date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDay()
 	 var surveyTodayHistory = survey.history.id(date)
 	 if(surveyTodayHistory){
 		 surveyTodayHistory.choices = survey.choices
@@ -272,7 +274,7 @@ exports.flag = function(req, res){
 		 survey     = req.survey,
 		 user       = req.user
     
-	res.contentType('json')	 
+	res.contentType('json')
 		 
 	 if(user && ajaxCall){		 
 		 if(user.flags.id(survey._id)){
@@ -280,8 +282,7 @@ exports.flag = function(req, res){
 		 }		 
 		 else{
 			 survey.flags += 1
-			 user.flags.push({_id: survey._id})			 
-			 
+			 user.flags.push({_id: survey._id})				 
 			 survey.save(function(err){
 				    if (err) {
 				      
