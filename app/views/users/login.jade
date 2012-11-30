@@ -51,7 +51,7 @@ block custom_page_script
           $("#login").append('<div class="ajax-loader"></div>')
           $.post("/login",{email: $("#email").val(), password: $("#password").val(), back: encodeURIComponent("#{req.url}")},
                   function(data) {                     
-                     $(location).attr('href', redirect);
+                     $(location).attr('href', redirect)
               }, 'json').fail(function() { 
                 $(".control-group").addClass("error")
                 $(".ajax-loader").remove()

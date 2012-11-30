@@ -8,7 +8,8 @@ var mongoose = require('mongoose')
   
   
 var UserSchema = new Schema({
-	surveys: [{   
+	flags:[{_id: { type: String }}]
+  , surveys: [{   
 				_id:      	{ type : String }
 				,choice:   	{ type : String }
 				,choices: 	[{ _id : String, val : String}] // case multichoices

@@ -81,15 +81,18 @@ exports.update = function(req, res){
 //View an survey
 exports.show = function(req, res){  
 	
-  var survey = req.survey
-  	  userSurvey = null,
-  	  multiUserSurvey = null,
-      graph_data = [],
-      xkeys = [],
-      donut_data = []
+  var   survey = req.survey
+      , flaged = null
+  	  , userSurvey = null
+  	  , multiUserSurvey = null
+      , graph_data = []
+      , xkeys = []
+      , donut_data = []
   
   if (req.user){
-	  var userSurvey = req.user.surveys.id(survey._id)
+	  userSurvey = req.user.surveys.id(survey._id)
+	  flaged = req.user.flags.id(survey._id)
+	  
 	  if(userSurvey){
 		  if (survey.type == "unique") {
 			  userSurvey = userSurvey.choice
@@ -124,6 +127,7 @@ exports.show = function(req, res){
 	  graph_data: JSON.stringify(graph_data),
 	  xkeys: JSON.stringify(xkeys),
 	  donut_data: JSON.stringify(donut_data),
+	  flaged: flaged
   })
 }
 
@@ -261,20 +265,39 @@ var formatDate = function (date) {
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
     return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()
   }
+
 exports.flag = function(req, res){
 	
 	var  ajaxCall   = req.headers["x-requested-with"] == "XMLHttpRequest",
-		 survey     = req.survey
-		 if(ajaxCall){
+		 survey     = req.survey,
+		 user       = req.user
+    
+	res.contentType('json')	 
+		 
+	 if(user && ajaxCall){		 
+		 if(user.flags.id(survey._id)){
+			 res.send({html : "already flaged" })
+		 }		 
+		 else{
 			 survey.flags += 1
-			 res.contentType('json')
+			 user.flags.push({_id: survey._id})			 
+			 
 			 survey.save(function(err){
 				    if (err) {
 				      
 				    }
 				    else {
-				    	res.send({html : survey.type })
+				    	user.save(function(err){
+				    		if (err) {
+							      
+						    }
+						    else {
+						    	res.send({html : survey.type })
+						    }
+				    	})
+				    	
 				    }
 				  })		 					  
 		 }
+	 }
 }

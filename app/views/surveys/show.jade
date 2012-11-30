@@ -20,11 +20,16 @@ block content
       button.btn.btn-small.vote
         i.icon-thumbs-up
         |  Vote
-      button.btn.btn-small.share  Share            
-      button.btn.btn-small.flag 
-        i.icon-flag   
-        |  Flag
-           
+      button.btn.btn-small.share  Share   
+      if (flaged) 
+        button.btn.btn-small.btn-info.disabled 
+          i.icon-flag   
+          |  Flaged !        
+      else         
+        button.btn.btn-small.flag 
+          i.icon-flag   
+          |  Flag
+
     .popover-inner.votepop(style="display:none")        
       button.close(type="button") ×
       h4.popover-title Vote   
@@ -60,7 +65,7 @@ block content
       div.popover-content  
         br
         a.facebook(href='/auth/facebook', onclick="window.open('http://www.facebook.com/sharer.php?u=http://www.opinionswall.com/surveys/#{survey._id}','','scrollbars=yes,width=560,height=328'); return false;", href="#" )                                 
-        a.twitter(href='http://twitter.com/share')                
+        a.twitter(href='http://twitter.com/share')
         a.google(href='https://plus.google.com/share?url=http://www.opinionswall.com/surveys/#{survey._id}', onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" )
         br
         br 
@@ -106,7 +111,7 @@ block custom_page_script
         var url = "/flag/"+$("#survey_id").val()
         $.getJSON(url,{},
         function(data) {
-          alert(data)
+          
         }) 
     })    
     $(".vote").click(function(){  
@@ -128,7 +133,11 @@ block custom_page_script
         var fields = $("#vote_form").serializeArray()
         $.post(url,{data: fields},
         function(data){
-           if(data.html === "Ok") $("#vote_form").append(' Thank you for your Opinion !')         
+           if(data.html === "Ok") {
+             $("#vote_form").append(' Thank you for your Opinion ! refreshing the page ...')
+             location.reload()
+           }
+           //         
         }, 'json')
     })
     $('.twitter').click(function(event) {
@@ -145,8 +154,9 @@ block custom_page_script
         
         window.open(url, 'twitter', opts);     
         return false;
+        //script(type='text/javascript', src='/js/survey_show.js')
       })
       
-  script(type='text/javascript', src='/js/survey_show.js')
+  
 
           
