@@ -156,11 +156,12 @@ block custom_page_script
                      ',top='    + top    +
                      ',left='   + left;
         
-        window.open(url, 'twitter', opts);     
-        return false;
-        //script(type='text/javascript', src='/js/survey_show.js')
+        window.open(url, 'twitter', opts)     
+        return false        
       })
       
+      if(process.env.NODE_ENV == 'production')
+        script(type='text/javascript', src='/js/survey_show.js')
   
 
           
