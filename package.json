@@ -5,8 +5,8 @@
   , "private": false
   , "author": "Khalid Rahmani"
   , "engines": {
-        "node": "0.8.14"
-      , "npm": "1.1.49"
+        "node": "0.8.x"
+      , "npm": "1.1.x"
     }
   , "scripts": {
       "start": "./node_modules/.bin/nodemon server.js"
@@ -22,7 +22,6 @@
     , "passport-local": "latest"
     , "passport-facebook": "latest"
     , "passport-twitter": "latest"
-    , "passport-google-oauth": "latest"
     , "underscore": "latest"
     , "underscore.string": "latest"    
     , "gzippo": "latest"

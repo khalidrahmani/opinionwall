@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
   , LocalStrategy = require('passport-local').Strategy
   , TwitterStrategy = require('passport-twitter').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
-  , GoogleStrategy = require('passport-google-oauth').Strategy
   , User = mongoose.model('User')
 
 
@@ -98,27 +97,4 @@ exports.boot = function (passport, config) {
       })
     }
   ))
-
-  // use google strategy
-  passport.use(new GoogleStrategy({
-      consumerKey: config.google.clientID,
-      consumerSecret: config.google.clientSecret,
-      callbackURL: config.google.callbackURL
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOne({ 'google.id': profile.id }, function (err, user) {
-        if (!user) {
-          user = new User({
-              name: profile.displayName
-            , email: profile.emails[0].value
-            , username: profile.username
-            , provider: 'google'
-            , google: profile._json
-          })
-          user.save()
-        }
-        return done(err, user)
-      })
-    }
-  ));
 }

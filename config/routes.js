@@ -32,20 +32,7 @@ module.exports = function (app, passport, auth) {
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
   app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin)
   app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), users.authCallback)
-  app.get('/auth/google', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.signin)
-  app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login', scope: 'https://www.google.com/m8/feeds' }), users.authCallback)
 
-  /*app.param('userId', function (req, res, next, id) {
-    User
-      .findOne({ _id : id })
-      .exec(function (err, user) {
-        if (err) return next(err)
-        if (!user) return next(new Error('Failed to load User ' + id))
-        req.profile = user
-        next()
-      })
-  })
-*/
   // survey routes
   var surveys = require('../app/controllers/surveys-controller')
   app.get('/flag/:id', surveys.flag)
