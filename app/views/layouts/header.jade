@@ -36,6 +36,7 @@
             form.form-search(method="get", action='/search')              
                 input.span3(type="text", name="q", placeholder="Search")
                 button.btn(type='submit') Go 
-                                     
-           
-                            
+    if (req.param('back'))
+      .alert.alert-success
+        button.close(data-dismiss='alert') ×
+        | Please Login to proceed.                      

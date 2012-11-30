@@ -8,9 +8,9 @@ function requiresRole(role) {
    return function(req, res, next) {
         if(req.isAuthenticated()){        	
         	if ((role == "user") || (req.user.name == "admin")) next()
-        	else {return res.redirect('/login')}             
+        	else {return res.redirect('/login?back='+req.url)}             
         }            
-        else {return res.redirect('/login')}           
+        else {return res.redirect('/login?back='+req.url)}           
     }
 }
 module.exports = function (app, passport, auth) {
