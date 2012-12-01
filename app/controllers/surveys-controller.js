@@ -233,7 +233,7 @@ exports.search = function(req, res){
 	
   Survey
     .find({question: { $regex: reg }})
-    .sort({'createdAt': -1}) // sort by date
+    .sort({'tp': -1}) // sort by date
     .limit(limit)    
     .skip(skipIndex)
     .exec(function(err, surveys) {
