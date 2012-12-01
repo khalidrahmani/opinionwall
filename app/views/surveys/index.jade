@@ -11,7 +11,7 @@ block content
     
     p#live
       each survey in rest        
-          a(href="/surveys/#{survey._id}") #{survey.question} 
+          a(href="/surveys/#{survey._id}") #{survey.question} - 
        
 
 block custom_page_script
@@ -44,7 +44,7 @@ block custom_page_script
         if(index > 14) index = 0 
         var survey = LiveSurveys.surveys[index]  
         index+=1
-        var newItem = $(' <a href="/surveys/'+survey._id+'"> '+survey.question+' </a> ')
+        var newItem = $(' <a href="/surveys/'+survey._id+'"> '+survey.question+' - </a>')
         var oldItem = $('#live a:first')
         oldItem.fadeOut(LiveSurveys.INTERVAL_FADE, function() {
           oldItem.remove()
