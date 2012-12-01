@@ -3,58 +3,64 @@ extends ../layouts/layout
 block content
   #content.container.center
     .hero-unit.intro
-      p
-        h3 Stronger Together
+      p Find people's opinions
       form.form-search(method="get", action='/search')
         input.span4(type="text", name="q")
         button.btn(type='submit') Search        
-    h3 Explore more   
-    #live
-      a(href="/") whats the best framework, 
-      a(href="/") whats the best Car, 
-      a(href="/") whats the best Phone, 
+    h3 &nbsp;
+    
+    p#live
+      each survey in rest        
+          a(href="/surveys/#{survey._id}") #{survey.question} 
+       
 
 block custom_page_script
     script
       $(function() {
         LiveSurveys.onReady()
       })
-      
+      var index = 0
       var LiveSurveys = {
       INTERVAL_SHOW_NEXT: 3 * 1000,
       INTERVAL_UPDATE: 3 * 60 * 1000,
       INTERVAL_FADE: 1000,
-      surveys: [],
+      surveys: [#{surveys}],
     
       update: function() {
         $.ajax({
           type: 'GET', 
-          url: '/search', 
+          url: '/search',
           timeout: 5000, dataType: 'json', 
           async: true, 
           cache: false, 
           success: LiveSurveys.onUpdateSuccess, 
-          error: function(response, b, c) { /* do nothing */ } })
+          error: function(response, b, c) { /* do nothing */ } 
+          })
       },
       showNext: function() {
         //if (LiveSurveys.surveys.length == 0) { return }
         var $list = $('#live')
-        //var topic = LiveTopics.topics.pop()        
-        var newItem = $('<a href="/login"> new </a>')
+        //var survey = LiveSurveys.surveys.pop()
+        if(index > 14) index = 0 
+        var survey = LiveSurveys.surveys[index]  
+        index+=1
+        var newItem = $(' <a href="/surveys/'+survey._id+'"> '+survey.question+' </a> ')
         var oldItem = $('#live a:first')
         oldItem.fadeOut(LiveSurveys.INTERVAL_FADE, function() {
           oldItem.remove()
           newItem.hide()
           $list.append(newItem)
+          newItem.css("display", "inline"); 
           newItem.fadeIn(LiveSurveys.INTERVAL_FADE)
           })
         },
         onUpdateSuccess: function(surveys) {
-            LiveSurveys.surveys = surveys
+           // LiveSurveys.surveys = surveys
         },
         onReady: function() {
-            LiveSurveys.update()
+            //LiveSurveys.update()
             LiveSurveys.showNextInterval = setInterval(LiveSurveys.showNext, LiveSurveys.INTERVAL_SHOW_NEXT)
-            LiveSurveys.updateInterval = setInterval(LiveSurveys.update, LiveSurveys.INTERVAL_UPDATE)
+            //LiveSurveys.updateInterval = setInterval(LiveSurveys.update, LiveSurveys.INTERVAL_UPDATE)
         }
       } 
+      

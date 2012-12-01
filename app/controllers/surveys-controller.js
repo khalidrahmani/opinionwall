@@ -217,9 +217,19 @@ exports.destroy = function(req, res){
 
 // Listing of Surveys
 exports.index = function(req, res){ 
-        res.render('surveys/index', {
-            title: 'Home Page'     
-    })
+	
+	  Survey
+	    .find({}, '_id question')
+	    .sort({'tp': -1}) 
+	    .limit(15)    
+	    .exec(function(err, surveys) {
+	      if (err) return res.render('500')
+	      res.render('surveys/index', {
+	    	  title: 'Home Page',
+	    	  surveys: surveys,
+	    	  rest: _.rest(surveys, [10])
+	      })      
+	    })        
 }
 
 
