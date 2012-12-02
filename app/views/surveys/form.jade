@@ -16,10 +16,6 @@ block content
             form.form-horizontal#survey-form(method="post", action=action)
               if (!survey.isNew)
                 input(type="hidden", id="_method", name="_method", value="PUT")            
-              .control-group.about_cg
-                label.control-label About
-                .controls
-                  input.span4#about(type='text', name="about", value=survey.about) 
               .control-group.question_cg
                 label.control-label Question
                 .controls

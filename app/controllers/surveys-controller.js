@@ -23,7 +23,7 @@ exports.create = function (req, res) {
     survey.user    = req.user
     survey._id     = _s.slugify(survey.question)
     //if(survey._id == '')// arab character create a random id
-	req.assert('about', '').notEmpty()  
+	  
     req.assert('question', 'between 6 and 120 character').len(6, 120)
     req.assert('type', '').notEmpty()
     
@@ -43,7 +43,7 @@ exports.create = function (req, res) {
 }
 
 //Edit an survey
-exports.edit = function (req, res) {  
+exports.edit = function (req, res) {
   res.render('surveys/edit', {
     title: 'Edit '+req.survey.question,
     survey: req.survey
@@ -55,9 +55,8 @@ exports.edit = function (req, res) {
 exports.update = function(req, res){
   var survey = req.survey
   survey     = _.extend(survey, req.body)
-  res.contentType('json')      
-
-  req.assert('about', '').notEmpty()  
+  res.contentType('json')
+  
   req.assert('question', 'between 6 and 120 character').len(6, 120)
   req.assert('type', '').notEmpty()
     	
@@ -259,7 +258,6 @@ exports.search = function(req, res){
     		res.send({html : h})
     	}
     	else{
-    		//console.log(surveys)
     		 res.render('surveys/search', {
     	            title: 'List of Surveys',
     	            surveys: surveys, 

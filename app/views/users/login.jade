@@ -24,11 +24,11 @@ block content
               .control-group
                 label.control-label.required(for='email') Email address
                 .controls
-                  input#email(type='text', tabindex='1', value=email, name='email')
+                  input#email(type='text', tabindex='1', name='email')
               .control-group
                 label.control-label.required(for='password')
                   | Password (
-                  a.trigger-lightbox.validate-resetpassword(href='/en/password') forgot password
+                  a.trigger-lightbox.validate-resetpassword(href='#modal', data-toggle="modal") forgot password
                   | )
                 .controls
                   input#password(type='password', tabindex='2', name='password')
@@ -36,9 +36,25 @@ block content
               button.btn.btn-info(type='submit') Login 
               &nbsp;     
               a.btn(href='/') Cancel
+    #modal.hide.modal.fade.in(aria-hidden='false')
+      .modal-header
+        button.close(data-dismiss='modal') ×
+        h3 Forgot password
+      .modal-body
+        p.mbl We will send you a link via email to reset your password.
+        form#forgetpassword.form-horizontal(action='/en/account/forgot_password/html', method='post', accept-charset='utf-8', enctype='application/x-www-form-urlencoded')
+          .control-group
+            label.control-label.required(for='email2') Email address
+            .controls
+              input#email2(type='text', value='', name='email2')
+          
+          button.btn.btn-info(type='submit') Reset password
+          &nbsp;
+          button#cancel.btn(data-dismiss='modal', type='reset', name='cancel') Cancel
 
 block custom_page_script
-    script  
+    script      
+      
       $(":input").focusin(function() {   
           $(this).closest('div .control-group').removeClass("error")
           $(".alert-error").remove()
@@ -58,4 +74,20 @@ block custom_page_script
                 $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Incorrect email or password.</div>') 
               })          
       })
-              
+      $('#forgetpassword').submit(function (e) {
+          e.preventDefault()       
+          $("#forgetpassword").append('<div class="ajax-loader"></div>')    
+          $(".alert-error").remove()
+          $.post("/forgetpassword",{email: $("#email2").val()},
+                  function(data) {
+                      $(".ajax-loader").remove()
+                      if(data.html === "Ok"){
+                        $("#modal").modal('hide')
+                        $(".navbar").append('<div class="alert alert-success"><button data-dismiss="alert" class="close">×</button>email has been sent.</div>')  
+                      }
+                      else {
+                        $("#forgetpassword .control-group").addClass("error")
+                      }
+              }, 'json')
+      })
+      

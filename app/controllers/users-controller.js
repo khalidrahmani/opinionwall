@@ -2,7 +2,8 @@ var mongoose = require('mongoose')
   , User = mongoose.model('User')
   , expressValidator = require('express-validator')
   , async = require('async')
-       
+  , nodemailer = require('nodemailer')
+  
 exports.signin = function (req, res) {}
 // auth callback
 exports.authCallback = function (req, res, next) {
@@ -12,8 +13,7 @@ exports.authCallback = function (req, res, next) {
 // login
 exports.login = function (req, res) {	
   res.render('users/login', {
-    title: 'Login',
-    email: req.param('er')
+    title: 'Login'
   })
 }
 
@@ -99,4 +99,47 @@ exports.profile = function (req, res) {
 	      title: user.name
 	    , user: req.user
 	  })
+	}
+
+exports.forgetpassword = function (req, res) {
+	  res.contentType('json')
+	  var email = req.param('email')
+	  req.assert('email', 'Invalid email').isEmail()
+	  var errors = req.validationErrors()
+  
+	  if (errors) {
+	   	 res.send({html : errors})
+	  } 
+	  else{
+		  User.findOne({ email: email }).exec(function (err, usr) {
+		        if (err) return next(err)
+		        else {
+		        	if(usr) {
+		        		var smtpTransport = nodemailer.createTransport("SMTP",{
+		        		    service: "Gmail",
+		        		    auth: {
+		        		        user: "opinionswall@opinionswall.com",
+		        		        pass: "sky1111ol"
+		        		    }
+		        		})
+		        		var mailOptions = {
+		        		    from: "support@opinionswall.com", 
+		        		    to: email, 
+		        		    subject: "Reset Password",		        		    
+		        		    html: '<h4>hello '+usr.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionswall.com">reset password</a>' 
+		        	   }
+		        		smtpTransport.sendMail(mailOptions, function(error, response){
+		        		    if(error){
+		        		        console.log(error);
+		        		    }else{
+		        		        console.log("Message sent: " + response.message);
+		        		    }		        		    
+		        		    smtpTransport.close(); // shut down the connection pool, no more messages
+		        		})	        		
+		        		res.send({html : "Ok"})
+		        	}
+		        	else    res.send({html : "No user with this email"})
+		        }		        
+		      })		  
+	  }	  
 	}

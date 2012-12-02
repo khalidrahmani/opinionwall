@@ -8,7 +8,7 @@ var ChoiceSchema = new Schema({
 
 var SurveySchema = new Schema({
 	  _id         :  {type : String, index: { unique: true } }
-	, about       :  {type : String, default : '', trim : true}
+	//, about       :  {type : String, default : '', trim : true}
     , question    :  {type : String, default : '', trim : true}
 	, type        :  {type : String}
 	, choices     :  [ChoiceSchema]

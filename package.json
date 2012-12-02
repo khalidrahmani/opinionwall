@@ -28,5 +28,7 @@
     , "async": "latest"
     , "nodemon": "latest"
     , "async": "latest"
+    , "nodemailer": "latest"
+    
   }
 }
