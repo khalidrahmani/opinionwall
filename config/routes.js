@@ -29,7 +29,10 @@ module.exports = function (app, passport, auth) {
   app.get('/signup', requiresRole("logedout"), users.signup)
   app.get('/logout', requiresRole("user"), users.logout)
   app.post('/users', requiresRole("logedout"), users.create)
-  app.post('/forgetpassword', requiresRole("logedout"), users.forgetpassword)  
+  app.post('/forgetpassword', requiresRole("logedout"), users.forgetpassword)
+  app.get('/reset_password/:token', requiresRole("logedout"), users.resetpassword)  
+  app.post('/changepassword/:token', requiresRole("logedout"), users.changepassword)  
+  
 //app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login?er=1', failureFlash: true}))
   app.post('/login', requiresRole("logedout"), passport.authenticate('local'),
 		  function(req, res) {

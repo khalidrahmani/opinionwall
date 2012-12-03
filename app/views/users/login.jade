@@ -1,13 +1,6 @@
 extends ../layouts/layout
 block content
   #content.container
-    .span6
-      if (typeof errors !== 'undefined')
-        .fade.in.alert.alert-block.alert-error
-          a.close(data-dismiss="alert", href="javascript:void(0)") x
-          ul
-            each error in errors
-              li= error.type
     .row
         .span8.offset2
           .box.clearfix
@@ -87,6 +80,7 @@ block custom_page_script
                       }
                       else {
                         $("#forgetpassword .control-group").addClass("error")
+                        $("#forgetpassword .controls").append("<span class='help-inline'>"+data.html[0].msg+"</span>")
                       }
               }, 'json')
       })

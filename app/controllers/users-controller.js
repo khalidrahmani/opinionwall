@@ -70,8 +70,7 @@ exports.create = function (req, res) {
 		  			else {
 			  			  var user = new User(req.body)
 			  			  user.provider = 'local'
-			  			  user.save(function (err) {	
-			  				console.log(err)
+			  			  user.save(function (err) {			  				
 			  			    if (err) res.send({html : err}) 
 			  			    req.logIn(user, function(err) {
 			  			    	if (err) res.send({html : err}) 
@@ -107,39 +106,87 @@ exports.forgetpassword = function (req, res) {
 	  req.assert('email', 'Invalid email').isEmail()
 	  var errors = req.validationErrors()
   
-	  if (errors) {
+	  if (errors){
 	   	 res.send({html : errors})
-	  } 
+	  }
 	  else{
-		  User.findOne({ email: email }).exec(function (err, usr) {
+		  User.findOne({ email: email }).exec(function (err, user) {
 		        if (err) return next(err)
 		        else {
-		        	if(usr) {
-		        		var smtpTransport = nodemailer.createTransport("SMTP",{
-		        		    service: "Gmail",
-		        		    auth: {
-		        		        user: "opinionswall@opinionswall.com",
-		        		        pass: "sky1111ol"
-		        		    }
-		        		})
-		        		var mailOptions = {
-		        		    from: "support@opinionswall.com", 
-		        		    to: email, 
-		        		    subject: "Reset Password",		        		    
-		        		    html: '<h4>hello '+usr.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionswall.com">reset password</a>' 
-		        	   }
-		        		smtpTransport.sendMail(mailOptions, function(error, response){
-		        		    if(error){
-		        		        console.log(error);
-		        		    }else{
-		        		        console.log("Message sent: " + response.message);
-		        		    }		        		    
-		        		    smtpTransport.close(); // shut down the connection pool, no more messages
-		        		})	        		
-		        		res.send({html : "Ok"})
+		        	if(user) {
+		        		var token = user.encryptPassword(user.makeSalt())	        		
+		        		user.token = token
+		        		user.save(function (err) {
+			  			    if (err) res.send({html : err}) 
+			  			    else{
+			  			    	var smtpTransport = nodemailer.createTransport("SMTP",{
+				        		    service: "Gmail",
+				        		    auth: {
+				        		        user: "opinionswall@opinionswall.com",
+				        		        pass: "sky1111ol"
+				        		    }
+				        		})
+				        		var mailOptions = {
+				        		    from: "support@opinionswall.com", 
+				        		    to: email, 
+				        		    subject: "Reset Password",		        		    
+				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionswall.com/reset_password/'+token+'">reset password</a>' 
+				        	   }			  			    	
+			  			    	smtpTransport.sendMail(mailOptions, function(error, response){
+				        		    if(error){
+				        		        console.log(error);
+				        		    }else{
+				        		        console.log("Message sent: " + response.message);
+				        		    }		        		    
+				        		    smtpTransport.close(); // shut down the connection pool, no more messages
+				        		})				        		
+				        		res.send({html : "Ok"})
+			  			    }
+			  			  })	        		
 		        	}
-		        	else    res.send({html : "No user with this email"})
-		        }		        
-		      })		  
-	  }	  
+		        	else    res.send({html : [{msg: "No user with this email"}]})
+		        }
+		      })
+	  }
 	}
+
+exports.resetpassword = function (req, res) {
+  res.render('users/resetpassword', {
+      title: "Reset password",
+      token: req.param('token')
+  })
+}
+
+exports.changepassword = function (req, res) {	
+  var token = req.param('token')
+  req.assert('password', 'should be between 6 and 20 character.').len(6, 20)	  
+  req.assert('password2', 'passwords do not match.').equals(req.body.password)  
+  var errors = req.validationErrors()
+
+  if (errors) {	  
+   	 res.send({html : errors})
+  } 
+  else{
+	  User.findOne({ token: token }).exec(function (err, user) {
+	        if (err) return next(err)
+	        else {
+	        	if(user) {
+	        		user.password = req.body.password
+	        		user.save(function (err) {	
+	        			 if (err) return next(err)
+		  			    else{
+		  			    	req.logIn(user, function(err) {
+			  			    	if (err) res.send({html : err}) 
+			  			    	res.send({html : {m:"success", msg: "redirect"}})
+			  			    })
+		  			    }
+	        		})        		
+	        	}
+	        	else {	        	
+	        		res.send({html : {m:"errortoken", msg: "invalid token"}})
+	        	}
+	        }
+	  })
+	  
+  }	  
+}
