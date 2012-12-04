@@ -19,8 +19,8 @@ module.exports = {
   , production: {
 	  db: 'mongodb://heroku_app7977078:g2hntm4r8lka8o86utu2o0pmkh@ds039737.mongolab.com:39737/heroku_app7977078',	
 	  facebook: {
-    	  clientID: "257956334321936"
-        , clientSecret: "133392ec85c6e094217cef25542a4260"
+    	  clientID: "523434647674441"
+        , clientSecret: "4cf1e45cdf0550b690f57e2c0bde3601"
         , callbackURL: "http://www.opinionwall.com/auth/facebook/callback" 
       },
       twitter: {
