@@ -121,11 +121,11 @@ exports.forgetpassword = function (req, res) {
 	   	 res.send({html : errors})
 	  }
 	  else{
-		  User.findOne({ email: email }).exec(function (err, user) {
+		  User.findOne({ email: email, provider: "local" }).exec(function (err, user) {
 		        if (err) return next(err)
 		        else {
 		        	if(user) {
-		        		var token = user.encryptPassword(user.name())	        		
+		        		var token = user.encryptPassword(user.name)	        		
 		        		user.token = token
 		        		user.save(function (err) {
 			  			    if (err) res.send({html : err}) 
