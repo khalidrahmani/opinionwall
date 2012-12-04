@@ -9,7 +9,7 @@ var mongoose = require('mongoose')
   
 var UserSchema = new Schema({
 	uid:   { type: String }
-  ,	flags:[{_id: { type: String }}]
+  ,	flags: [{_id: { type: String }}]
   , surveys: [{   
 				_id:      	{ type : String }
 				,choice:   	{ type : String }

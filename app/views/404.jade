@@ -1,13 +1,8 @@
 extends layouts/layout
-
-block main
-  h1 Oops something wen't wrong
-  br
-  span 404
-
 block content
-  #error-message-box
-    #error-stack-trace
-      - if(showStack)
-        pre
-          code!= error.stack
+  #content.container
+    .center
+      h3 The page you are requesting doe's not exist. 
+      h3 404 error.
+          
+

@@ -1,5 +1,13 @@
 extends ../layouts/layout
 block content
   #content.container
-    h1= user.name
+    p #{user.name}'s surveys
 
+    .surveys    
+      each survey in surveys        
+        a.survey-title(href='/surveys/'+survey._id) #{survey.question}
+        p 
+          small=formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p") 
+          ,&nbsp;
+          small #{survey.tp} votes    
+          small , #{user.name} 

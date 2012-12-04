@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
+  , Survey = mongoose.model('Survey')  
   , expressValidator = require('express-validator')
   , async = require('async')
   , nodemailer = require('nodemailer')
@@ -84,20 +85,30 @@ exports.create = function (req, res) {
 }
 
 // show profile
-exports.profile = function (req, res) {
-	  var user = req.user
-	  if(!user){
-		  User.findOne({ _id : req.param('_id') }).exec(function (err, usr) {
-		        if (err) return next(err)
+exports.profile = function (req, res) {	   
+	    
+		User.findOne({ uid : req.param('uid') }).exec(function (err, user) {
+		        if (user) {		        	
+		      	  Survey
+		  	    .find({user: user._id}, '_id question createdAt tp')
+		  	    .sort({'tp': -1})	    
+		  	    .exec(function(err, surveys) {
+		  	      if (err) return res.render('500')
+		  	      res.render('users/profile', {
+		  	    	  title: user.name,
+		  	    	  user: user,
+		  	    	  surveys: surveys
+		  	      })      
+		  	    })
+		           
+		        }		   
 		        else {
-		           user = usr	
-		        }		        
+		        	return res.render('404')
+		        }
 		      })		  
-	  }     
-	  res.render('users/profile', {
-	      title: user.name
-	    , user: req.user
-	  })
+	    
+	  
+  
 	}
 
 exports.forgetpassword = function (req, res) {
@@ -122,15 +133,15 @@ exports.forgetpassword = function (req, res) {
 			  			    	var smtpTransport = nodemailer.createTransport("SMTP",{
 				        		    service: "Gmail",
 				        		    auth: {
-				        		        user: "opinionswall@opinionswall.com",
+				        		        user: "opinionwall@opinionwall.com",
 				        		        pass: "sky1111ol"
 				        		    }
 				        		})
 				        		var mailOptions = {
-				        		    from: "support@opinionswall.com", 
+				        		    from: "support@opinionwall.com", 
 				        		    to: email, 
 				        		    subject: "Reset Password",		        		    
-				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionswall.com/reset_password/'+token+'">reset password</a>' 
+				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionwall.com/reset_password/'+token+'">reset password</a>' 
 				        	   }			  			    	
 			  			    	smtpTransport.sendMail(mailOptions, function(error, response){
 				        		    if(error){

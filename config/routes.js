@@ -39,7 +39,7 @@ module.exports = function (app, passport, auth) {
 			  res.contentType('json')
 			  res.send({html : "true"})
 	  		})
-  app.get('/user/:_id', users.profile)
+  app.get('/user/:uid', users.profile)
   app.get('/auth/facebook', requiresRole("logedout"), passport.authenticate('facebook', { scope: [ 'email', 'user_about_me'], failureRedirect: '/login' }), users.signin)
   app.get('/auth/facebook/callback', requiresRole("logedout"), passport.authenticate('facebook', { failureRedirect: '/login' }), users.authCallback)
   app.get('/auth/twitter', requiresRole("logedout"), passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin)
