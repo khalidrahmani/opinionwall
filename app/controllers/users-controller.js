@@ -157,7 +157,7 @@ exports.resetpassword = function (req, res) {
   })
 }
 
-exports.changepassword = function (req, res) {	
+exports.changepassword = function (req, res) {
   var token = req.param('token')
   req.assert('password', 'should be between 6 and 20 character.').len(6, 20)	  
   req.assert('password2', 'passwords do not match.').equals(req.body.password)  

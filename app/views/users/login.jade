@@ -17,14 +17,14 @@ block content
               .control-group
                 label.control-label.required(for='email') Email address
                 .controls
-                  input#email(type='text', tabindex='1', name='email')
+                  input#email(type='text', name='email')
               .control-group
                 label.control-label.required(for='password')
                   | Password (
                   a.trigger-lightbox.validate-resetpassword(href='#modal', data-toggle="modal") forgot password
                   | )
                 .controls
-                  input#password(type='password', tabindex='2', name='password')
+                  input#password(type='password', name='password')
               
               button.btn.btn-info(type='submit') Login 
               &nbsp;     
@@ -35,7 +35,7 @@ block content
         h3 Forgot password
       .modal-body
         p.mbl We will send you a link via email to reset your password.
-        form#forgetpassword.form-horizontal(action='/en/account/forgot_password/html', method='post', accept-charset='utf-8', enctype='application/x-www-form-urlencoded')
+        form#forgetpassword.form-horizontal(action='/forgetpassword', method='post', accept-charset='utf-8', enctype='application/x-www-form-urlencoded')
           .control-group
             label.control-label.required(for='email2') Email address
             .controls
@@ -68,9 +68,9 @@ block custom_page_script
               })          
       })
       $('#forgetpassword').submit(function (e) {
-          e.preventDefault()       
-          $("#forgetpassword").append('<div class="ajax-loader"></div>')    
-          $(".alert-error").remove()
+          e.preventDefault()    
+          $(".alert-error").remove()   
+          $("#forgetpassword").append('<div class="ajax-loader"></div>')          
           $.post("/forgetpassword",{email: $("#email2").val()},
                   function(data) {
                       $(".ajax-loader").remove()
