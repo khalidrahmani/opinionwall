@@ -141,7 +141,7 @@ exports.forgetpassword = function (req, res) {
 				        		    from: "support@opinionwall.com", 
 				        		    to: email, 
 				        		    subject: "Reset Password",		        		    
-				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionwall.com/reset_password/'+token+'">reset password</a>' 
+				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionwall.com/reset_password/'+token+'">reset password</a> <br \> Opinionwall.com team' 
 				        	   }			  			    	
 			  			    	smtpTransport.sendMail(mailOptions, function(error, response){
 				        		    if(error){
