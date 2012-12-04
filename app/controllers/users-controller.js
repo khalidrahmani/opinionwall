@@ -125,7 +125,7 @@ exports.forgetpassword = function (req, res) {
 		        if (err) return next(err)
 		        else {
 		        	if(user) {
-		        		var token = user.encryptPassword(user.makeSalt())	        		
+		        		var token = user.encryptPassword(user.name())	        		
 		        		user.token = token
 		        		user.save(function (err) {
 			  			    if (err) res.send({html : err}) 
