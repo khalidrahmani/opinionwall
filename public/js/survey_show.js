@@ -1,4 +1,4 @@
-  var disqus_shortname = 'opinionswall'; // required: replace example with your forum shortname
+  var disqus_shortname = 'opinionwall'; // required: replace example with your forum shortname
 
   /* * * DON'T EDIT BELOW THIS LINE * * */
   (function() {

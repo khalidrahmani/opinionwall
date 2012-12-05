@@ -181,7 +181,7 @@ exports.postChoice = function (req, res) {
 	}	
 	// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
 	 d = new Date()
-	 date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDay()
+	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()//+'-'+d.getDay()
 	 var surveyTodayHistory = survey.history.id(date)
 	 if(surveyTodayHistory){
 		 surveyTodayHistory.choices = survey.choices
