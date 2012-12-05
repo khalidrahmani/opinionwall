@@ -7,15 +7,6 @@ block content
     p
       | #{formatDate(survey.createdAt, "%b %d, %Y at %I:%M %p")} - by 
       a(href="/user/"+survey.user.uid)=survey.user.uid  
-    .row
-      .span4    
-        small
-        | #{survey.tp} votes
-        div#donut.graph
-      .span8    
-        small
-        | votes evolution 
-        div#graph.graph             
     .btn-group  
       button.btn.btn-small.vote
         i.icon-thumbs-up
@@ -29,7 +20,6 @@ block content
         button.btn.btn-small.flag 
           i.icon-flag   
           |  Flag
-
     .popover-inner.votepop(style="display:none")        
       button.close(type="button") ×
       h4.popover-title Vote   
@@ -80,7 +70,22 @@ block content
           a(href="/login?back=#{req.url}") Login
           |  Or     
           a(href="/signup?back=#{req.url}") Sign up
-          |  Now !                
+          |  Now !   
+                    
+    br
+    br            
+    .row
+      .span4    
+        small
+        | #{survey.tp} votes
+        div#donut.graph
+      .span8    
+        small
+        | votes evolution 
+        div#graph.graph             
+
+
+             
     input(type="hidden", id="survey_id", name="id", value="#{survey._id}")     
     br
     br  
