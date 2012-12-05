@@ -65,7 +65,7 @@ module.exports = function (app, passport, auth) {
       .populate('user', 'uid')
       .exec(function (err, survey) {
         if (err) return next(err)
-        if (!survey) return next(new Error('Failed to load article ' + id))
+        if (!survey) return res.render('404')
         req.survey = survey
         next()
       })

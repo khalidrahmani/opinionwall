@@ -21,8 +21,7 @@ exports.create = function (req, res) {
 	
     var survey = new Survey(req.body)
     survey.user    = req.user
-    survey._id     = _s.slugify(survey.question)
-    //if(survey._id == '')// arab character create a random id
+    survey._id     = _s.slugify(survey.question) || new mongoose.mongo.BSONPure.ObjectID().toString()
 	  
     req.assert('question', 'between 6 and 120 character').len(6, 120)
     req.assert('type', '').notEmpty()
@@ -181,7 +180,7 @@ exports.postChoice = function (req, res) {
 	}	
 	// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
 	 d = new Date()
-	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()//+'-'+d.getDay()
+	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()
 	 var surveyTodayHistory = survey.history.id(date)
 	 if(surveyTodayHistory){
 		 surveyTodayHistory.choices = survey.choices
