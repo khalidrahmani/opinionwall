@@ -6,10 +6,13 @@
 var express = require('express')
   , mongoStore = require('connect-mongodb')
   , expressValidator = require('express-validator')  // added
-  
+  , i18n = require("i18n")
 
-
-  
+  i18n.configure({  
+    locales:['en', 'fr', 'de']
+  //updateFiles: false
+  })
+  i18n.setLocale('fr')
 exports.boot = function(app, config, passport){
   bootApplication(app, config, passport)
 }
@@ -42,7 +45,8 @@ function bootApplication(app, config, passport) {
       res.locals.stripScript = function (str) {
         return str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
       }     
-
+      res.locals.__i = i18n.__
+      res.locals.__n = i18n.__n
       next()
     })
 
@@ -66,8 +70,9 @@ function bootApplication(app, config, passport) {
     app.use(passport.initialize())
     app.use(passport.session())
 
-    app.use(express.favicon())
-
+    //app.use(express.favicon())
+    //req.headers["accept-language"]
+    app.use(i18n.init)
     // routes should be at the last
     app.use(app.router)
 
@@ -92,7 +97,10 @@ function bootApplication(app, config, passport) {
     })
 
   })
-
+  app.all('*', function(req, res, next) {	   
+	    i18n.setLocale(req.session.lang || 'en')   
+	    next()
+	})
   app.set('showStackError', false)
 
 }

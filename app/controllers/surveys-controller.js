@@ -49,6 +49,18 @@ exports.edit = function (req, res) {
   })
 }
 
+exports.lang = function (req, res) {
+	console.log(req.headers['accept-language'])
+	locales = ['en', 'fr', 'de']
+	if(locales.indexOf(req.param('lang')) != -1){
+		req.session.lang = req.param('lang')
+		res.redirect('/')
+	}
+	else {
+    	return res.render('404')
+    }
+}
+
 
 // Update survey
 exports.update = function(req, res){
@@ -214,8 +226,7 @@ exports.destroy = function(req, res){
 }
 
 // Listing of Surveys
-exports.index = function(req, res){ 
-	
+exports.index = function(req, res){	
 	  Survey
 	    .find({}, '_id question')
 	    .sort({'tp': -1}) 

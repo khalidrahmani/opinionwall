@@ -3,9 +3,9 @@ var mongoose = require('mongoose')
   , Survey = mongoose.model('Survey')
   , User = mongoose.model('User')
   , async = require('async')
-
-function requiresRole(role) {
-   
+  , i18n = require("i18n")
+  
+function requiresRole(role) {   
    return function(req, res, next) {
 	   if (role == "logedout"){
 		   if (!req.isAuthenticated()) next()
@@ -17,14 +17,15 @@ function requiresRole(role) {
 	        	else {return res.redirect('/login?back='+req.url)}             
 	        }            
 	        else {return res.redirect('/login?back='+req.url)}   
-	   }
-                   
+	   }                   
     }
 }
+
 module.exports = function (app, passport, auth) {
 
   // user routes
   var users = require('../app/controllers/users-controller')
+
   app.get('/login', requiresRole("logedout"), users.login)
   app.get('/signup', requiresRole("logedout"), users.signup)
   app.get('/logout', requiresRole("user"), users.logout)
@@ -47,6 +48,7 @@ module.exports = function (app, passport, auth) {
 
   // survey routes
   var surveys = require('../app/controllers/surveys-controller')
+  app.get('/language/:lang', surveys.lang)    
   app.get('/flag/:id', requiresRole("user"), surveys.flag)
   
   app.get('/search', surveys.search)
@@ -73,5 +75,7 @@ module.exports = function (app, passport, auth) {
   
   // home route
   app.get('/', surveys.index) 
+  
 
+  
 }
