@@ -23,15 +23,15 @@
                   b.caret
                 ul.dropdown-menu
                   li
-                    a(href="/user/#{req.user.uid}") Profile   
+                    a(href="/user/#{req.user.uid}") #{__i('Profile')}       
                   li.divider
                   li
                     a(href='/logout')           
                       i.icon-off 
-                      |  Logout
+                      |  #{__i('Logout')} 
                         
           else
-            a.btn.btn-success.pull-right(href="/login", title="Login") Login    
+            a.btn.btn-success.pull-right(href="/login", title="Login") #{__i('Login')}     
           .pull-right.btn-group.mrs
             form.form-search(method="get", action='/search')              
                 input.span3(type="text", name="q", placeholder="Search")
@@ -39,4 +39,4 @@
     if (req.param('back'))
       .alert.alert-success
         button.close(data-dismiss='alert') ×
-        | Please Login to proceed.                      
+        | #{__i('Please Login to proceed.')}                       

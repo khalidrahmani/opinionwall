@@ -1,3 +1,5 @@
 {
-	"New Survey": "Créer un questionaire"
+	"New Survey": "Créer un questionaire",
+	"Profile": "Profile",
+	"Logout": "Logout"
 }

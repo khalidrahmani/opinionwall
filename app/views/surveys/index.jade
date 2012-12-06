@@ -38,9 +38,8 @@ block custom_page_script
           })
       },
       showNext: function() {
-        //if (LiveSurveys.surveys.length == 0) { return }
+        if (LiveSurveys.surveys.length == 0) { return }
         var $list = $('#live')
-        //var survey = LiveSurveys.surveys.pop()
         if(index > 14) index = 0 
         var survey = LiveSurveys.surveys[index]  
         index+=1
@@ -54,13 +53,8 @@ block custom_page_script
           newItem.fadeIn(LiveSurveys.INTERVAL_FADE)
           })
         },
-        onUpdateSuccess: function(surveys) {
-           // LiveSurveys.surveys = surveys
-        },
         onReady: function() {
-            //LiveSurveys.update()
             LiveSurveys.showNextInterval = setInterval(LiveSurveys.showNext, LiveSurveys.INTERVAL_SHOW_NEXT)
-            //LiveSurveys.updateInterval = setInterval(LiveSurveys.update, LiveSurveys.INTERVAL_UPDATE)
         }
       } 
       
