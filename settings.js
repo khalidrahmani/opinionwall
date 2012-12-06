@@ -98,9 +98,10 @@ function bootApplication(app, config, passport) {
     })
 
   })
-  app.all('*', function(req, res, next) {	
-	    req.session.lang = req.session.lang || 'en'
-	    i18n.setLocale(req.session.lang || 'en')   
+  app.all('*', function(req, res, next) {	  
+	    req.session.lang = (req.session.lang) ? req.session.lang : 'en'
+	    req.session.language = (req.session.language) ? req.session.language : 'English'
+	    i18n.setLocale(req.session.lang)   
 	    next()
 	})
   app.set('showStackError', false)
