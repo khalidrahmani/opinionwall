@@ -23,7 +23,9 @@
                   b.caret
                 ul.dropdown-menu
                   li
-                    a(href="/user/#{req.user.uid}") #{__i('Profile')}       
+                    a(href="/user/#{req.user.uid}") 
+                      i.icon-user
+                      |  #{__i('Me')}       
                   li.divider
                   li
                     a(href='/logout')           

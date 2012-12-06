@@ -1,5 +1,6 @@
 {
 	"New Survey": "New Survey",
 	"Profile": "Profile",
-	"Logout": "Logout"
+	"Logout": "Logout",
+	"Login": "Login"
 }

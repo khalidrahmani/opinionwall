@@ -31,38 +31,39 @@ block content
               button.btn.btn-info(type='submit') Sign up 
               &nbsp;       
               a.btn(href='/') Cancel
-
+  include ../layouts/footer
 block custom_page_script
     script 
-      $(":input").focusin(function() {   
-          $(this).closest('div .control-group').removeClass("error")
-          $(".alert-error").remove()
-          $(".help-inline").remove()  
+      $(function() {
+        $(":input").focusin(function() {   
+            $(this).closest('div .control-group').removeClass("error")
+            $(".alert-error").remove()
+            $(".help-inline").remove()  
+          })
+        $('#signup').submit(function (e) {
+            e.preventDefault()
+            var redirect = "#{req.param('back')}" || "/" 
+            $(".alert-error").remove()  
+            $(".help-inline").remove()                
+            $("#signup").append('<div class="ajax-loader"></div>')
+            $.post("/users",{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
+                    function(data) { // success
+                      if(data.html === "Ok") $(location).attr('href', redirect);
+                      else{
+                        $.each(data.html,function(i,el)
+                        {
+                          if(el != null){
+                             $("."+el.param+"_cg").addClass("error")
+                             $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")
+                           }
+                        })
+                        
+                        $(".ajax-loader").remove()
+                        $(".navbar-fixed-top").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Please Correct Errors.</div>')
+                      } 
+                }, 'json')
         })
-      $('#signup').submit(function (e) {
-          e.preventDefault()
-          var redirect = "#{req.param('back')}" || "/" 
-          $(".alert-error").remove()  
-          $(".help-inline").remove()                
-          $("#signup").append('<div class="ajax-loader"></div>')
-          $.post("/users",{name: $("#name").val(), email: $("#email").val(), password: $("#password").val()},
-                  function(data) { // success
-                    if(data.html === "Ok") $(location).attr('href', redirect);
-                    else{
-                      $.each(data.html,function(i,el)
-                      {
-                        if(el != null){
-                           $("."+el.param+"_cg").addClass("error")
-                           $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")
-                         }
-                      })
-                      
-                      $(".ajax-loader").remove()
-                      $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Please Correct Errors.</div>')
-                    } 
-              }, 'json')
       })
-
 
 
 

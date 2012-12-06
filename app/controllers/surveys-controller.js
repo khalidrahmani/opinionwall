@@ -21,13 +21,19 @@ exports.create = function (req, res) {
 	
     var survey = new Survey(req.body)
     survey.user    = req.user
-    survey._id     = _s.slugify(survey.question) || new mongoose.mongo.BSONPure.ObjectID().toString()
-	  
+    
+    var survey_id = _s.slugify(survey.question) || new mongoose.mongo.BSONPure.ObjectID().toString()
+	
+    survey.choices.forEach(function (ch) {	   	   
+	  survey_id += "-"+_s.slugify(ch._id)	  	
+    })
+    
+    survey._id   = survey_id    
+    
     req.assert('question', 'between 6 and 120 character').len(6, 120)
     req.assert('type', '').notEmpty()
     
-    var errors = req.validationErrors()
-  
+    var errors = req.validationErrors()  
 	if (errors) {
 		res.send({html : errors})
 	} 
@@ -48,19 +54,6 @@ exports.edit = function (req, res) {
     survey: req.survey
   })
 }
-
-exports.lang = function (req, res) {
-	console.log(req.headers['accept-language'])
-	locales = ['en', 'fr', 'de']
-	if(locales.indexOf(req.param('lang')) != -1){
-		req.session.lang = req.param('lang')
-		res.redirect('/')
-	}
-	else {
-    	return res.render('404')
-    }
-}
-
 
 // Update survey
 exports.update = function(req, res){
@@ -317,4 +310,18 @@ exports.flag = function(req, res){
 				  })		 					  
 		 }
 	 }
+}
+
+exports.lang = function (req, res) {
+	//console.log(req.headers['accept-language'])
+	locales = ['en', 'fr', 'de']
+	languages = ['English', 'Francais', 'German']
+	if(locales.indexOf(req.param('lang')) != -1){
+		req.session.lang = req.param('lang')
+		req.session.language = languages[locales.indexOf(req.param('lang'))]
+		res.redirect('/')
+	}
+	else {
+    	return res.render('404')
+    }
 }

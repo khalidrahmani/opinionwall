@@ -12,7 +12,8 @@ block content
     p#live
       each survey in rest        
           a(href="/surveys/#{survey._id}") #{survey.question} - 
-       
+    p  1522 surveys by 566 users      
+  include ../layouts/footer
 
 block custom_page_script
     script

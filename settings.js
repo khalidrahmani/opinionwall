@@ -38,6 +38,7 @@ function bootApplication(app, config, passport) {
       res.locals.title = 'OpinionWall'
       res.locals.showStack = app.showStackError
       res.locals.req = req
+      res.locals.languages = {'en':{short: 'en',name: 'English'}, 'fr':{short: 'fr', name: 'Francais'}, 'de':{short: 'de', name: 'German'}}
       res.locals.formatDate = function (date) {
         var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
         return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()

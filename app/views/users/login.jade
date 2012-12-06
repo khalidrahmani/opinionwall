@@ -44,44 +44,46 @@ block content
           button.btn.btn-info(type='submit') Reset password
           &nbsp;
           button#cancel.btn(data-dismiss='modal', type='reset', name='cancel') Cancel
+  include ../layouts/footer          
 
 block custom_page_script
     script      
-      
-      $(":input").focusin(function() {   
-          $(this).closest('div .control-group').removeClass("error")
-          $(".alert-error").remove()
-          $(".help-inline").remove()  
-      })
-      $('#login').submit(function (e) {
-          e.preventDefault()
-          var redirect = "#{req.param('back')}" || "/" 
-          $(".alert-error").remove()
-          $("#login").append('<div class="ajax-loader"></div>')
-          $.post("/login",{email: $("#email").val(), password: $("#password").val(), back: encodeURIComponent("#{req.url}")},
-                  function(data) {                     
-                     $(location).attr('href', redirect)
-              }, 'json').fail(function() { 
-                $(".control-group").addClass("error")
-                $(".ajax-loader").remove()
-                $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Incorrect email or password.</div>') 
-              })          
-      })
-      $('#forgetpassword').submit(function (e) {
-          e.preventDefault()    
-          $(".alert-error").remove()   
-          $("#forgetpassword").append('<div class="ajax-loader"></div>')          
-          $.post("/forgetpassword",{email: $("#email2").val()},
-                  function(data) {
-                      $(".ajax-loader").remove()
-                      if(data.html === "Ok"){
-                        $("#modal").modal('hide')
-                        $(".navbar").append('<div class="alert alert-success"><button data-dismiss="alert" class="close">×</button>email has been sent.</div>')  
-                      }
-                      else {
-                        $("#forgetpassword .control-group").addClass("error")
-                        $("#forgetpassword .controls").append("<span class='help-inline'>"+data.html[0].msg+"</span>")
-                      }
-              }, 'json')
+      $(function() {
+        $(":input").focusin(function() {   
+            $(this).closest('div .control-group').removeClass("error")
+            $(".alert-error").remove()
+            $(".help-inline").remove()  
+        })
+        $('#login').submit(function (e) {
+            e.preventDefault()
+            var redirect = "#{req.param('back')}" || "/" 
+            $(".alert-error").remove()
+            $("#login").append('<div class="ajax-loader"></div>')
+            $.post("/login",{email: $("#email").val(), password: $("#password").val(), back: encodeURIComponent("#{req.url}")},
+                    function(data) {                     
+                       $(location).attr('href', redirect)
+                }, 'json').fail(function() { 
+                  $(".control-group").addClass("error")
+                  $(".ajax-loader").remove()
+                  $(".navbar-fixed-top").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Incorrect email or password.</div>') 
+                })          
+        })
+        $('#forgetpassword').submit(function (e) {
+            e.preventDefault()    
+            $(".alert-error").remove()   
+            $("#forgetpassword").append('<div class="ajax-loader"></div>')          
+            $.post("/forgetpassword",{email: $("#email2").val()},
+                    function(data) {
+                        $(".ajax-loader").remove()
+                        if(data.html === "Ok"){
+                          $("#modal").modal('hide')
+                          $(".navbar-fixed-top").append('<div class="alert alert-success"><button data-dismiss="alert" class="close">×</button>email has been sent.</div>')  
+                        }
+                        else {
+                          $("#forgetpassword .control-group").addClass("error")
+                          $("#forgetpassword .controls").append("<span class='help-inline'>"+data.html[0].msg+"</span>")
+                        }
+                }, 'json')
+        })
       })
       

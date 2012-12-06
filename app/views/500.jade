@@ -1,13 +1,8 @@
 extends layouts/layout
-
-block main
-  h1 Oops something wen't wrong
-  br
-  span 500
-
 block content
-  #error-message-box
-    #error-stack-trace
-      - if(showStack)
-        pre
-          code!= error.stack
+  #content.container
+    .center
+      h3 Oops something wen't wrong.
+      h3 500 error.
+  include ../layouts/footer 
+  

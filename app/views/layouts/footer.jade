@@ -1,0 +1,21 @@
+.container.navbar-fixed-bottom
+  hr
+  .a
+    span.label.label-success OpinionWall ©  2012  
+    &nbsp; 
+    a(href='#') About Us 
+    &nbsp; 
+    a(href='#') Terms of service
+    .pull-right
+      .btn-group.dropup      
+        button.btn.btn-mini #{req.session.language}
+          button.btn.btn-mini.dropdown-toggle(data-toggle='dropdown')
+            span.caret
+          ul.dropdown-menu
+            each language in languages
+              if (language.short != req.session.lang)
+                li
+                  a(href='/language/#{language.short}') #{language.name}
+            
+            
+              
