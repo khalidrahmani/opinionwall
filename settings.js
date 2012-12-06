@@ -98,7 +98,8 @@ function bootApplication(app, config, passport) {
     })
 
   })
-  app.all('*', function(req, res, next) {	   
+  app.all('*', function(req, res, next) {	
+	    req.session.lang = req.session.lang || 'en'
 	    i18n.setLocale(req.session.lang || 'en')   
 	    next()
 	})
