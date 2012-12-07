@@ -23,7 +23,7 @@
     , "passport-facebook": "latest"
     , "passport-twitter": "latest"
     , "underscore": "latest"
-    , "underscore.string": "latest"    
+    , "underscore.string": "https://github.com/khalidrahmani/underscore.string/tarball/master"    
     , "gzippo": "latest"
     , "async": "latest"
     , "nodemon": "latest"

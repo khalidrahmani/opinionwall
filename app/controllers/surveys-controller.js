@@ -22,10 +22,10 @@ exports.create = function (req, res) {
     var survey = new Survey(req.body)
     survey.user    = req.user
     
-    var survey_id = slugify(survey.question) || new mongoose.mongo.BSONPure.ObjectID().toString()
+    var survey_id = _s.slugify(survey.question) || new mongoose.mongo.BSONPure.ObjectID().toString()
 	
     survey.choices.forEach(function (ch) {	   	   
-	  survey_id += "-"+slugify(ch._id)	  	
+	  survey_id += "-"+_s.slugify(ch._id)	  	
     })
     
     survey._id   = survey_id    
@@ -275,9 +275,6 @@ exports.search = function(req, res){
 var formatDate = function (date) {
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ]
     return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()
-  }
-var slugify = function (str) {    
-    return str.replace(' ', '-')
   }
 
 exports.flag = function(req, res){
