@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
   , expressValidator = require('express-validator')
   , async = require('async')
   , nodemailer = require('nodemailer')
+  , _s = require('underscore.string')
   
 exports.signin = function (req, res) {}
 // auth callback
@@ -105,10 +106,7 @@ exports.profile = function (req, res) {
 		        else {
 		        	return res.render('404')
 		        }
-		      })		  
-	    
-	  
-  
+		      }) 
 	}
 
 exports.forgetpassword = function (req, res) {
@@ -125,7 +123,8 @@ exports.forgetpassword = function (req, res) {
 		        if (err) return next(err)
 		        else {
 		        	if(user) {
-		        		var token = user.encryptPassword(user.name)	        		
+		        		var d = new Date()	
+		        		var token = user.encryptPassword(user.name)+'-'+d.getTime()		        		
 		        		user.token = token
 		        		user.save(function (err) {
 			  			    if (err) res.send({html : err}) 
@@ -182,16 +181,26 @@ exports.changepassword = function (req, res) {
 	        if (err) return next(err)
 	        else {
 	        	if(user) {
-	        		user.password = req.body.password
-	        		user.save(function (err) {	
-	        			 if (err) return next(err)
-		  			    else{
-		  			    	req.logIn(user, function(err) {
-			  			    	if (err) res.send({html : err}) 
-			  			    	res.send({html : {m:"success", msg: "redirect"}})
-			  			    })
-		  			    }
-	        		})        		
+	        		var d = new Date(),	
+	        		    oldtime = _s.strRightBack(token, '-')
+	        		    
+	        		if(newtime-oldtime > 3600000){ // 1 hour
+	        			res.send({html : {m:"errortoken", msg: "invalid token"}})
+	        		}
+	        		else{
+	        			user.token = ''
+	        			user.password = req.body.password
+		        		user.save(function (err) {	
+		        			 if (err) return next(err)
+			  			    else{
+			  			    	req.logIn(user, function(err) {
+				  			    	if (err) res.send({html : err}) 
+				  			    	res.send({html : {m:"success", msg: "redirect"}})
+				  			    })
+			  			    }
+		        		})
+	        		}
+	        		        		
 	        	}
 	        	else {	        	
 	        		res.send({html : {m:"errortoken", msg: "invalid token"}})

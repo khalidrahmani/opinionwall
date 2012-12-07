@@ -5,6 +5,26 @@ var mongoose = require('mongoose')
   , _s = require('underscore.string')
   , expressValidator = require('express-validator')
   
+
+  // Listing of Surveys
+exports.index = function(req, res){	
+	
+	  Survey
+	    .find({}, '_id question')
+	    .sort({'tp': -1}) 
+	    .limit(15)    
+	    .exec(function(err, surveys) {
+	      if (err) return res.render('500')
+	      res.render('surveys/index', {
+	    	  title: 'Home Page',
+	    	  surveys: surveys,
+	    	  rest: _.rest(surveys, [10])
+	      })      
+	    })        
+}
+  
+  
+  
 // New survey
 exports.new = function(req, res){
   var survey = 	new Survey({})
@@ -217,23 +237,6 @@ exports.destroy = function(req, res){
     res.redirect('/surveys')
   })
 }
-
-// Listing of Surveys
-exports.index = function(req, res){	
-	  Survey
-	    .find({}, '_id question')
-	    .sort({'tp': -1}) 
-	    .limit(15)    
-	    .exec(function(err, surveys) {
-	      if (err) return res.render('500')
-	      res.render('surveys/index', {
-	    	  title: 'Home Page',
-	    	  surveys: surveys,
-	    	  rest: _.rest(surveys, [10])
-	      })      
-	    })        
-}
-
 
 exports.search = function(req, res){
   
