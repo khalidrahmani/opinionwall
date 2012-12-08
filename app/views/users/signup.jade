@@ -35,11 +35,7 @@ block content
 block custom_page_script
     script 
       $(function() {
-        $(":input").focusin(function() {   
-            $(this).closest('div .control-group').removeClass("error")
-            $(".alert-error").remove()
-            $(".help-inline").remove()  
-          })
+        
         $('#signup').submit(function (e) {
             e.preventDefault()
             var redirect = "#{req.param('back')}" || "/" 

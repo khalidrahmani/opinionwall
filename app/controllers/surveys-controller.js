@@ -7,8 +7,7 @@ var mongoose = require('mongoose')
   
 
   // Listing of Surveys
-exports.index = function(req, res){	
-	
+exports.index = function(req, res){		
 	  Survey
 	    .find({}, '_id question')
 	    .sort({'tp': -1}) 
@@ -247,7 +246,7 @@ exports.search = function(req, res){
          reg         = new RegExp(q, 'i')
 	
   Survey
-    .find({question: { $regex: reg }})
+    .find({$or:[ {question: { $regex: reg }}, {_id: { $regex: reg }}]})
     .sort({'tp': -1}) // sort by date
     .limit(limit)    
     .skip(skipIndex)

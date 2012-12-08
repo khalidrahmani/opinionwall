@@ -17,18 +17,8 @@ block content
     if (moreResults)
       button.ajax.btn  Load more results ...
           
-block custom_page_script
-    script  
-      var page = 1  
-      $(".ajax").click(function(){
-          $("#content").append('<div class="ajax-loader"></div>')
-          $.getJSON("/search",{q: $("#q").val(), page : page},
-            function(data) {
-                $(".surveys").append(data.html)
-                $(".ajax-loader").remove()
-                page++
-            })
-      })
+
+
 
   
   
