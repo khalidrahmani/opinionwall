@@ -22,8 +22,10 @@ exports.boot = function(app, config, passport){
 function bootApplication(app, config, passport) {
 
   app.set('showStackError', true)
-
-  app.use(express.static(__dirname + '/public'))
+  app.use(express.compress())
+  app.use(express.staticCache())
+  app.use(express.static(__dirname + '/public', {maxAge: 86400000}))
+  
 
   app.use(express.logger(':method :url :status'))
 
