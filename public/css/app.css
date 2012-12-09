@@ -15,3 +15,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display
 .google-login2 {background: url("/img/icon_login.png") no-repeat scroll 0 -108px transparent;display: block;float: left;height: 27px;margin-left: 10px;width: 79px;}
 .google-login2:hover{background-position: 0 -135px;}
 .a{padding:1px 1px 10px 15px;}
+textarea.question-box {
+    resize: none;
+    height: 50px;
+}
