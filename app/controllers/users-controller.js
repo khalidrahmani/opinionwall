@@ -182,11 +182,11 @@ exports.changepassword = function (req, res) {
 	        else {
 	        	if(user) {
 	        		var d = new Date(),	
-	        		    oldtime = _s.strRightBack(token, '-')
-	        		    newtime = d.getTime()
+	        		    oldtime = _s.strRightBack(token, '-'),
+	        		    newtime = d.getTime(),
 	        		    diff    = (newtime - oldtime)
 	        		    
-	        		if(diff > 3600000){ // 1 hour
+	        		if (diff > 3600000){ // 1 hour
 	        			res.send({html : {m:"errortoken", msg: "invalid token"+ diff}})
 	        		}
 	        		else{
