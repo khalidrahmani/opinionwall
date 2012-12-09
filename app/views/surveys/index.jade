@@ -10,8 +10,10 @@ block content
     h3 &nbsp;
     
     p#live
-      each survey in rest        
-          a(href="/surveys/#{survey._id}") #{survey.question} - 
+      each survey in rest   
+          span     
+            a(href="/surveys/#{survey._id}") #{survey.question} 
+            | - 
     p  1522 surveys by 566 users      
   include ../layouts/footer
 
@@ -33,8 +35,8 @@ block custom_page_script
         if(index > 14) index = 0 
         var survey = LiveSurveys.surveys[index]  
         index+=1
-        var newItem = $(' <a href="/surveys/'+survey._id+'"> '+survey.question+' - </a>')
-        var oldItem = $('#live a:first')
+        var newItem = $('<span> <a href="/surveys/'+survey._id+'"> '+survey.question+' </a> - </span>')
+        var oldItem = $('#live span:first')
         oldItem.fadeOut(LiveSurveys.INTERVAL_FADE, function() {
           oldItem.remove()
           newItem.hide()

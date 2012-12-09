@@ -56,14 +56,16 @@ exports.create = function (req, res) {
 	if (errors) {
 		res.send({html : errors})
 	} 
+	else{
     survey.save(function(err){    	
-      if (err) {
-    	res.send({html : err}) 
-      }
-      else {
-    	  res.send({html: "Ok", survey_id: survey._id})
-      }
-  })
+	      if (err) {
+	    	res.send({html : err}) 
+	      }
+	      else {
+	    	  res.send({html: "Ok", survey_id: survey._id})
+	      }
+	  })
+	}
 }
 
 //Edit an survey
