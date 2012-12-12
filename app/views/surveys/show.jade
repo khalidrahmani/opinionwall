@@ -96,13 +96,14 @@ block custom_page_script
   script(type='text/javascript', src='/js/raphael-min.js')
   script(type='text/javascript', src='/js/morris.min.js') 
   script    
-    var graph = Morris.Line({
+    var votes_data = !{graph_data};
+    Morris.Line({
       element: 'graph',
-      data: !{graph_data},
+      data: votes_data,
       xkey: 'period',
       ykeys:  !{xkeys},
       labels: !{xkeys}
-    })
+    });
     Morris.Donut({
       element: 'donut',
       data: !{donut_data},

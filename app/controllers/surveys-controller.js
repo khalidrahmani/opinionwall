@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose')
   , Survey = mongoose.model('Survey')
+  , User = mongoose.model('User')  
   , _  = require('underscore')
   , _s = require('underscore.string')
   , expressValidator = require('express-validator')
@@ -8,18 +9,26 @@ var mongoose = require('mongoose')
 
   // Listing of Surveys
 exports.index = function(req, res){		
-	  Survey
-	    .find({}, '_id question')
-	    .sort({'tp': -1}) 
-	    .limit(15)    
-	    .exec(function(err, surveys) {
-	      if (err) return res.render('500')
-	      res.render('surveys/index', {
-	    	  title: 'Home Page',
-	    	  surveys: surveys,
-	    	  rest: _.rest(surveys, [10])
-	      })      
-	    })        
+	User.count()
+	  .exec(function(err, usercount) {
+			Survey.count()
+			  .exec(function(err, surveycount) {	
+				  Survey
+				    .find({}, '_id question')
+				    .sort({'tp': -1}) 
+				    .limit(15)    
+				    .exec(function(err, surveys) {
+				      if (err) return res.render('500')
+				      res.render('surveys/index', {
+				    	  title: 'Home Page',
+				    	  surveys: surveys,
+				    	  rest: _.rest(surveys, [10]),
+				    	  usercount: usercount,
+				    	  surveycount: surveycount
+				      })      
+				    })     
+			  })   
+	})   
 }
   
   
@@ -162,70 +171,67 @@ exports.postChoice = function (req, res) {
 	     user        = req.user,	
 	     userSurvey  = user.surveys.id(survey._id)
 	
-	res.contentType('json') 
+    if(ajaxCall){		
+			if (survey.type == "unique") {
+				var  vote   = req.body.data[0].value  // req.body.choice  regular post without ajax
+				     choice = survey.choices.id(vote)
+				if (userSurvey){
+					var formerChoice = survey.choices.id(userSurvey.choice)
+					formerChoice.counter -= 1
+					userSurvey.choice = vote 		
+				}
+				else {			
+					user.surveys.push({_id: survey._id, choice: vote})
+					survey.total += 1
+					survey.tp    += 1
+				}	
+				choice.counter += 1	
+			} 
+			else{
+				userChoices = []		
+				
+				var i = 0 
+				survey.choices.forEach(function (ch) {
+					userChoices.push({_id: ch._id, val: req.body.data[i].value})
+					ch.counter += parseInt(req.body.data[i].value)
+					survey.total += parseInt(req.body.data[i].value)
+					i++
+				})  // Regular Post version
+				
+				if (userSurvey){
+					survey.choices.forEach(function (ch) {
+						var formerChoice = userSurvey.choices.id(ch._id)
+						ch.counter -= parseInt(formerChoice.val)
+						survey.total -= parseInt(formerChoice.val)
+					})			
+					userSurvey.choices = userChoices	
+				}
+				else {
+					user.surveys.push({_id: survey._id, choices: userChoices})	
+					survey.tp    += 1
+				}
+			}	
+		// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
+		 d = new Date()		 
+		 date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()
+		 var surveyTodayHistory = survey.history.id(date)
+		 if(surveyTodayHistory){
+			 surveyTodayHistory.choices = survey.choices
+		 }
+		 else{
+			 survey.history.push({_id: date, choices: survey.choices})
+		 }	 
 	
-	if(ajaxCall){		
-	if (survey.type == "unique") {
-		var  vote   = req.body.data[0].value  // req.body.choice  regular post without ajax
-		     choice = survey.choices.id(vote)
-		if (userSurvey){
-			var formerChoice = survey.choices.id(userSurvey.choice)
-			formerChoice.counter -= 1
-			userSurvey.choice = vote 		
-		}
-		else {			
-			user.surveys.push({_id: survey._id, choice: vote})
-			survey.total += 1
-			survey.tp    += 1
-		}	
-		choice.counter += 1	
-	} 
-	else{
-		userChoices = []		
-		
-		var i = 0 
-		survey.choices.forEach(function (ch) {
-			userChoices.push({_id: ch._id, val: req.body.data[i].value})
-			ch.counter += parseInt(req.body.data[i].value)
-			survey.total += parseInt(req.body.data[i].value)
-			i++
-		})  // Regular Post version
-		
-		if (userSurvey){
-			survey.choices.forEach(function (ch) {
-				var formerChoice = userSurvey.choices.id(ch._id)
-				ch.counter -= parseInt(formerChoice.val)
-				survey.total -= parseInt(formerChoice.val)
-			})			
-			userSurvey.choices = userChoices	
-		}
-		else {
-			user.surveys.push({_id: survey._id, choices: userChoices})	
-			survey.tp    += 1
-		}
-	}	
-	// history is a snapshot of surveys during a month, we could have a daily snapshot by adding day to the date	
-	 d = new Date()
-	 date = d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()
-	 var surveyTodayHistory = survey.history.id(date)
-	 if(surveyTodayHistory){
-		 surveyTodayHistory.choices = survey.choices
-	 }
-	 else{
-		 survey.history.push({_id: date, choices: survey.choices})
-	 }	 
-
-	user.save(function(err){
-	   	console.log(err)
-	})
-	survey.save(function(err){
-	    if (err) {
-	    	res.send({html : err})
-	    }
-	    else {           	         		
-	      res.send({html : "Ok"})
-	    }
-	  })
+		user.save(function(err){
+			survey.save(function(err){
+			    if (err) {
+			    	res.send({html : err})
+			    }
+			    else {           	         		
+			      res.send({html : "Ok"})
+			    }
+			  })		
+		})		
 	}
 }
 
