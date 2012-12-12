@@ -147,7 +147,7 @@ exports.show = function(req, res){
   survey.choices.forEach(function (ch) {
 	  xkeys[xkeys.length] = ch._id	   
 	  t = {}
-	  t.label = ch._id	  
+	  t.label = _s.truncate(ch._id, 20)	  
 	  t.value = parseFloat(_s.numberFormat(ch.counter*100/survey.total, 2))
 	  donut_data.push(t)	
   })
