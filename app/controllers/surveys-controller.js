@@ -20,7 +20,7 @@ exports.index = function(req, res){
 				    .exec(function(err, surveys) {
 				      if (err) return res.render('500')
 				      res.render('surveys/index', {
-				    	  title: 'Home Page',
+				    	  title: 'Make your opinion count',
 				    	  surveys: surveys,
 				    	  rest: _.rest(surveys, [10]),
 				    	  usercount: usercount,
