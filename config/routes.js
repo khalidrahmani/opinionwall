@@ -34,7 +34,7 @@ module.exports = function (app, passport, auth) {
 
   app.get('/login', requiresRole("logedout"), users.login)
   app.get('/signup', requiresRole("logedout"), users.signup)
-  app.get('/logout', requiresRole("user"), users.logout)
+  app.get('/logout', users.logout)
   app.post('/users', requiresRole("logedout"), users.create)
   app.post('/forgetpassword', requiresRole("logedout"), users.forgetpassword)
   app.get('/reset_password/:token', requiresRole("logedout"), users.resetpassword)  

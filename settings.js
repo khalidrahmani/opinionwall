@@ -63,6 +63,7 @@ function bootApplication(app, config, passport) {
     app.use(express.methodOverride())
 
     app.use(express.session({
+      cookie: {maxAge: 600000000},
       secret: 'k7',
       store: new mongoStore({
         url: config.db,
