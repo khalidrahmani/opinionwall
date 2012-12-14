@@ -9,11 +9,9 @@
           a.brand.serif(href='/')
             | OpinionWall
           .nav-collapse
-            ul.nav.top
+            ul.nav.top             
               li
-                a(href='#', style="color:red") Beta Test               
-              li
-                a(href='/surveys/new') #{__i('New Survey')}          
+                a(href='/surveys/new', title='create a new survey to give your opinion') #{__i('New Survey')}          
             
           if (req.isAuthenticated())
             ul.nav.pull-right              
@@ -33,7 +31,7 @@
                       |  #{__i('Logout')} 
                         
           else
-            a.btn.btn-success.pull-right(href="/login", title="Login") #{__i('Login')}     
+            a.btn.btn-success.pull-right(href="/login", title="Login to vote and give your opinion") #{__i('Login')}     
           .pull-right.btn-group.mrs
             form.form-search(method="get", action='/search')              
                 input.span3(type="text", name="q", placeholder="Search")

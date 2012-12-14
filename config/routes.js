@@ -23,6 +23,12 @@ function requiresRole(role) {
 
 module.exports = function (app, passport, auth) {
 
+	
+  var statics = require('../app/controllers/statics-controller')
+
+  app.get('/about', statics.about)	
+  app.get('/terms', statics.terms)
+  
   // user routes
   var users = require('../app/controllers/users-controller')
 

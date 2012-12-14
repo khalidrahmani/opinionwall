@@ -59,15 +59,16 @@ block custom_page_script
                     function(data) {                     
                        $(location).attr('href', redirect)
                 }, 'json').fail(function() { 
-                  $(".control-group").addClass("error")
-                  $(".ajax-loader").remove()
-                  $(".navbar-fixed-top").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Incorrect email or password.</div>') 
+                  $(".control-group").addClass("error")                  
+                  $(".navbar-fixed-top").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Incorrect email or password.</div>')
+                  $(".ajax-loader").remove() 
                 })          
         })
         $('#forgetpassword').submit(function (e) {
             e.preventDefault()    
             $("#forgetpassword").append('<div class="ajax-loader"></div>') 
-            $(".alert-error").remove()                        
+            $(".alert-error").remove()   
+            $(".help-inline").remove()                                 
             $.post("/forgetpassword",{email: $("#email2").val()},
                     function(data) {
                         $(".ajax-loader").remove()
