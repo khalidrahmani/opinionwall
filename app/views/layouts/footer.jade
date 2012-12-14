@@ -7,17 +7,6 @@
     &nbsp; 
     a(href='/terms', title='the world opinon') Terms
     
-    // Comment language section 
-      .pull-right
-        .btn-group.dropup      
-          button.btn.btn-mini #{req.session.language}
-            button.btn.btn-mini.dropdown-toggle(data-toggle='dropdown')
-              span.caret
-            ul.dropdown-menu
-              each language in languages
-                if (language.short != req.session.lang)
-                  li
-                    a(href='/language/#{language.short}') #{language.name}
-              
+   
             
               
