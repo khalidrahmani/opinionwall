@@ -23,7 +23,7 @@ var SurveySchema = new Schema({
     , createdAt: {type : Date, default : Date.now}
     , flags:     {type : Number, default : 0}
     , total:     {type : Number, default : 0} 
-    , tp:        {type : Number, default : 0} 
+    , tp:        {type : Number, default : 0} // total participations of users
 })
 
 SurveySchema.path('question').validate(function (question) {
