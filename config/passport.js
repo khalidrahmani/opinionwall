@@ -55,7 +55,7 @@ exports.boot = function (passport, config) {
               name: profile.displayName
             , username: profile.username
             , provider: 'twitter'
-            , twitter: profile._json
+            //, twitter: profile._json
           })
           user.save(function (err, user) {
             if (err) console.log(err)
@@ -84,7 +84,7 @@ exports.boot = function (passport, config) {
             , email: profile.emails[0].value
             , username: profile.username
             , provider: 'facebook'
-            , facebook: profile._json
+            //, facebook: profile._json
           })
           user.save(function (err, user) {
             if (err) console.log(err)
