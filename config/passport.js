@@ -55,7 +55,7 @@ exports.boot = function (passport, config) {
               name: profile.displayName
             , username: profile.username
             , provider: 'twitter'
-            , twitter: profile._json
+            , twitter: { id : profile._json.id }
           })
           user.save(function (err, user) {
             if (err) console.log(err)
