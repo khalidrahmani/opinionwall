@@ -84,7 +84,7 @@ exports.boot = function (passport, config) {
             , email: profile.emails[0].value
             , username: profile.username
             , provider: 'facebook'
-            , facebook: profile._json
+            , facebook: { id : profile._json.id }
           })
           user.save(function (err, user) {
             if (err) console.log(err)
