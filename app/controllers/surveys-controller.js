@@ -157,7 +157,7 @@ exports.show = function(req, res){
 	  survey: survey,
 	  userChoice: userSurvey,
 	  multiUserChoice: multiUserSurvey,
-	  graph_data: JSON.stringify(graph_data),
+	  graph_data: JSON.stringify(graph_data.reverse()),
 	  xkeys: JSON.stringify(xkeys),
 	  donut_data: JSON.stringify(donut_data),
 	  flaged: flaged
