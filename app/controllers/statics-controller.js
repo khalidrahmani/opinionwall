@@ -10,3 +10,9 @@ exports.terms = function (req, res) {
 	    title: 'Terms And Conditions'    
 	  })
 }
+
+exports.opinion = function (req, res) {
+	  res.render('statics/opinion', {
+		    title: 'Opinion '    
+		  })
+	}

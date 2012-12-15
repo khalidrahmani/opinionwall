@@ -28,7 +28,7 @@ module.exports = function (app, passport, auth) {
 
   app.get('/about', statics.about)	
   app.get('/terms', statics.terms)
-  
+  app.get('/opinion', statics.opinion)  
   // user routes
   var users = require('../app/controllers/users-controller')
 
