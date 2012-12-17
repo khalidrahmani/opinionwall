@@ -22,7 +22,7 @@ exports.index = function(req, res){
 				      res.render('surveys/index', {
 				    	  title: 'Make your opinion count',
 				    	  surveys: surveys,
-				    	  rest: _.rest(surveys, [10]),
+				    	  rest: _.rest(surveys, [11]),
 				    	  usercount: usercount,
 				    	  surveycount: surveycount
 				      })      
