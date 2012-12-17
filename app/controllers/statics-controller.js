@@ -11,8 +11,8 @@ exports.terms = function (req, res) {
 	  })
 }
 
-exports.opinion = function (req, res) {
-	  res.render('statics/opinion', {
-		    title: 'Opinion '    
+exports.blog = function (req, res) {
+	  res.render('statics/blog', {
+		    title: 'The power of opinions '    
 		  })
 	}
