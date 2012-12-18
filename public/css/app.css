@@ -19,3 +19,8 @@ textarea.question-box {
     resize: none;
     height: 50px;
 }
+.homepage h1 {
+    font-size: 24px;
+    padding-bottom: 10px;
+    padding-top: 150px;
+}

@@ -2,8 +2,8 @@ extends ../layouts/layout
 
 block content
   #content.container.center
-    .hero-unit.intro
-      p Find people's opinions
+    .homepage
+      h1 Find people's opinions
       form.form-search(method="get", action='/search')
         input.span4(type="text", name="q")
         button.btn(type='submit') Search        
