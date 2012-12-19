@@ -3,17 +3,18 @@ extends ../layouts/layout
 block content
   #content.container.center
     .homepage
-      h1 Find people's opinions
+      h1 Social opinions
       form.form-search(method="get", action='/search')
-        input.span4(type="text", name="q")
+        input.span4(type="text", name="q", placeholder="Find a topic")
         button.btn(type='submit') Search        
-    h3 &nbsp;
+    p Find out the most active opinions right now :
     
     p#live
       each survey in rest   
           span     
             a(href="/surveys/#{survey._id}") #{survey.question} 
             | - 
+    h3 &nbsp;        
     p  #{surveycount} surveys by #{usercount} users      
   include ../layouts/footer
 
