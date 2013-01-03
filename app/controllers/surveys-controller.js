@@ -266,7 +266,7 @@ exports.search = function(req, res){
     		res.contentType('json')
     		var h = ''
     		surveys.forEach(function (s) {    			
-    			h+='<a class="survey-title" href="/surveys/'+s._id+'">'+s.question+'</a><p><small>'+formatDate(s.createdAt, "%b %d, %Y at %I:%M %p")+'</small> <a class="grey-link" href="/users/'+s.user._id+'"> by '+s.user.name+'</a></p>'		    		    
+    			h+='<a class="survey-title" href="/surveys/'+s._id+'">'+s.question+'</a><p><small>'+formatDate(s.createdAt, "%b %d, %Y at %I:%M %p")+ ' - '+ s.tp +' votes</small> </p>'		    		    
 		    })	
     		res.send({html : h})
     	}
