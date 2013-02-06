@@ -35,6 +35,7 @@ exports.logout = function (req, res) {
 
 // signup
 exports.create = function (req, res) {
+  res.header 'Access-Control-Allow-Origin', '*'
   res.contentType('json')
     
   req.assert('name', 'Invalid name').notEmpty()  
