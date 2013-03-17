@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 
 $('#survey-form').submit(function (e) {
-    e.preventDefault()            
+    e.preventDefault()
     
     $(".alert-error").remove()  
     $(".help-inline").remove()                
@@ -56,17 +56,16 @@ $('#survey-form').submit(function (e) {
                                       $(".question_cg").addClass("error")
                                       $(".question_cg").find(".controls").append("<span class='help-inline'>Duplicate question</span>")                                                                            
                       }
-                $.each(data.html,function(i,el)
-                {
+                $.each(data.html,function(i,el){
                   if(el != null){
                      $("."+el.param+"_cg").addClass("error")
-                     $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")                             
+                     $("."+el.param+"_cg").find(".controls").append("<span class='help-inline'>"+el.msg+"</span>")
                    }
                 })
                 
                 $(".ajax-loader").remove()
                 $(".navbar").append('<div class="alert alert-error"><button data-dismiss="alert" class="close">×</button>Please Correct Errors.</div>')
-              } 
+              }
         }, 'json')
     })
   })
