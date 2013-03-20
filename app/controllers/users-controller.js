@@ -133,12 +133,12 @@ exports.forgetpassword = function (req, res) {
 			  			    	var smtpTransport = nodemailer.createTransport("SMTP",{
 				        		    service: "Gmail",
 				        		    auth: {
-				        		        user: "opinionwall@opinionwall.com",
-				        		        pass: "sky1111ol"
+				        		        user: "contact@opinionwall.com",
+				        		        pass: "sky1111gl"
 				        		    }
 				        		})
 				        		var mailOptions = {
-				        		    from: "support@opinionwall.com", 
+				        		    from: "contact@opinionwall.com", 
 				        		    to: email, 
 				        		    subject: "Reset Password",		        		    
 				        		    html: '<h4>hello '+user.name+'</h4> please click the link below to reset your password, <br \> <a href="www.opinionwall.com/reset_password/'+token+'">reset password</a> <br \> Opinionwall.com team' 

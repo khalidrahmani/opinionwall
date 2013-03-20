@@ -43,7 +43,7 @@ exports.new = function(req, res){
   })
 }
 
-// Create an survey
+// Create survey
 exports.create = function (req, res) {
 	res.contentType('json')    
 	
