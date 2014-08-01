@@ -134,7 +134,7 @@ exports.forgetpassword = function (req, res) {
 				        		    service: "Gmail",
 				        		    auth: {
 				        		        user: "contact@opinionwall.com",
-				        		        pass: "sky1111gl"
+				        		        pass: "password"
 				        		    }
 				        		})
 				        		var mailOptions = {
