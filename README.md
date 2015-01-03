@@ -9,5 +9,5 @@ npm shrinkwrap
 
 
 For currency exchange api, and exchange rates :
-#### [Currency converter](http://www.xchange-rates.com)
+#### [Currency converter www.xchange-rates.com](http://www.xchange-rates.com)
 
