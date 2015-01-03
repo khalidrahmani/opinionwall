@@ -6,3 +6,8 @@ heroku config:get MONGOHQ_URL
 
 npm install
 npm shrinkwrap
+
+
+For currency exchange api, and exchange rates :
+#### [Currency converter](http://www.xchange-rates.com)
+
